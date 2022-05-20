@@ -14,3 +14,4 @@ export const signIn = (formData) => API.post(`/user/signin`, formData);
 
 export const signUp = (formData) => API.post(`/user/signup`, formData);
 
+export const singleUser = (id) => API.get(`/user/singleuser/${id}`);

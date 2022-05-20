@@ -38,7 +38,6 @@ const SignUp = () => {
       setsuccess(null);
     }, 8000);
   }, [authData]);
-  console.log(success, 'sus');
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
