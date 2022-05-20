@@ -118,7 +118,7 @@ export default function SimpleMenu() {
                         <EditUser openM={openM} setOpenM={setOpenM} aUser={aUser} />
                         <IconButton aria-label="share" style={{
                             backgroundColor: '#4abdac',
-                            borderRadius: '500px',
+                            borderRadius: '499px',
                         }} onClick={delUser}>
                             <DeleteIcon sx={{ color: 'white' }} />
                         </IconButton>
