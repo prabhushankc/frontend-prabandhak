@@ -18,6 +18,9 @@ const authReducer = (state = { authData: null }, action) => {
     case actionType.FETCH_SINGLEUSER:
       return { ...state, AsingleUser: action.payload.singleUser };
 
+    case actionType.UPDATE_SINGLE_USER:
+      return { ...state, AsingleUser: action.payload.updateSingleUser };
+
     default:
       return state;
   }
