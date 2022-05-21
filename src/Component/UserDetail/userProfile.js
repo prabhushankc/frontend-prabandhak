@@ -14,7 +14,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditUser from './EditUser';
-import { singleUser } from '../redux/actions/Auth';
+import { singleUser, deleteUser } from '../redux/actions/Auth';
 
 export default function SimpleMenu() {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
@@ -23,7 +23,13 @@ export default function SimpleMenu() {
     useEffect(() => {
         dispatch(singleUser(user?.result._id));
     }, [user?.result._id, dispatch]);
-    const { AsingleUser } = useSelector(state => state.Auth);
+    const { AsingleUser, deleteUserMessage } = useSelector(state => state.Auth);
+    const [deleteUserMsg, setdeleteUserMsg] = useState(null);
+
+    useEffect(() => {
+        setdeleteUserMsg(deleteUserMessage);
+    }, [deleteUserMessage]);
+    console.log(deleteUserMsg);
 
     const [aUser, setaUser] = useState();
     useEffect(() => {
@@ -33,6 +39,10 @@ export default function SimpleMenu() {
     const handleOpenM = () => {
         setOpenM(true);
     };
+    const delUser = () => {
+        dispatch(deleteUser(aUser._id, navigate));
+        navigate('/');
+    }
 
     const logout = () => {
         dispatch({ type: "LOGOUT" });
@@ -109,7 +119,7 @@ export default function SimpleMenu() {
                         <IconButton aria-label="share" style={{
                             backgroundColor: '#4abdac',
                             borderRadius: '500px',
-                        }}>
+                        }} onClick={delUser}>
                             <DeleteIcon sx={{ color: 'white' }} />
                         </IconButton>
                     </CardContent>

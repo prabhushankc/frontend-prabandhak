@@ -18,3 +18,4 @@ export const singleUser = (id) => API.get(`/user/singleuser/${id}`);
 
 export const updateSingleUser = (id, formData) => API.patch(`/user/updatesingleuser/${id}`, formData);
 
+export const deleteUser = (id) => API.delete(`/user/deleteuser/${id}`);
