@@ -21,6 +21,9 @@ const authReducer = (state = { authData: null }, action) => {
     case actionType.UPDATE_SINGLE_USER:
       return { ...state, AsingleUser: action.payload.updateSingleUser };
 
+    case actionType.DELETE_USER:
+      // localStorage.removeItem('profile')
+      return { ...state, deleteUserMessage: action.payload };
     default:
       return state;
   }

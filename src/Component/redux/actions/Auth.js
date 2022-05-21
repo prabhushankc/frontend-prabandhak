@@ -1,5 +1,5 @@
 // this file help to get data from mongoodb
-import { AUTH, FETCH_SINGLEUSER, ERROR_AUTH_SIGNIN, ERROR_AUTH_SIGNUP, UPDATE_SINGLE_USER } from "../constants/actionTypes";
+import { AUTH, FETCH_SINGLEUSER, ERROR_AUTH_SIGNIN, ERROR_AUTH_SIGNUP, UPDATE_SINGLE_USER, DELETE_USER } from "../constants/actionTypes";
 import * as api from '../api'
 
 // dispatching is this whole action
@@ -41,9 +41,20 @@ export const singleUser = (id) => async (dispatch) => {
 
 export const updateSingleUser = (id, formData) => async (dispatch) => {
     try {
-        const { data: { result } } = await api.updateSingleUser(id, formData);
+        const { data: { result, message } } = await api.updateSingleUser(id, formData);
         console.log(result, 'updateSingleUser');
         dispatch({ type: UPDATE_SINGLE_USER, payload: { updateSingleUser: result } })
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+export const deleteUser = (id) => async (dispatch, navigate) => {
+    console.log(id, 'deleteUser');
+    try {
+        const { data: { message } } = await api.deleteUser(id);
+        dispatch({ type: DELETE_USER, payload: message })
+        navigate('/');
     } catch (error) {
         console.log(error.message);
     }

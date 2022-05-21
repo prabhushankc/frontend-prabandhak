@@ -9,9 +9,10 @@ const App = () => {
       <React.StrictMode>
         <Container maxWidth='xl' style={{
           margin: '0 auto',
-          padding: '0px',
+          padding: '1px 0px',
           overflow: 'hidden',
         }} >
+  
           <Routes>
             <Route path="/" exact element={<Auth />} />
             <Route path="/UserDetail" element={<UserDetail />} />
