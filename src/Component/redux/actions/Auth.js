@@ -1,18 +1,20 @@
 // this file help to get data from mongoodb
-import { AUTH, FETCH_SINGLEUSER, ERROR_AUTH_SIGNIN, ERROR_AUTH_SIGNUP, UPDATE_SINGLE_USER, DELETE_USER } from "../constants/actionTypes";
+import { AUTH, FETCH_SINGLEUSER, UPDATE_SINGLE_USER } from "../constants/actionTypes";
 import * as api from '../api'
+import { NotifyError, NotifySuccess } from "./notify";
 
 // dispatching is this whole action
 export const signin = (formData, navigate) => async (dispatch) => {
     try {
         const { data } = await api.signIn(formData);
         dispatch({ type: AUTH, data });
-        navigate('/userDetail');
+        navigate('/home');
+        NotifySuccess(data.message);
     } catch (error) {
         if (error.response.status >= 400 && error.response.status <= 500) {
-            dispatch({ type: ERROR_AUTH_SIGNIN, payload: { errorAuthSignIn: error.response.data.message } })
+            NotifyError(error.response.data.message);
         } else {
-            console.log(error.message);
+            NotifyError(error.message);
         }
     }
 }
@@ -20,42 +22,56 @@ export const signin = (formData, navigate) => async (dispatch) => {
 export const signup = (formData) => async (dispatch) => {
     try {
         const { data } = await api.signUp(formData);
-        dispatch({ type: AUTH, data })
+        dispatch({ type: AUTH, data });
+        NotifySuccess(data.message);
     } catch (error) {
         if (error.response.status >= 400 && error.response.status <= 500) {
-            dispatch({ type: ERROR_AUTH_SIGNUP, payload: { errorAuthSignUp: error.response.data.message } })
+            NotifyError(error.response.data.message);
         } else {
-            console.log(error.message);
+            NotifyError(error.message);
         }
     }
 }
 
 export const singleUser = (id) => async (dispatch) => {
     try {
-        const { data } = await api.singleUser(id);
-        dispatch({ type: FETCH_SINGLEUSER, payload: { singleUser: data } })
+        console.log(id, "from id fronend");
+        const { data: { singleUser, message } } = await api.singleUser(id);
+        dispatch({ type: FETCH_SINGLEUSER, payload: { singleUser: singleUser } })
+        NotifySuccess(message);
     } catch (error) {
-        console.log(error);
+        if (error.response.status >= 400 && error.response.status <= 500) {
+            NotifyError(error.response.data.message);
+        } else {
+            NotifyError(error.message);
+        }
     }
 }
 
 export const updateSingleUser = (id, formData) => async (dispatch) => {
     try {
         const { data: { result, message } } = await api.updateSingleUser(id, formData);
-        console.log(result, 'updateSingleUser');
         dispatch({ type: UPDATE_SINGLE_USER, payload: { updateSingleUser: result } })
+        NotifySuccess(message);
     } catch (error) {
-        console.log(error.message);
+        if (error.response.status >= 400 && error.response.status <= 500) {
+            NotifyError(error.response.data.message);
+        } else {
+            NotifyError(error.message);
+        }
     }
 }
 
 export const deleteUser = (id) => async (dispatch, navigate) => {
-    console.log(id, 'deleteUser');
     try {
         const { data: { message } } = await api.deleteUser(id);
-        dispatch({ type: DELETE_USER, payload: message })
+        NotifySuccess(message);
         navigate('/');
     } catch (error) {
-        console.log(error.message);
+        if (error.response.status >= 400 && error.response.status <= 500) {
+            NotifyError(error.response.data.message);
+        } else {
+            NotifyError(error.message);
+        }
     }
 }
