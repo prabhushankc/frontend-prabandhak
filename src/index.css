@@ -3,4 +3,59 @@
   padding: 0px;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
+  color: black;
+  font-weight: bold;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.navbar {
+  display: flex;
+  padding: 1rem 4rem;
+  background-color: rgb(88, 83, 116);
+  border-color: blue;
+  border-style: solid;
+  border-width: thin;
+}
+
+.nav-title {
+  color: white;
+  flex: 5;
+}
+
+.nav-name-full {
+  flex: 1;
+  align-items: center;
+  text-align: center;
+  padding-top: 10px;
+  color: white;
+}
+
+.room-grid {
+  font-size: 1rem;
+  width: 50%;
+  margin: auto;  
+}
+
+.room-grid h1 {
+  font-size: 1.5rem;
+  margin-bottom: 3vh;
+}
+
+.room-details {
+  display: flex;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  height: 80%;
+}
+
+.room-details-full {
+  margin: 10px;
+}
+
+.room-details-change {
+  margin: 10px;
 }
