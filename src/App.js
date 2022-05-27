@@ -3,7 +3,8 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Container } from '@material-ui/core';
 import Auth from './Component/Admin/Auth/Auth';
 import UserDetail from './Component/Client/UserDetail/userProfile';
-import HomePageForm from './Component/Admin/Admin.js';
+import HomePageForm from './Component/Admin/homePageAdmin/Admin';
+import FoodPage from './Component/Admin/foodPageAdmin/foodAdmin';
 const App = () => {
   return (
     <BrowserRouter>
@@ -16,6 +17,7 @@ const App = () => {
 
           <Routes>
             <Route path="/home" element={<HomePageForm />} />
+            <Route path="/food" element={<FoodPage />} />
             <Route path="/" exact element={<Navigate to="/home" />} />
             <Route path="/auth" exact element={<Auth />} />
             <Route path="/profile" element={<UserDetail />} />

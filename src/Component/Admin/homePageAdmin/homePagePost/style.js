@@ -4,7 +4,7 @@ export default makeStyles((theme) => ({
     design: {
         position: 'relative',
         margin: '0px',
-        paddingTop: '20px',
+        paddingTop: '22px',
     },
     media: {
         height: '50vh',
