@@ -3,25 +3,22 @@ import { makeStyles } from '@material-ui/core/styles';
 export default makeStyles((theme) => ({
     design: {
         position: 'relative',
-        margin: '0px',
-        paddingTop: '22px',
+        margin: 'auto',
     },
     media: {
-        height: '50vh',
+        height: '75vh',
         objectFit: 'cover',
         width: '100%',
         margin: '0px auto',
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
         backgroundBlendMode: 'darken',
+        ObjectFit: 'contain',
+        ObjectPosition: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     title: {
         position: 'absolute',
         top: '70%',
         left: '50%',
-        width: '100%',
-        textAlign: 'center',
         transform: 'translate(-50%, -70%)',
         color: 'white',
         fontSize: '2rem',
@@ -31,12 +28,16 @@ export default makeStyles((theme) => ({
         textShadow: '2px 1px 2px #white',
         [theme.breakpoints.down('md')]: {
             fontSize: '1.5rem',
+            width: '100%',
+            textAlign: 'center',
         },
         [theme.breakpoints.down('sm')]: {
             top: '60%',
             left: '50%',
             transform: 'translate(-50%, -60%)',
             fontSize: '1.4rem',
+            width: '100%',
+            textAlign: 'center',
             letterSpacing: '4px',
         },
         [theme.breakpoints.down('xs')]: {
@@ -49,8 +50,6 @@ export default makeStyles((theme) => ({
         top: '79%',
         left: '50%',
         transform: 'translate(-50%, -79%)',
-        width: '100%',
-        textAlign: 'center',
         color: '#f5f5f5',
         fontSize: '1rem',
         letterSpacing: '4px',
@@ -61,6 +60,8 @@ export default makeStyles((theme) => ({
             left: '50%',
             transform: 'translate(-50%, -68%)',
             fontSize: '1rem',
+            width: '100%',
+            textAlign: 'center',
             letterSpacing: '4px',
         },
         [theme.breakpoints.down('xs')]: {
@@ -68,6 +69,5 @@ export default makeStyles((theme) => ({
             letterSpacing: '2px',
         }
     },
-
 }));
 

@@ -1,15 +1,15 @@
 import React from 'react'
-import AdminPage from '../../Admin/homePageAdmin/Admin'
-import Slider from './homeSilder/silde'
+import FoodAdminPage from '../../Admin/foodPageAdmin/foodAdmin'
+import FoodClientPage from './clientFood/clientFood'
 const ClientHomePost = () => {
     const user = JSON.parse(localStorage.getItem('profile'))
     if (user?.result.role) {
         return (
-            <AdminPage />
+            <FoodAdminPage />
         )
     }
     return (
-        <Slider />
+        <FoodClientPage />
     )
 }
 
