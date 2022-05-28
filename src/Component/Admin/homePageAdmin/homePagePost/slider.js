@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { fetchHomePage } from '../../../redux/actions/homePage';
 import useStyles from './style';
 import { CircularProgress } from '@mui/material';
-import { Typography, Button, Grid, CardMedia } from '@material-ui/core';
+import { Typography, Grid, CardMedia } from '@material-ui/core';
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 function Slider() {
     const dispatch = useDispatch();
@@ -22,9 +22,6 @@ function Slider() {
     // find width of device screen
     const width = window.innerWidth;
     const height = window.innerHeight;
-    const [mQ, setMQ] = React.useState(
-        width > height ? width : height
-    );
     // find user device
     const [device, setDevice] = React.useState(
         width > height ? 'desktop' : 'mobile'
@@ -57,16 +54,16 @@ function Slider() {
                                 <Typography
                                     style={
                                         {
-                                            fontSize: '1.5rem',
+                                            fontSize: '1.4rem',
                                             fontWeight: 'bold',
                                             textAlign: 'center',
                                             marginTop: '0.9rem',
                                             marginBottom: '1rem',
-                                            textDecoration: 'dotted',
                                             textTransform: 'Capitalize',
+                                            color: '#424242',
                                         }
                                     }
-                                >Previous Added Detail</Typography>
+                                >Previous Added Details</Typography>
                                 {Math.abs(activeStep - index) <= 2 ? (
                                     (device === 'mobile') ? (<CardMedia
                                         style={{
