@@ -8,7 +8,11 @@ export default makeStyles((theme) => ({
     alignItems: 'center',
   },
   TextField: {
+
     margin: '9px auto',
+
+    margin: '10px auto',
+
     maxWidth: '80%',
   },
   buttonSubmit: {

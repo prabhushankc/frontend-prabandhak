@@ -10,7 +10,10 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 import MenuItem from '@mui/material/MenuItem';
 
 const HomePageForm = () => {
+
     const [postData, setPostData] = useState({ title: '', description: '', tags: [], price: '', quantity: '', category: [] });
+    const [postData, setPostData] = useState({ title: '', description: '', tags: [], price: '', quantity: '' });
+
     const [image, setimage] = useState({ selectedFile: '' });
     const [imageUrl, setimageUrl] = useState(null);
     const [progress, setProgress] = useState(0);
@@ -36,7 +39,11 @@ const HomePageForm = () => {
         },
     ];
     const clear = () => {
+
         setPostData({ title: '', description: '', tags: [], price: '', quantity: '', category: [] });
+
+        setPostData({ title: '', description: '', tags: [], price: '', quantity: '' });
+
         setimage({ selectedFile: '' });
         setimageUrl(null);
         setProgress(0);

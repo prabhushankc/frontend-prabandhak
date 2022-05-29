@@ -3,7 +3,18 @@ import FoodPage from './foodPageForm/foodPageForm'
 import FoodPagePost from './foodPagePost/foodPagePost';
 import { Grow, Grid, Paper } from '@material-ui/core';
 import Drawer from '../Drawer/drawer.js';
+
 const FoodAdminPage = () => {
+
+import ClientFoodPage from '../../Client/foodPage/clientFoodPage';
+const FoodAdminPage = () => {
+    const user = JSON.parse(localStorage.getItem('profile'))
+    if (!user?.result.role) {
+        return (
+            <ClientFoodPage />
+        )
+    }
+
     return (
         <Grow in={true}>
             <Grid container justifyContent="space-between" alignItems="stretch" style={{
