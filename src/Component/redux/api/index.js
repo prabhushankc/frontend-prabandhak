@@ -25,8 +25,12 @@ export const deleteUser = id => API.delete(`/user/deleteuser/${id}`);
 
 // fetch homePage
 export const getHomePage = () => API.get(`/homepage`);
-export const createHomePage = formData => API.post(`/homepage`, formData);
 
 // fetch roomPage
 export const getRoomPage = () => API.get(`/api/rooms`);
 export const createRoom = formData => API.post("/api/rooms", formData);
+export const createHomePage = (formData) => API.post(`/homepage`, formData);
+
+// fetch foodPage
+export const getFoodPage = () => API.get(`/foodpage`);
+export const createFoodPage = (formData) => API.post(`/foodpage`, formData);

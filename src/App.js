@@ -6,7 +6,7 @@ import UserDetail from "./Component/Client/UserDetail/userProfile";
 import HomePageForm from "./Component/Admin/Admin.js";
 import AdminRoomScreen from "./Component/Admin/AdminScreens/Rooms/AdminRoomScreen";
 import "./bootstrap.min.css";
-
+import FoodPage from './Component/Admin/foodPageAdmin/foodAdmin';
 const App = () => {
   return (
     <BrowserRouter>
@@ -21,6 +21,7 @@ const App = () => {
         >
           <Routes>
             <Route path="/home" element={<HomePageForm />} />
+            <Route path="/food" element={<FoodPage />} />
             <Route path="/" exact element={<Navigate to="/home" />} />
             <Route path="/auth" exact element={<Auth />} />
             <Route path="/profile" element={<UserDetail />} />
