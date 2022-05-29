@@ -1,3 +1,14 @@
+// Add room by Admin
+export const ROOM_CREATE_REQUEST = "ROOM_CREATE_REQUEST";
+export const ROOM_CREATE_SUCCESS = "ROOM_CREATE_SUCCESS";
+export const ROOM_CREATE_FAIL = "ROOM_CREATE_FAIL";
+export const ROOM_CREATE_RESET = "ROOM_CREATE_RESET";
+
+// List of rooms
+export const ROOM_LIST_REQUEST = "ROOM_LIST_REQUEST";
+export const ROOM_LIST_SUCCESS = "ROOM_LIST_SUCCESS";
+export const ROOM_LIST_FAIL = "ROOM_LIST_FAIL";
+
 // signin
 export const AUTH = 'AUTH';
 export const FETCH_SINGLEUSER = 'FETCH_SINGLEUSER';
