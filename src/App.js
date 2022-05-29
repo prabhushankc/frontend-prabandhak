@@ -1,3 +1,11 @@
+
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Container } from '@material-ui/core';
+import Auth from './Component/Admin/Auth/Auth';
+import UserDetail from './Component/Client/UserDetail/userProfile';
+import HomePageForm from './Component/Admin/homePageAdmin/Admin';
+
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Container } from "@material-ui/core";
@@ -6,6 +14,7 @@ import UserDetail from "./Component/Client/UserDetail/userProfile";
 import HomePageForm from "./Component/Admin/Admin.js";
 import AdminRoomScreen from "./Component/Admin/AdminScreens/Rooms/AdminRoomScreen";
 import "./bootstrap.min.css";
+
 import FoodPage from './Component/Admin/foodPageAdmin/foodAdmin';
 const App = () => {
   return (

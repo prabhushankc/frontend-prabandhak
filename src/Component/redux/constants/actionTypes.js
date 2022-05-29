@@ -1,3 +1,4 @@
+
 // Add room by Admin
 export const ROOM_CREATE_REQUEST = "ROOM_CREATE_REQUEST";
 export const ROOM_CREATE_SUCCESS = "ROOM_CREATE_SUCCESS";
@@ -25,4 +26,7 @@ export const END_HOMEPAGE = 'END_HOMEPAGE';
 export const FETCH_FOODPAGE = 'FETCH_FOODPAGE';
 export const CREATE_FOODPAGE = 'CREATE_FOODPAGE';
 export const START_FOODPAGE = 'START_FOODPAGE';
+
 export const END_FOODPAGE = 'END_FOODPAGE';
+export const END_FOODPAGE = 'END_FOODPAGE';
+
