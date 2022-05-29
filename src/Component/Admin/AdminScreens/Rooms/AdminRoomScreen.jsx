@@ -9,6 +9,8 @@ import { createRoom, listRooms } from "../../../redux/actions/room";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebase";
 import { TextField, Typography } from "@material-ui/core";
+import ClientRoomScreen from "../../../Client/ClientScreens/ClientRoomScreen";
+
 const AdminRoomScreen = () => {
   const [formData, setFormData] = useState({
     title: "",
@@ -38,7 +40,7 @@ const AdminRoomScreen = () => {
 
     uploadTask.on(
       "state_changed",
-      snapshot => {
+      (snapshot) => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setProgress("Upload is " + progress + "% done");
@@ -51,32 +53,19 @@ const AdminRoomScreen = () => {
             break;
         }
       },
-      error => console.log(error),
+      (error) => console.log(error),
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setimageUrl(downloadURL);
         });
       }
     );
   };
-  const roomCreate = useSelector(state => state.roomCreate);
+  const roomCreate = useSelector((state) => state.roomCreate);
   const { success: successCreate } = roomCreate;
 
-  const roomList = useSelector(state => state.roomList);
+  const roomList = useSelector((state) => state.roomList);
   const { success, rooms } = roomList;
-
-  const onChange = e => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const submitHandler = e => {
-    e.preventDefault();
-
-    dispatch(createRoom({ ...formData, image: imageUrl }));
-  };
 
   useEffect(() => {
     if (successCreate) {
@@ -84,6 +73,24 @@ const AdminRoomScreen = () => {
     }
     dispatch(listRooms());
   }, [dispatch, navigate, successCreate]);
+
+  const onChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    dispatch(createRoom({ ...formData, image: imageUrl }));
+  };
+
+  const user = JSON.parse(localStorage.getItem("profile"));
+  if (!user?.result.role) {
+    return <ClientRoomScreen />;
+  }
 
   return (
     <>
@@ -98,7 +105,7 @@ const AdminRoomScreen = () => {
               name="title"
               placeholder="Enter Title"
               value={title}
-              onChange={e => onChange(e)}
+              onChange={(e) => onChange(e)}
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId="detail" className="py-2">
@@ -108,7 +115,7 @@ const AdminRoomScreen = () => {
               name="details"
               placeholder="Enter Details"
               value={details}
-              onChange={e => onChange(e)}
+              onChange={(e) => onChange(e)}
             ></Form.Control>
           </Form.Group>
           {progress ? (
@@ -118,7 +125,7 @@ const AdminRoomScreen = () => {
               <TextField
                 type="file"
                 name="image"
-                onChange={e =>
+                onChange={(e) =>
                   setImageData({ ...imageData, image: e.target.files[0] })
                 }
               />
@@ -134,7 +141,7 @@ const AdminRoomScreen = () => {
               name="standard"
               placeholder="Enter standard"
               value={standard}
-              onChange={e => onChange(e)}
+              onChange={(e) => onChange(e)}
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId="price" className="py-2">
@@ -144,7 +151,7 @@ const AdminRoomScreen = () => {
               name="price"
               placeholder="Enter price"
               value={price}
-              onChange={e => onChange(e)}
+              onChange={(e) => onChange(e)}
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId="capacity" className="py-2">
@@ -154,7 +161,7 @@ const AdminRoomScreen = () => {
               name="capacity"
               placeholder="Enter capacity"
               value={capacity}
-              onChange={e => onChange(e)}
+              onChange={(e) => onChange(e)}
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId="condition" className="py-2">
@@ -164,7 +171,7 @@ const AdminRoomScreen = () => {
               name="condition"
               placeholder="Enter condition"
               value={condition}
-              onChange={e => onChange(e)}
+              onChange={(e) => onChange(e)}
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId="noofbeds" className="py-2">
@@ -174,7 +181,7 @@ const AdminRoomScreen = () => {
               name="noofbeds"
               placeholder="Enter no of beds"
               value={noofbeds}
-              onChange={e => onChange(e)}
+              onChange={(e) => onChange(e)}
             ></Form.Control>
           </Form.Group>
 
@@ -186,7 +193,7 @@ const AdminRoomScreen = () => {
       <div className="room-grid py-3 ">
         <h1>Available Rooms</h1>
         {success && rooms.length > 0 ? (
-          rooms.map(room => <RoomDetail rooms={room} key={room._id} />)
+          rooms.map((room) => <RoomDetail rooms={room} key={room._id} />)
         ) : (
           <h1>No Rooms Yet</h1>
         )}
