@@ -1,22 +1,27 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Grid } from '@material-ui/core';
 import ChipInput from 'material-ui-chip-input';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useStyles from './foodPageFormStyle';
-import { createFoodPage } from '../../../redux/actions/foodPageaction';
+import { createFoodPage, updateFoodPage } from '../../../redux/actions/foodPageaction';
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebase";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import MenuItem from '@mui/material/MenuItem';
 
-const HomePageForm = () => {
-
-    const [postData, setPostData] = useState({ title: '', description: '', tags: [], price: '', quantity: '', category: [] });
+const HomePageForm = ({ setupdateFoodCurrentId, updateFoodCurrentId }) => {
     const [postData, setPostData] = useState({ title: '', description: '', tags: [], price: '', quantity: '' });
-
     const [image, setimage] = useState({ selectedFile: '' });
     const [imageUrl, setimageUrl] = useState(null);
     const [progress, setProgress] = useState(0);
+    const { foodPageData } = useSelector((state) => state.foodPage);
+    const UpdateFooPage = foodPageData.filter(updatefoodData => updatefoodData._id === updateFoodCurrentId)[0];
+    React.useEffect(() => {
+        if (UpdateFooPage) {
+            setPostData(UpdateFooPage);
+            setimageUrl(UpdateFooPage.selectedFile);
+        };
+    }, [UpdateFooPage]);
     const dispatch = useDispatch();
     const classes = useStyles();
 
@@ -39,14 +44,11 @@ const HomePageForm = () => {
         },
     ];
     const clear = () => {
-
-        setPostData({ title: '', description: '', tags: [], price: '', quantity: '', category: [] });
-
         setPostData({ title: '', description: '', tags: [], price: '', quantity: '' });
-
         setimage({ selectedFile: '' });
         setimageUrl(null);
         setProgress(0);
+        setupdateFoodCurrentId(null);
     };
 
     const upload = () => {
@@ -78,7 +80,11 @@ const HomePageForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        dispatch(createFoodPage({ ...postData, selectedFile: imageUrl }));
+        if (updateFoodCurrentId) {
+            dispatch(updateFoodPage(updateFoodCurrentId, { ...postData, selectedFile: imageUrl }));
+        } else {
+            dispatch(createFoodPage({ ...postData, selectedFile: imageUrl }));
+        };
     };
     const handleAddChip = (tag) => {
         setPostData({ ...postData, tags: [...postData.tags, tag] });

@@ -28,6 +28,8 @@ export const deleteHome = (id) => API.delete(`/homepage/deletehome/${id}`)
 // fetch foodPage
 export const getFoodPage = () => API.get(`/foodpage`);
 export const createFoodPage = (formData) => API.post(`/foodpage`, formData);
+export const updateFoodPage = (id, formData) => API.patch(`/foodpage/${id}`, formData);
+
 
 // fetch roomPage
 export const getRoomPage = () => API.get(`/api/rooms`);
