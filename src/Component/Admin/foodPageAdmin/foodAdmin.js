@@ -1,20 +1,17 @@
 import React from 'react'
-import FoodPage from './foodPageForm/foodPageForm'
+import FoodPageForm from './foodPageForm/foodPageForm'
 import FoodPagePost from './foodPagePost/foodPagePost';
 import { Grow, Grid, Paper } from '@material-ui/core';
 import Drawer from '../Drawer/drawer.js';
-
-const FoodAdminPage = () => {
-
 import ClientFoodPage from '../../Client/foodPage/clientFoodPage';
 const FoodAdminPage = () => {
     const user = JSON.parse(localStorage.getItem('profile'))
+    const [updateFoodCurrentId, setupdateFoodCurrentId] = React.useState(null);
     if (!user?.result.role) {
         return (
             <ClientFoodPage />
         )
     }
-
     return (
         <Grow in={true}>
             <Grid container justifyContent="space-between" alignItems="stretch" style={{
@@ -31,10 +28,10 @@ const FoodAdminPage = () => {
                         padding: '0px',
                     }}>
                         <Grid item xs={12} sm={12} md={12}>
-                            <FoodPage />
+                            <FoodPageForm setupdateFoodCurrentId={setupdateFoodCurrentId} updateFoodCurrentId={updateFoodCurrentId} />
                         </Grid>
                         <Grid item xs={12} sm={12} md={12}>
-                            <FoodPagePost />
+                            <FoodPagePost setupdateFoodCurrentId={setupdateFoodCurrentId} />
                         </Grid>
                     </Paper>
                 </Grid>
