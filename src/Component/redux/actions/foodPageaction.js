@@ -1,5 +1,5 @@
 import * as api from '../api';
-import { FETCH_FOODPAGE, CREATE_FOODPAGE, START_FOODPAGE, END_FOODPAGE } from '../constants/actionTypes';
+import { FETCH_FOODPAGE, CREATE_FOODPAGE, START_FOODPAGE, END_FOODPAGE, DELETE_FOODPAGE } from '../constants/actionTypes';
 import { NotifyError, NotifySuccess } from './notify';
 
 export const fetchFoodPage = () => async (dispatch) => {
@@ -24,6 +24,19 @@ export const createFoodPage = (formData) => async (dispatch) => {
         dispatch({ type: CREATE_FOODPAGE, payload: { savedFoodPage } });
         NotifySuccess(message);
         dispatch({ type: END_FOODPAGE });
+    } catch (error) {
+        if (error.response.status >= 400 && error.response.status <= 500) {
+            NotifyError(error.response.data.message);
+        } else {
+            NotifyError(error.message);
+        }
+    }
+}
+export const deleteFood = (id) => async (dispatch) => {
+    try {
+        const { data: { message } } = await api.deleteFood(id);
+        dispatch({ type: DELETE_FOODPAGE, payload: id })
+        NotifySuccess(message);
     } catch (error) {
         if (error.response.status >= 400 && error.response.status <= 500) {
             NotifyError(error.response.data.message);
