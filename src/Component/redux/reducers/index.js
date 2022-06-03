@@ -8,7 +8,7 @@ export const reducers = combineReducers({ Auth, homePage, foodPage });
 import { combineReducers } from "redux";
 import Auth from "./Auth";
 import homePage from "./homePage";
-import { roomList, roomCreate } from "./room";
+import { roomList, roomCreate, roomUpdate, roomDetails } from "./room";
 import foodPage from './foodPageReducer';
 
 export const reducers = combineReducers({
@@ -16,6 +16,8 @@ export const reducers = combineReducers({
   homePage,
   roomCreate,
   roomList,
+  roomUpdate,
+  roomDetails,
   foodPage
 });
 

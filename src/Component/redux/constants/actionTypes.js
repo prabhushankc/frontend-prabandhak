@@ -10,6 +10,17 @@ export const ROOM_LIST_REQUEST = "ROOM_LIST_REQUEST";
 export const ROOM_LIST_SUCCESS = "ROOM_LIST_SUCCESS";
 export const ROOM_LIST_FAIL = "ROOM_LIST_FAIL";
 
+// Update room by Admin
+export const ROOM_UPDATE_REQUEST = "ROOM_UPDATE_REQUEST";
+export const ROOM_UPDATE_SUCCESS = "ROOM_UPDATE_SUCCESS";
+export const ROOM_UPDATE_FAIL = "ROOM_UPDATE_FAIL";
+export const ROOM_UPDATE_RESET = "ROOM_UPDATE_RESET";
+
+// Single Room Details
+export const ROOM_DETAILS_REQUEST = "ROOM_DETAILS_REQUEST";
+export const ROOM_DETAILS_SUCCESS = "ROOM_DETAILS_SUCCESS";
+export const ROOM_DETAILS_FAIL = "ROOM_DETAILS_FAIL";
+=======
 // signin
 export const AUTH = 'AUTH';
 export const FETCH_SINGLEUSER = 'FETCH_SINGLEUSER';
@@ -30,4 +41,3 @@ export const START_FOODPAGE = 'START_FOODPAGE';
 export const END_FOODPAGE = 'END_FOODPAGE';
 export const DELETE_FOODPAGE = "DELETE_FOODPAGE";
 export const UPDATE_FOODPAGE = "UPDATE_FOODPAGE";
-

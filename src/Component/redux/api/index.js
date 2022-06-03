@@ -36,5 +36,8 @@ export const updateFoodPage = (id, formData) =>
 
 // fetch roomPage
 export const getRoomPage = () => API.get(`/api/rooms`);
-export const createRoom = (formData) => API.post("/api/rooms", formData);
+export const createRoom = formData => API.post("/api/rooms", formData);
+export const updateSingleRoom = (id, formData) =>
+  API.put(`/api/rooms/${id}`, formData);
+export const singleRoomDetails = id => API.get(`/api/rooms/${id}`);
 export const deleteFood = (id) => API.delete(`/foodpage/deletefood/${id}`);

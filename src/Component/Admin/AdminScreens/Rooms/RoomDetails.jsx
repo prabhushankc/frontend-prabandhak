@@ -1,16 +1,17 @@
 import React from "react";
 import { Button } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 import PropTypes from "prop-types";
 import { CardMedia } from "@material-ui/core";
 
-const RoomDetail = ({ rooms }) => {
+const RoomDetail = ({ rooms, setCurrentId }) => {
   return (
     <>
       <div className="room-details my-4">
         <CardMedia
           style={{
             backgroundImage: `url(${rooms.image})`,
-            width: "50%",
+            width: "40%",
           }}
           alt="room-image"
         />
@@ -25,11 +26,21 @@ const RoomDetail = ({ rooms }) => {
           </p>
         </div>
         <div className="room-details-change">
-          <Button variant="primary" className="py-2 m-2">
-            Edit
+          {/* <LinkContainer to={`/room/edit/${rooms._id}`} */}
+          <Button
+            variant="primary"
+            className="py-2 m-2"
+            onClick={e => {
+              e.stopPropagation();
+              setCurrentId(rooms?._id);
+            }}
+          >
+            <i className="fas fa-edit fa-anup"></i>
           </Button>
+          {/* </LinkContainer> */}
+
           <Button variant="primary" className="py-2 m-2">
-            Delete
+            <i className="fas fa-trash fa-anup"></i>
           </Button>
         </div>
       </div>

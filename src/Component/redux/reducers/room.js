@@ -6,6 +6,13 @@ import {
   ROOM_LIST_REQUEST,
   ROOM_LIST_SUCCESS,
   ROOM_LIST_FAIL,
+  ROOM_UPDATE_REQUEST,
+  ROOM_UPDATE_SUCCESS,
+  ROOM_UPDATE_FAIL,
+  ROOM_UPDATE_RESET,
+  ROOM_DETAILS_REQUEST,
+  ROOM_DETAILS_SUCCESS,
+  ROOM_DETAILS_FAIL,
 } from "../constants/actionTypes";
 
 const initialState = {
@@ -13,7 +20,7 @@ const initialState = {
   room: null,
   rooms: [],
   success: false,
-  error: {},
+  error: null,
 };
 
 function roomList(state = initialState, action) {
@@ -55,4 +62,49 @@ function roomCreate(state = initialState, action) {
   }
 }
 
-export { roomList, roomCreate };
+function roomDetails(state = initialState, action) {
+  const { type, payload } = action;
+
+  switch (type) {
+    case ROOM_DETAILS_REQUEST: {
+      return { ...state, loading: true };
+    }
+    case ROOM_DETAILS_SUCCESS: {
+      return { ...state, loading: false, room: payload };
+    }
+    case ROOM_DETAILS_FAIL: {
+      return { ...state, loading: false, error: payload };
+    }
+    default:
+      return state;
+  }
+}
+
+function roomUpdate(state = initialState, action) {
+  const { type, payload } = action;
+
+  switch (type) {
+    case ROOM_UPDATE_REQUEST: {
+      return { ...state, loading: true, success: false };
+    }
+    case ROOM_UPDATE_SUCCESS: {
+      // return { ...state, loading: false, success: true, room: payload };
+      return {
+        ...state,
+        rooms: state.rooms.map(roomData =>
+          roomData._id === payload._id ? payload : roomData
+        ),
+      };
+    }
+    case ROOM_UPDATE_FAIL: {
+      return { ...state, loading: false, error: payload };
+    }
+    case ROOM_UPDATE_RESET: {
+      return {};
+    }
+    default:
+      return state;
+  }
+}
+
+export { roomList, roomCreate, roomUpdate, roomDetails };
