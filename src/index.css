@@ -53,9 +53,13 @@
 }
 
 .room-details-full {
-  margin: 10px;
+  margin: 10px 5px 10px 15px;
 }
 
 .room-details-change {
   margin: 10px;
+}
+
+.fa-anup {
+  color: white;
 }
