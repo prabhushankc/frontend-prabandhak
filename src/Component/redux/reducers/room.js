@@ -6,6 +6,9 @@ import {
   ROOM_LIST_REQUEST,
   ROOM_LIST_SUCCESS,
   ROOM_LIST_FAIL,
+  ROOM_DELETE_REQUEST,
+  ROOM_DELETE_SUCCESS,
+  ROOM_DELETE_FAIL,
 } from "../constants/actionTypes";
 
 const initialState = {
@@ -55,4 +58,27 @@ function roomCreate(state = initialState, action) {
   }
 }
 
-export { roomList, roomCreate };
+function roomDelete(state = initialState, action) {
+  const { type, payload } = action;
+
+  switch (type) {
+    case ROOM_DELETE_REQUEST: {
+      return { ...state, loading: true };
+    }
+    case ROOM_DELETE_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        success: true,
+        rooms: state.rooms?.filter((room) => room._id !== payload),
+      };
+    }
+    case ROOM_DELETE_FAIL: {
+      return { ...state, loading: false, error: payload };
+    }
+    default:
+      return state;
+  }
+}
+
+export { roomList, roomCreate, roomDelete };

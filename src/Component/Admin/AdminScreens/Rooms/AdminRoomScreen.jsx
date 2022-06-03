@@ -193,7 +193,7 @@ const AdminRoomScreen = () => {
       <div className="room-grid py-3 ">
         <h1>Available Rooms</h1>
         {success && rooms.length > 0 ? (
-          rooms.map((room) => <RoomDetail rooms={room} key={room._id} />)
+          rooms.map((room) => <RoomDetail roomData={room} key={room._id} />)
         ) : (
           <h1>No Rooms Yet</h1>
         )}
