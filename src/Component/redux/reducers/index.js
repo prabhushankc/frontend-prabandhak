@@ -1,7 +1,15 @@
+
+import { combineReducers } from 'redux';
+import Auth from './Auth';
+import homePage from './homePage';
+import foodPage from './foodPageReducer';
+export const reducers = combineReducers({ Auth, homePage, foodPage });
+
 import { combineReducers } from "redux";
 import Auth from "./Auth";
 import homePage from "./homePage";
 import { roomList, roomCreate, roomUpdate, roomDetails } from "./room";
+import foodPage from './foodPageReducer';
 
 export const reducers = combineReducers({
   Auth,
@@ -10,4 +18,6 @@ export const reducers = combineReducers({
   roomList,
   roomUpdate,
   roomDetails,
+  foodPage
 });
+

@@ -1,11 +1,3 @@
-export const AUTH = "AUTH";
-export const FETCH_SINGLEUSER = "FETCH_SINGLEUSER";
-export const LOGOUT = "LOGOUT";
-export const UPDATE_SINGLE_USER = "UPDATE_SINGLE_USER";
-export const FETCH_HOMEPAGE = "FETCH_HOMEPAGE";
-export const CREATE_HOMEPAGE = "CREATE_HOMEPAGE";
-export const START_HOMEPAGE = "START_HOMEPAGE";
-export const END_HOMEPAGE = "END_HOMEPAGE";
 
 // Add room by Admin
 export const ROOM_CREATE_REQUEST = "ROOM_CREATE_REQUEST";
@@ -28,3 +20,24 @@ export const ROOM_UPDATE_RESET = "ROOM_UPDATE_RESET";
 export const ROOM_DETAILS_REQUEST = "ROOM_DETAILS_REQUEST";
 export const ROOM_DETAILS_SUCCESS = "ROOM_DETAILS_SUCCESS";
 export const ROOM_DETAILS_FAIL = "ROOM_DETAILS_FAIL";
+=======
+// signin
+export const AUTH = 'AUTH';
+export const FETCH_SINGLEUSER = 'FETCH_SINGLEUSER';
+export const LOGOUT = 'LOGOUT';
+export const UPDATE_SINGLE_USER = 'UPDATE_SINGLE_USER';
+
+// homePage
+export const FETCH_HOMEPAGE = 'FETCH_HOMEPAGE';
+export const CREATE_HOMEPAGE = 'CREATE_HOMEPAGE';
+export const START_HOMEPAGE = 'START_HOMEPAGE';
+export const END_HOMEPAGE = 'END_HOMEPAGE';
+export const DELETE_HOMEPAGE = 'DELETE_HOMEPAGE';
+
+// foodPage
+export const FETCH_FOODPAGE = 'FETCH_FOODPAGE';
+export const CREATE_FOODPAGE = 'CREATE_FOODPAGE';
+export const START_FOODPAGE = 'START_FOODPAGE';
+export const END_FOODPAGE = 'END_FOODPAGE';
+export const DELETE_FOODPAGE = "DELETE_FOODPAGE";
+export const UPDATE_FOODPAGE = "UPDATE_FOODPAGE";

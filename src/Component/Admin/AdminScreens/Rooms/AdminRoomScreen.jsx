@@ -10,6 +10,7 @@ import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebase";
 import { TextField, Typography } from "@material-ui/core";
 import Message from "../../../Message/Message";
+import ClientRoomScreen from "../../../Client/ClientScreens/ClientRoomScreen";
 
 const AdminRoomScreen = () => {
   const [currentId, setCurrentId] = useState(null);
@@ -54,7 +55,7 @@ const AdminRoomScreen = () => {
 
     uploadTask.on(
       "state_changed",
-      snapshot => {
+      (snapshot) => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setProgress("Upload is " + progress + "% done");
@@ -69,9 +70,9 @@ const AdminRoomScreen = () => {
             break;
         }
       },
-      error => console.log(error),
+      (error) => console.log(error),
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setimageUrl(downloadURL);
         });
       }
@@ -80,20 +81,8 @@ const AdminRoomScreen = () => {
   const roomCreate = useSelector(state => state.roomCreate);
   const { success: successCreate, error: errorCreate } = roomCreate;
 
-  const onChange = e => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const submitHandler = e => {
-    e.preventDefault();
-    if (currentId) {
-      dispatch(updateRoom(currentId, { ...formData, image: imageUrl }));
-    }
-    dispatch(createRoom({ ...formData, image: imageUrl }));
-  };
+  const roomList = useSelector((state) => state.roomList);
+  const { success, rooms } = roomList;
 
   useEffect(() => {
     if (successCreate) {
@@ -101,6 +90,26 @@ const AdminRoomScreen = () => {
     }
     dispatch(listRooms());
   }, [dispatch, navigate, successCreate]);
+
+  const onChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    if (currentId) {
+      dispatch(updateRoom(currentId, { ...formData, image: imageUrl }));
+    }
+    dispatch(createRoom({ ...formData, image: imageUrl }));
+  };
+
+  const user = JSON.parse(localStorage.getItem("profile"));
+  if (!user?.result.role) {
+    return <ClientRoomScreen />;
+  }
 
   return (
     <>
