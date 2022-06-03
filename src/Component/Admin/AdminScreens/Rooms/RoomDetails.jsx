@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import { CardMedia } from "@material-ui/core";
 
 const RoomDetail = ({ rooms, setCurrentId }) => {
-  // console.log(setCurrentId, "detail");
   return (
     <>
       <div className="room-details my-4">
