@@ -1,4 +1,4 @@
-import { FETCH_FOODPAGE, CREATE_FOODPAGE, START_FOODPAGE, END_FOODPAGE } from "../constants/actionTypes";
+import { FETCH_FOODPAGE, CREATE_FOODPAGE, START_FOODPAGE, END_FOODPAGE, DELETE_FOODPAGE, UPDATE_FOODPAGE } from "../constants/actionTypes";
 export default (state = { isLoading: true, foodPageData: [] }, action) => {
     switch (action.type) {
         case START_FOODPAGE:
@@ -21,7 +21,11 @@ export default (state = { isLoading: true, foodPageData: [] }, action) => {
                 ...state,
                 foodPageData: [...state.foodPageData, action.payload.savedFoodPage]
             };
-        default:
+        case UPDATE_FOODPAGE:
+            return { ...state, foodPageData: state.foodPageData.map((foodData) => (foodData._id === action.payload.updateFoodPage._id ? action.payload.updateFoodPage : foodData)) };
+        case DELETE_FOODPAGE:
+            return { ...state, foodPageData: state.foodPageData?.filter((foodPage) => foodPage._id !== action.payload) }
+         default:
             return state;
     }
 }

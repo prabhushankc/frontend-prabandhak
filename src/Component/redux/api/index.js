@@ -7,8 +7,8 @@ API.interceptors.request.use((req) => {
     req.headers.Authorization = `Bearer ${
       JSON.parse(localStorage.getItem("profile")).token
     }`;
+    return req;
   }
-  return req;
 });
 
 // fetch auth
@@ -26,12 +26,21 @@ export const deleteUser = (id) => API.delete(`/user/deleteuser/${id}`);
 // fetch homePage
 export const getHomePage = () => API.get(`/homepage`);
 export const createHomePage = (formData) => API.post(`/homepage`, formData);
+export const deleteHome = (id) => API.delete(`/homepage/deletehome/${id}`);
+export const updateHomePage = (id, formData) =>
+  API.patch(`/homepage/${id}`, formData);
+
+// fetch foodPage
+export const getFoodPage = () => API.get(`/foodpage`);
+export const createFoodPage = (formData) => API.post(`/foodpage`, formData);
+export const updateFoodPage = (id, formData) =>
+  API.patch(`/foodpage/${id}`, formData);
 
 // fetch roomPage
 export const getRoomPage = () => API.get(`/api/rooms`);
 export const createRoom = (formData) => API.post("/api/rooms", formData);
 export const deleteSingleRoom = (id) => API.delete(`/api/rooms/${id}`);
-
-// fetch foodPage
-export const getFoodPage = () => API.get(`/foodpage`);
-export const createFoodPage = (formData) => API.post(`/foodpage`, formData);
+export const updateSingleRoom = (id, formData) =>
+  API.put(`/api/rooms/${id}`, formData);
+export const singleRoomDetails = (id) => API.get(`/api/rooms/${id}`);
+export const deleteFood = (id) => API.delete(`/foodpage/deletefood/${id}`);

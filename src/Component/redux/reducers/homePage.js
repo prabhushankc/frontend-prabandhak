@@ -2,13 +2,11 @@ import {
   FETCH_HOMEPAGE,
   CREATE_HOMEPAGE,
   START_HOMEPAGE,
+  UPDATE_HOMEPAGE,
   END_HOMEPAGE,
+  DELETE_HOMEPAGE,
 } from "../constants/actionTypes";
-
-export default function homepage(
-  state = { isLoading: true, homePageData: [] },
-  action
-) {
+export default (state = { isLoading: true, homePageData: [] }, action) => {
   switch (action.type) {
     case START_HOMEPAGE:
       return {
@@ -30,7 +28,23 @@ export default function homepage(
         ...state,
         homePageData: [...state.homePageData, action.payload.savedHomePage],
       };
+    case UPDATE_HOMEPAGE:
+      return {
+        ...state,
+        homePageData: state.homePageData.map((homeData) =>
+          homeData._id === action.payload.updateHomePage._id
+            ? action.payload.updateHomePage
+            : homeData
+        ),
+      };
+    case DELETE_HOMEPAGE:
+      return {
+        ...state,
+        homePageData: state.homePageData?.filter(
+          (homePage) => homePage._id !== action.payload
+        ),
+      };
     default:
       return state;
   }
-}
+};

@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { fetchFoodPage } from '../../../redux/actions/foodPageaction';
+import { fetchFoodPage, deleteFood } from '../../../redux/actions/foodPageaction';
 import useStyles from './foodPagePostStyle';
 import { CircularProgress } from '@mui/material';
 import { Typography, Paper, Divider, CardActions, Button } from '@material-ui/core';
 import moment from 'moment';
 import Delete from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
-function FoodPostAdmin() {
+function FoodPostAdmin({ setupdateFoodCurrentId }) {
     const dispatch = useDispatch();
     const { isLoading, foodPageData } = useSelector((state) => state.foodPage);
     useEffect(() => {
@@ -29,18 +29,18 @@ function FoodPostAdmin() {
         }} /> :
             (<div style={{ borderRadius: "15px", padding: "80px 15px 20px 15px" }}>
                 {foodPageData?.map((foodData) => (
-                    <Paper elevation={3} style={{ borderRadius: "12px", margin: '10px auto' }}>
-                        <div key={foodData._id} className={classes.card}>
+                    <Paper key={foodData?._id} elevation={3} style={{ borderRadius: "12px", margin: '10px auto' }}>
+                        <div className={classes.card}>
                             <div className={classes.section}>
                                 <div className={classes.section1}>
-                                    <div className={classes.imageSection} style={{ flex: 1 }}>
+                                    <div className={classes.imageSection}>
                                         <img
                                             className={classes.media}
                                             src={foodData?.selectedFile}
                                             title={foodData?.title}
                                         />
                                     </div>
-                                    <div style={{ margin: "auto", flex: "1" }}>
+                                    <div style={{ margin: "auto", flex: 1 }}>
                                         <Typography className={classes.title}>
                                             {foodData?.title}
                                         </Typography>
@@ -77,7 +77,7 @@ function FoodPostAdmin() {
                                             }}
                                             className={classes.message}
                                         >
-                                            {foodData?.description} and Price is {" "}
+                                            {foodData?.description.split(" ").splice(0, 4).join(" ")} and Price is {" "}
                                             <span
                                             >
                                                 Rs.{foodData?.price}
@@ -100,6 +100,10 @@ function FoodPostAdmin() {
                                                 size="small"
                                                 className={classes.buy}
                                                 style={{ backgroundColor: "#01bf71" }}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setupdateFoodCurrentId(foodData?._id)
+                                                }}
                                             >
                                                 <Edit />
                                             </Button>
@@ -107,6 +111,7 @@ function FoodPostAdmin() {
                                                 size="small"
                                                 className={classes.buy}
                                                 style={{ backgroundColor: "#ff4d4d" }}
+                                                onClick={() => dispatch(deleteFood(foodData?._id))}
                                             >
                                                 <Delete />
                                             </Button>
