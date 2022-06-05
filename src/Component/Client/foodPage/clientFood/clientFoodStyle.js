@@ -10,43 +10,19 @@ export default makeStyles((theme) => ({
         ObjectFit: 'contain',
         ObjectPosition: 'center',
         borderRadius: '0px 0px 4px 4px',
-        ['@media (max-width:350px)']: {
-            height: '220px',
+        [theme.breakpoints.down('sm')]: {
+            height: '300px',
         },
-    },
-    border: {
-        border: 'solid',
-    },
-    fullHeightCard: {
-        height: '100%',
     },
     card: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        height: '100%',
-        borderRadius: '20px',
-        marginTop: '20px',
         position: 'relative',
-    },
-    overlay: {
-        position: 'absolute',
-        top: '20px',
-        left: '20px',
-        color: 'white',
-    },
-    overlay2: {
-        position: 'absolute',
-        top: '20px',
-        right: '20px',
-        color: 'white',
-    },
-    grid: {
-        display: 'flex',
     },
     details: {
         display: 'flex',
-        padding: '5px 17px 15px 17px',
+        padding: '5px 17px 5px 17px',
     },
     title: {
         color: 'gray',
@@ -72,13 +48,18 @@ export default makeStyles((theme) => ({
         padding: '0.4rem 0.7rem',
         letterSpacing: '1px',
         fontSize: '14px',
-        color: 'white',
+        color: '#fff',
         fontWeight: 'bold',
         display: 'flex',
         backgroundColor: '#595775',
         '&:hover': {
             backgroundColor: '#595775',
         },
+        // disable
+        '&:disabled': {
+            color: 'white',
+            backgroundColor: '#595775',
+        }
     },
 }));
 

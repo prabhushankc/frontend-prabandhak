@@ -35,10 +35,8 @@ export const signup = (formData) => async (dispatch) => {
 
 export const singleUser = (id) => async (dispatch) => {
     try {
-        console.log(id, "from id fronend");
-        const { data: { singleUser, message } } = await api.singleUser(id);
+        const { data: { singleUser } } = await api.singleUser(id);
         dispatch({ type: FETCH_SINGLEUSER, payload: { singleUser: singleUser } })
-        NotifySuccess(message);
     } catch (error) {
         if (error.response.status >= 400 && error.response.status <= 500) {
             NotifyError(error.response.data.message);
@@ -67,6 +65,31 @@ export const deleteUser = (id) => async (dispatch, navigate) => {
         const { data: { message } } = await api.deleteUser(id);
         NotifySuccess(message);
         navigate('/');
+    } catch (error) {
+        if (error.response.status >= 400 && error.response.status <= 500) {
+            NotifyError(error.response.data.message);
+        } else {
+            NotifyError(error.message);
+        }
+    }
+}
+
+export const addCart = (cart, formData) => async () => {
+    try {
+        const { data: { message } } = await api.addCart([...cart, { ...formData, quantity: 1 }]);
+        NotifySuccess(message);
+    } catch (error) {
+        if (error.response.status >= 400 && error.response.status <= 500) {
+            NotifyError(error.response.data.message);
+        } else {
+            NotifyError(error.message);
+        }
+    }
+}
+export const aCart = (cart) => async () => {
+    try {
+        const { data: { message } } = await api.addCart(cart);
+        // NotifySuccess(message);
     } catch (error) {
         if (error.response.status >= 400 && error.response.status <= 500) {
             NotifyError(error.response.data.message);

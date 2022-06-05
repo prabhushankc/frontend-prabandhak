@@ -1,17 +1,25 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Paper, Grid } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useStyles from './HomePageFormStyle';
-import { createHomePage } from '../../../redux/actions/homePage';
+import { createHomePage, updateHomePage } from '../../../redux/actions/homePage';
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebase";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 
-const HomePageForm = () => {
+const HomePageForm = ({ updateHomeCurrentId, setupdateHomeCurrentId }) => {
     const [postData, setPostData] = useState({ title: '', description: '', detail: '' });
     const [image, setimage] = useState({ selectedFile: '' });
     const [imageUrl, setimageUrl] = useState(null);
     const [progress, setProgress] = useState(0);
+    const { homePageData } = useSelector((state) => state.homePage);
+    const UpdateHomPage = homePageData.filter(updateHomeData => updateHomeData._id === updateHomeCurrentId)[0];
+    React.useEffect(() => {
+        if (UpdateHomPage) {
+            setPostData(UpdateHomPage);
+            setimageUrl(UpdateHomPage.selectedFile);
+        };
+    }, [UpdateHomPage]);
     const dispatch = useDispatch();
     const classes = useStyles();
 
@@ -20,6 +28,7 @@ const HomePageForm = () => {
         setimage({ selectedFile: '' });
         setimageUrl(null);
         setProgress(0);
+        setupdateHomeCurrentId(null);
     };
 
     const upload = () => {
@@ -51,7 +60,12 @@ const HomePageForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        dispatch(createHomePage({ ...postData, selectedFile: imageUrl }));
+        if (updateHomeCurrentId) {
+            dispatch(updateHomePage(updateHomeCurrentId, { ...postData, selectedFile: imageUrl }));
+        } else {
+            dispatch(createHomePage({ ...postData, selectedFile: imageUrl }));
+        };
+        clear();
     };
     return (
         <>

@@ -11,6 +11,7 @@ export default makeStyles((theme) => ({
         width: '100%',
         margin: '0px auto',
         backgroundBlendMode: 'darken',
+        borderRadius: '0% 0% 50% 50% / 0% 0% 2% 2%',
         ObjectFit: 'contain',
         ObjectPosition: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',

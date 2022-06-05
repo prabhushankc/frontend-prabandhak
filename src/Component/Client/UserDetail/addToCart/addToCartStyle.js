@@ -18,8 +18,9 @@ export default makeStyles((theme) => ({
         margin: '5px 15px',
     },
     buy: {
-        margin: 'auto',
-        padding: '8px 40px',
+        margin: '20px auto',
+        display: 'block',
+        padding: '10px 2px 2px 2px',
         border: '0px solid white',
         borderRadius: '12px',
         backgroundColor: '#595775',
@@ -70,7 +71,6 @@ export default makeStyles((theme) => ({
     section: {
         borderRadius: '20px',
         margin: '10px',
-        flex: 1,
     },
     section1: {
         display: 'flex',
@@ -84,5 +84,12 @@ export default makeStyles((theme) => ({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    cardActionsS: {
+        margin: 'auto',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+
     }
 }));
