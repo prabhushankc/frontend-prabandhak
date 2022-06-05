@@ -32,7 +32,6 @@ export const createFoodPage = (formData) => async (dispatch) => {
         }
     }
 }
-
 export const updateFoodPage = (id, formData) => async (dispatch) => {
     try {
         dispatch({ type: START_FOODPAGE });
@@ -48,6 +47,7 @@ export const updateFoodPage = (id, formData) => async (dispatch) => {
         }
     }
 }
+
 export const deleteFood = (id) => async (dispatch) => {
     try {
         const { data: { message } } = await api.deleteFood(id);
@@ -61,3 +61,4 @@ export const deleteFood = (id) => async (dispatch) => {
         }
     }
 }
+

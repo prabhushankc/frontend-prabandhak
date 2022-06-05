@@ -35,14 +35,13 @@ export default function SimpleMenu() {
         setOpenM(true);
     };
     const delUser = () => {
-        dispatch(deleteUser(aUser._id, navigate));
+        dispatch(deleteUser(aUser?._id, navigate));
         navigate('/auth ');
     }
 
     const logout = () => {
-        dispatch({ type: "LOGOUT" });
         localStorage.removeItem('profile');
-        navigate('/');
+        navigate('/home');
         setUser(null);
     };
 

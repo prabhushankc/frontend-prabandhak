@@ -1,7 +1,7 @@
 import React from "react";
 import { CardMedia, Typography } from "@material-ui/core";
 import useStyle from "./RoomHeaderPageStyle";
-import RoomImage from "../../../images/img1.jpg";
+// import RoomImage from "../../../images/img1.jpg";
 const RoomHeaderPage = ({ roomData }) => {
   const classes = useStyle();
   return (
@@ -9,9 +9,11 @@ const RoomHeaderPage = ({ roomData }) => {
       <div className={classes.design}>
         <CardMedia
           className={classes.media}
-          style={{
-            backgroundImage: `url(${RoomImage})`,
-          }}
+          style={
+            {
+              // backgroundImage: `url(${RoomImage})`,
+            }
+          }
           title="prabandak"
         />
         <Typography className={classes.title} variant="h5" component="h2">

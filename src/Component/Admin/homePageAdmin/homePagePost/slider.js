@@ -11,7 +11,7 @@ import { Typography, Grid, CardMedia, Button } from '@material-ui/core';
 import Delete from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
-function Slider() {
+function Slider({ setupdateHomeCurrentId }) {
     const dispatch = useDispatch();
     const { isLoading, homePageData } = useSelector((state) => state.homePage);
     useEffect(() => {
@@ -86,6 +86,10 @@ function Slider() {
                                     size="small"
                                     style={{ backgroundColor: "#01bf71" }}
                                     className={classes.btnFunction1}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setupdateHomeCurrentId(step._id)
+                                    }}
                                 >
                                     <Edit />
                                 </Button>
