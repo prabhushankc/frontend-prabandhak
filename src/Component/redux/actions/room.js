@@ -8,13 +8,16 @@ import {
   ROOM_LIST_REQUEST,
   ROOM_LIST_SUCCESS,
   ROOM_LIST_FAIL,
+  ROOM_DELETE_REQUEST,
+  ROOM_DELETE_SUCCESS,
+  ROOM_DELETE_FAIL,
   ROOM_DETAILS_REQUEST,
   ROOM_DETAILS_SUCCESS,
 } from "../constants/actionTypes";
 
 import * as api from "../api";
 
-export const listRooms = () => async dispatch => {
+export const listRooms = () => async (dispatch) => {
   try {
     dispatch({ type: ROOM_LIST_REQUEST });
     const { data } = await api.getRoomPage();
@@ -30,7 +33,7 @@ export const listRooms = () => async dispatch => {
   }
 };
 
-export const detailRoom = id => async dispatch => {
+export const detailRoom = (id) => async (dispatch) => {
   try {
     dispatch({ type: ROOM_DETAILS_REQUEST });
     const { data } = await api.singleRoomDetails(id);
@@ -46,7 +49,7 @@ export const detailRoom = id => async dispatch => {
   }
 };
 
-export const createRoom = formData => async dispatch => {
+export const createRoom = (formData) => async (dispatch) => {
   try {
     dispatch({ type: ROOM_CREATE_REQUEST });
     const { data } = await api.createRoom(formData);
@@ -62,7 +65,23 @@ export const createRoom = formData => async dispatch => {
   }
 };
 
-export const updateRoom = (id, formData) => async dispatch => {
+export const deleteRoom = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: ROOM_DELETE_REQUEST });
+    await api.deleteSingleRoom(id);
+    dispatch({ type: ROOM_DELETE_SUCCESS, payload: id });
+  } catch (err) {
+    dispatch({
+      type: ROOM_DELETE_FAIL,
+      payload:
+        err.response && err.repsonse.data.message
+          ? err.response.data.message
+          : err.message,
+    });
+  }
+};
+
+export const updateRoom = (id, formData) => async (dispatch) => {
   try {
     dispatch({ type: ROOM_UPDATE_REQUEST });
 

@@ -6,6 +6,9 @@ import {
   ROOM_LIST_REQUEST,
   ROOM_LIST_SUCCESS,
   ROOM_LIST_FAIL,
+  ROOM_DELETE_REQUEST,
+  ROOM_DELETE_SUCCESS,
+  ROOM_DELETE_FAIL,
   ROOM_UPDATE_REQUEST,
   ROOM_UPDATE_SUCCESS,
   ROOM_UPDATE_FAIL,
@@ -62,6 +65,33 @@ function roomCreate(state = initialState, action) {
   }
 }
 
+function roomDelete(state = initialState, action) {
+  const { type, payload } = action;
+
+  switch (type) {
+    case ROOM_DELETE_REQUEST: {
+      return { ...state, loading: true, success: false };
+    }
+    case ROOM_DELETE_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        success: true,
+        rooms: state.rooms?.filter((room) => room._id !== payload),
+      };
+    }
+    case ROOM_DELETE_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+      };
+    }
+    default:
+      return state;
+  }
+}
+
 function roomDetails(state = initialState, action) {
   const { type, payload } = action;
 
@@ -91,7 +121,7 @@ function roomUpdate(state = initialState, action) {
       // return { ...state, loading: false, success: true, room: payload };
       return {
         ...state,
-        rooms: state.rooms.map(roomData =>
+        rooms: state.rooms.map((roomData) =>
           roomData._id === payload._id ? payload : roomData
         ),
       };
@@ -107,4 +137,4 @@ function roomUpdate(state = initialState, action) {
   }
 }
 
-export { roomList, roomCreate, roomUpdate, roomDetails };
+export { roomList, roomCreate, roomUpdate, roomDetails, roomDelete };

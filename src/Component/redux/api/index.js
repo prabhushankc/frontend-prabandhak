@@ -1,13 +1,14 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'http://localhost:5000/' });
+const API = axios.create({ baseURL: "http://localhost:5001/" });
 
 API.interceptors.request.use((req) => {
-  if (localStorage.getItem('profile')) {
-    req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
-  }
-  return req;
-});
+  if (localStorage.getItem("profile")) {
+    req.headers.Authorization = `Bearer ${
+      JSON.parse(localStorage.getItem("profile")).token
+    }`;
+    return req;
+
 
 // fetch auth
 export const signIn = (formData) => API.post(`/user/signin`, formData);
@@ -35,7 +36,8 @@ export const updateFoodPage = (id, formData) => API.patch(`/foodpage/${id}`, for
 
 // fetch roomPage
 export const getRoomPage = () => API.get(`/api/rooms`);
-export const createRoom = formData => API.post("/api/rooms", formData);
+export const createRoom = (formData) => API.post("/api/rooms", formData);
+export const deleteSingleRoom = (id) => API.delete(`/api/rooms/${id}`);
 export const updateSingleRoom = (id, formData) =>
   API.put(`/api/rooms/${id}`, formData);
-export const singleRoomDetails = id => API.get(`/api/rooms/${id}`);
+export const singleRoomDetails = (id) => API.get(`/api/rooms/${id}`);
