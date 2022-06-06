@@ -3,7 +3,7 @@ import HomePageForm from "./homePageAdmin/HomePageForm/homePageForm.js";
 import HomePagePost from "./homePageAdmin/homePagePost/slider";
 import { Grow, Grid, Paper } from "@material-ui/core";
 import ClientHomePost from "../Client/homePage/homePost";
-import Drawer from "./homePageAdmin/Drawer/drawer.js";
+import Drawer from "./Drawer/drawer.js";
 
 const AdminPage = () => {
   const user = JSON.parse(localStorage.getItem("profile"));

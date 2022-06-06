@@ -42,7 +42,8 @@ const AdminRoomScreen = () => {
   const roomDelete = useSelector((state) => state.roomDelete);
   const { success: successDelete } = roomDelete;
 
-  const updateFormData = rooms.filter((haha) => haha._id === currentId)[0];
+
+  const updateFormData = rooms.filter((room) => room._id === currentId)[0];
   useEffect(() => {
     if (updateFormData) {
       setFormData(updateFormData);
@@ -86,6 +87,13 @@ const AdminRoomScreen = () => {
       }
     );
   };
+
+  useEffect(() => {
+    if (successCreate) {
+      navigate("/room");
+    }
+    dispatch(listRooms());
+  }, [dispatch, navigate, successCreate]);
 
   const onChange = (e) => {
     setFormData({

@@ -25,7 +25,7 @@ export default (state = { isLoading: true, foodPageData: [] }, action) => {
             return { ...state, foodPageData: state.foodPageData.map((foodData) => (foodData._id === action.payload.updateFoodPage._id ? action.payload.updateFoodPage : foodData)) };
         case DELETE_FOODPAGE:
             return { ...state, foodPageData: state.foodPageData?.filter((foodPage) => foodPage._id !== action.payload) }
-         default:
+        default:
             return state;
     }
 }

@@ -39,6 +39,7 @@ export const UPDATE_HOMEPAGE = "UPDATE_HOMEPAGE";
 export const END_HOMEPAGE = "END_HOMEPAGE";
 export const DELETE_HOMEPAGE = "DELETE_HOMEPAGE";
 
+
 // foodPage
 export const FETCH_FOODPAGE = "FETCH_FOODPAGE";
 export const CREATE_FOODPAGE = "CREATE_FOODPAGE";
