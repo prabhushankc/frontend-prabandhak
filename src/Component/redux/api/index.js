@@ -33,3 +33,10 @@ export const createRoom = formData => API.post("/api/rooms", formData);
 export const updateSingleRoom = (id, formData) =>
   API.put(`/api/rooms/${id}`, formData);
 export const singleRoomDetails = id => API.get(`/api/rooms/${id}`);
+export const bookRoom = (formData, id) =>
+  API.post(`/api/book/room/${id}`, formData);
+export const allBookedRooms = () => API.get("/api/book/room");
+
+// Contact Us Page
+export const contactUs = formData => API.post("/api/contact/us", formData);
+export const listContactUs = () => API.get("/api/contact/us");

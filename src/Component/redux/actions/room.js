@@ -67,7 +67,7 @@ export const updateRoom = (id, formData) => async dispatch => {
     dispatch({ type: ROOM_UPDATE_REQUEST });
 
     const { data } = await api.updateSingleRoom(id, formData);
-    dispatch({ type: ROOM_UPDATE_SUCCESS });
+    dispatch({ type: ROOM_UPDATE_SUCCESS, payload: id });
     dispatch({ type: ROOM_DETAILS_SUCCESS, payload: data });
   } catch (err) {
     dispatch({

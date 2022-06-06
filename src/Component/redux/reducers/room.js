@@ -94,6 +94,8 @@ function roomUpdate(state = initialState, action) {
         rooms: state.rooms.map(roomData =>
           roomData._id === payload._id ? payload : roomData
         ),
+        success: true,
+        loading: false,
       };
     }
     case ROOM_UPDATE_FAIL: {

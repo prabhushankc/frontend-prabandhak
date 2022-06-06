@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { CardMedia } from "@material-ui/core";
 

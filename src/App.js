@@ -5,8 +5,11 @@ import Auth from "./Component/Admin/Auth/Auth";
 import UserDetail from "./Component/Client/UserDetail/userProfile";
 import HomePageForm from "./Component/Admin/Admin.js";
 import AdminRoomScreen from "./Component/Admin/AdminScreens/Rooms/AdminRoomScreen";
-import AdminRoomEdit from "./Component/Admin/AdminScreens/Rooms/AdminRoomEdit";
+import RoomBook from "./Component/Client/ClientScreens/Rooms/RoomBook";
+import RoomBookedList from "./Component/Admin/AdminScreens/Rooms/RoomBookedList";
 import "./bootstrap.min.css";
+import ContactUs from "./Component/Client/ClientScreens/ContactUs/ContactUs";
+import ContactUsListScreen from "./Component/Admin/AdminScreens/ContactUs/ContactList";
 
 const App = () => {
   return (
@@ -26,7 +29,10 @@ const App = () => {
             <Route path="/auth" exact element={<Auth />} />
             <Route path="/profile" element={<UserDetail />} />
             <Route path="/room" element={<AdminRoomScreen />} />
-            <Route path="/room/edit/:id" element={<AdminRoomEdit />} />
+            <Route path={`/:id/book/room`} element={<RoomBook />} />
+            <Route path="/list/book/room" element={<RoomBookedList />} />
+            <Route path="/contact/us" element={<ContactUs />} />
+            <Route path="/list/contact/us" element={<ContactUsListScreen />} />
           </Routes>
         </Container>
       </React.StrictMode>

@@ -3,17 +3,17 @@ import FormContainer from "./FormContainer";
 import { useSelector, useDispatch } from "react-redux";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router";
-import AdminHeader from "./AdminHeader";
+import Header from "../../../Header/Header";
 import RoomDetail from "./RoomDetails";
 import { createRoom, listRooms, updateRoom } from "../../../redux/actions/room";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebase";
 import { TextField, Typography } from "@material-ui/core";
 import Message from "../../../Message/Message";
+import ClientRoomScreen from "../../../Client/ClientScreens/Rooms/ClientRoomScreen";
 
 const AdminRoomScreen = () => {
   const [currentId, setCurrentId] = useState(null);
-  console.log(currentId, "haha");
 
   const [formData, setFormData] = useState({
     title: "",
@@ -32,14 +32,16 @@ const AdminRoomScreen = () => {
   const roomList = useSelector(state => state.roomList);
   const { success, rooms } = roomList;
 
-  const updateFormData = rooms.filter(haha => haha._id === currentId)[0];
+  const roomUpdate = useSelector(state => state.roomUpdate);
+  const { success: successUpdate } = roomUpdate;
+
+  const updateFormData = rooms.filter(room => room._id === currentId)[0];
   useEffect(() => {
     if (updateFormData) {
       setFormData(updateFormData);
       setimageUrl(updateFormData.image);
     }
   }, [updateFormData]);
-  console.log(formData, "hahaha");
 
   const { title, details, standard, price, capacity, condition, noofbeds } =
     formData;
@@ -49,8 +51,8 @@ const AdminRoomScreen = () => {
 
   const upload = () => {
     if (!imageData.image) return;
-    const sotrageRef = ref(storage, `files/${imageData.image.name}`);
-    const uploadTask = uploadBytesResumable(sotrageRef, imageData.image);
+    const storageRef = ref(storage, `files/${imageData.image.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, imageData.image);
 
     uploadTask.on(
       "state_changed",
@@ -91,20 +93,28 @@ const AdminRoomScreen = () => {
     e.preventDefault();
     if (currentId) {
       dispatch(updateRoom(currentId, { ...formData, image: imageUrl }));
+    } else {
+      dispatch(createRoom({ ...formData, image: imageUrl }));
     }
-    dispatch(createRoom({ ...formData, image: imageUrl }));
   };
 
   useEffect(() => {
-    if (successCreate) {
-      navigate("/room");
-    }
+    // if (successCreate) {
+    //   dispatch(listRooms());
+    //   // navigate("/room");
+    // }
+
     dispatch(listRooms());
-  }, [dispatch, navigate, successCreate]);
+  }, [dispatch, successCreate, successUpdate]);
+
+  const userRole = JSON.parse(localStorage.getItem("profile"));
+  if (!userRole.result.role) {
+    return <ClientRoomScreen />;
+  }
 
   return (
     <>
-      <AdminHeader />
+      <Header />
       {errorCreate && <Message variant="danger">{errorCreate}</Message>}
       <FormContainer>
         <h1 className="py-3 text-center">Room Details</h1>
