@@ -1,18 +1,10 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { CardMedia } from "@material-ui/core";
-import { deleteRoom } from "../../../redux/actions/room";
 
 const RoomDetail = ({ rooms, setCurrentId }) => {
-  const dispatch = useDispatch();
-  const deleteHandler = (id) => {
-    if (window.confirm("Are you sure you want to delete room?")) {
-      dispatch(deleteRoom(id));
-    }
-  };
   return (
     <>
       <div className="room-details my-4">
@@ -38,7 +30,7 @@ const RoomDetail = ({ rooms, setCurrentId }) => {
           <Button
             variant="primary"
             className="py-2 m-2"
-            onClick={(e) => {
+            onClick={e => {
               e.stopPropagation();
               setCurrentId(rooms?._id);
             }}
@@ -47,11 +39,7 @@ const RoomDetail = ({ rooms, setCurrentId }) => {
           </Button>
           {/* </LinkContainer> */}
 
-          <Button
-            variant="primary"
-            className="py-2 m-2"
-            onClick={() => deleteHandler(rooms._id)}
-          >
+          <Button variant="primary" className="py-2 m-2">
             <i className="fas fa-trash fa-anup"></i>
           </Button>
         </div>

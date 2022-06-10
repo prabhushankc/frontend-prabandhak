@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useTheme } from '@mui/material/styles';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { fetchHomePage } from '../../../redux/actions/homePage';
@@ -18,6 +19,7 @@ function Slider() {
     }
   }, [dispatch]);
   const theme = useTheme();
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
   // find width of device screen
   const width = window.innerWidth;
@@ -67,10 +69,18 @@ function Slider() {
                 ) : null}
                 <Typography className={classes.title} variant="h5" component="h2">{step.title}</Typography>
                 <Typography className={classes.detail} variant="body2" component="p">{step.detail}</Typography>
-                <Button variant="contained" className={classes.button}>
+                <Button variant="contained" className={classes.button} onClick={
+                  () => {
+                    navigate('/food');
+                  }
+                } >
                   Book Room
                 </Button>
-                <Button variant="contained" className={classes.button2}>
+                <Button variant="contained" className={classes.button2} onClick={
+                  () => {
+                    navigate('/food');
+                  }
+                } >
                   Order Food
                 </Button>
               </div>

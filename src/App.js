@@ -7,10 +7,10 @@ import HomePageForm from "./Component/Admin/Admin.js";
 import AdminRoomScreen from "./Component/Admin/AdminScreens/Rooms/AdminRoomScreen";
 import AdminRoomEdit from "./Component/Admin/AdminScreens/Rooms/AdminRoomEdit";
 import "./bootstrap.min.css";
-import FoodPage from "./Component/Admin/foodPageAdmin/foodAdmin";
 import AddToCart from './Component/Client/UserDetail/addToCart/addToCart';
-
+import FoodPage from './Component/Admin/foodPageAdmin/foodAdmin';
 const App = () => {
+  const user = JSON.parse(localStorage.getItem('profile'));
   return (
     <BrowserRouter>
       <React.StrictMode>
@@ -28,7 +28,9 @@ const App = () => {
             <Route path="/" exact element={<Navigate to="/home" />} />
             <Route path="/auth" exact element={<Auth />} />
             <Route path="/profile" element={<UserDetail />} />
+            {!user?.result?.role ? <Route path="/cart" element={<AddToCart />} /> : <Route path="/payment" element={<AddToCart />} />}
             <Route path="/room" element={<AdminRoomScreen />} />
+            <Route path="/room/edit/:id" element={<AdminRoomEdit />} />
             <Route path="/cart" element={<AddToCart />} />
           </Routes>
         </Container>

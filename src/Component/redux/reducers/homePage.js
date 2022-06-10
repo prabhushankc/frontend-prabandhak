@@ -1,12 +1,4 @@
-import {
-  FETCH_HOMEPAGE,
-  CREATE_HOMEPAGE,
-  START_HOMEPAGE,
-  UPDATE_HOMEPAGE,
-  END_HOMEPAGE,
-  DELETE_HOMEPAGE,
-} from "../constants/actionTypes";
-
+import { FETCH_HOMEPAGE, CREATE_HOMEPAGE, START_HOMEPAGE, END_HOMEPAGE, DELETE_HOMEPAGE, UPDATE_HOMEPAGE } from "../constants/actionTypes";
 export default (state = { isLoading: true, homePageData: [] }, action) => {
     switch (action.type) {
         case START_HOMEPAGE:
