@@ -88,8 +88,8 @@ export const addCart = (cart, formData) => async () => {
 }
 export const aCart = (cart) => async () => {
     try {
-        const { data: { message } } = await api.addCart(cart);
-        // NotifySuccess(message);
+        await api.addCart(cart);
+        NotifySuccess('Cart Updated');
     } catch (error) {
         if (error.response.status >= 400 && error.response.status <= 500) {
             NotifyError(error.response.data.message);

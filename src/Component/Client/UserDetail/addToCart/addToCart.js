@@ -2,17 +2,22 @@ import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { singleUser, aCart } from '../../../redux/actions/Auth';
-import useStyles from './addToCartStyle';
-import { Typography, CardMedia, Button, Avatar, Grid, Paper } from '@material-ui/core';
+import { Typography, CardMedia, Button, TextField, Grid, Paper } from '@material-ui/core';
 import Add from '@mui/icons-material/Add';
 import Remove from '@mui/icons-material/Remove';
 import Delete from '@mui/icons-material/Delete';
+import KhaltiPay from '../../khaltiIntegration/khalti';
 import { DataGrid } from '@mui/x-data-grid';
+import { useNavigate } from 'react-router-dom';
+import AdminCartPage from '../../../Admin/CartAdmin/SeeCartDetail';
 function AddToCart() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { AsingleUser } = useSelector((state) => state.Auth);
     const [disable, setdisable] = React.useState(false);
+    const [placeOrder, setplaceOrder] = React.useState(false);
     const user = JSON.parse(localStorage.getItem('profile'));
+
     useEffect(() => {
         return () => {
             dispatch(singleUser(user?.result?._id));
@@ -48,13 +53,11 @@ function AddToCart() {
             addToCart(AsingleUser.cart)
         }
     }
-
-    const classes = useStyles();
     const rows = AsingleUser?.cart?.map((cartData, index) => {
         return {
             id: index + 1,
+            title: cartData?.title,
             Image: cartData?.selectedFile,
-            Price: cartData?.price,
             Add: cartData?._id,
             Quantity: cartData?.quantity,
             Remove: cartData?._id,
@@ -64,10 +67,9 @@ function AddToCart() {
     });
     const columns = [
         {
-            field: 'id',
-            headerName: 'ID',
-            minWidth: 120,
-            editable: true,
+            field: 'title',
+            headerName: 'Title',
+            minWidth: 140,
             sortable: true,
             filter: true,
             renderCell: (params) =>
@@ -80,33 +82,28 @@ function AddToCart() {
         {
             field: 'Image',
             headerName: 'Image',
-            width: 120,
-            editable: true,
+            width: 140,
             renderCell: (params) =>
-                <Avatar
+                <CardMedia
+                    component="img"
+                    alt="Contemplative Reptile"
+                    height="140"
+                    image={params.value}
+                    title="Contemplative Reptile"
                     style={{
-                        margin: 'auto',
+                        width: "95%",
+                        height: "70%",
+                        margin: "auto",
+                        borderRadius: "20px",
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
                     }}
-                >
-                    <CardMedia
-                        style={{ backgroundImage: `url(${params.value})`, width: '100%', height: '100%', margin: 'auto' }}
-                    /></Avatar>
-        },
-        {
-            field: 'Price',
-            headerName: 'Price',
-            width: 150,
-            editable: true,
-            renderCell: (params) =>
-                <Typography variant="body2" color="textSecondary" component="p" style={{ margin: 'auto' }}>
-                    Rs.{params.value}
-                </Typography>
+                />
         },
         {
             field: 'Add',
             headerName: 'Add',
             width: 110,
-            editable: true,
             renderCell: (params) =>
                 <Button
                     onClick={() => {
@@ -116,8 +113,7 @@ function AddToCart() {
                         }, 3000);
                         increment(params.value)
                     }}
-                    style={{ backgroundColor: '#595775', textAlign: 'center', color: 'white', padding: '2px' }
-                    }
+                    style={{ backgroundColor: '#595775', textAlign: 'center', color: 'white', padding: '2px', margin: 'auto' }}
                     disabled={disable}
                 >
                     <Add />
@@ -126,8 +122,7 @@ function AddToCart() {
         {
             field: 'Quantity',
             headerName: 'Quantity',
-            width: 150,
-            editable: true,
+            width: 110,
             renderCell: (params) =>
                 <Typography variant="body2" color="textSecondary" component="p" style={{
                     margin: "auto",
@@ -139,7 +134,6 @@ function AddToCart() {
             field: 'Remove',
             headerName: 'Remove',
             width: 110,
-            editable: true,
             renderCell: (params) =>
                 <Button
                     onClick={() => {
@@ -149,7 +143,7 @@ function AddToCart() {
                         }, 3000);
                         decrement(params.value)
                     }}
-                    style={{ backgroundColor: '#a4978E', textAlign: 'center', color: '#fff', padding: '2px', margin: 'auto', }}
+                    style={{ backgroundColor: '#a7414a', textAlign: 'center', color: 'white', padding: '2px', margin: 'auto' }}
                 >
                     <Remove />
                 </Button>
@@ -157,20 +151,18 @@ function AddToCart() {
         {
             field: 'Total',
             headerName: 'Total',
-            width: 120,
-            editable: true,
+            width: 125,
             renderCell: (params) =>
                 <Typography variant="body2" color="textSecondary" component="p" style={{
-                    margin: "auto",
+                    padding: "0px 12px",
                 }}>
-                    {params.value}
+                    Rs.{params.value}/
                 </Typography>
         },
         {
             field: 'Delete',
             headerName: 'Delete',
-            width: 80,
-            editable: true,
+            width: 110,
             renderCell: (params) =>
                 <Button
                     onClick={() => {
@@ -181,12 +173,17 @@ function AddToCart() {
                         removeProduct(params.value)
                     }}
                 ><Delete style={{
-                    color: '#fff',
+                    color: '#a7414a',
                 }} /></Button>
 
         }
 
     ];
+    if (user?.result?.role) {
+        return (
+            <AdminCartPage />
+        )
+    }
     return (
         AsingleUser?.cart?.length > 0 ?
             <>
@@ -196,57 +193,200 @@ function AddToCart() {
                     width: '100%',
                     height: '100%',
                 }} spacing={0}>
-                    <Grid item xs={9} sm={9} md={9}>
-                        <Paper style={{
-                            padding: '10px',
-                            margin: '0px',
+                    <Grid item xs={12} sm={8} md={8}>
+                        <div style={{
+                            padding: '5px 5px',
                             backgroundColor: '#f5f5f5',
-                            borderRadius: '0px',
+                            height: '100vh'
                         }} >
-                            <Paper style={{ height: '100vh', width: '100%', margin: '0px', textAlign: 'center' }}>
-                                <DataGrid
-                                    rows={rows}
-                                    columns={columns}
-                                    pageSize={10}
-                                    rowsPerPageOptions={[10]}
-                                    style={{
-                                        height: '100%',
-                                        width: '100%',
-                                        textAlign: 'center',
-                                        backgroundColor: '#fff',
-                                    }}
-                                    disableSelectionOnClick
-                                />
-                            </Paper>
-                        </Paper>
+                            <DataGrid
+                                rows={rows}
+                                columns={columns}
+                                // autoHeight={true}
+                                rowHeight={140}
+                                headerHeight={60}
+                                pageSize={5}
+                                rowsPerPageOptions={[5, 10, 20, 50]}
+                                checkboxSelection
+                                sx={{
+                                    "& .MuiDataGrid-columnHeaderTitle": {
+                                        color: "black",
+                                        fontSize: 16,
+                                        letterSpacing: '1px',
+                                        fontWeight: 'bold',
+                                        padding: "0px 20px",
+                                    },
+                                    "& .MuiDataGrid-virtualScrollerRenderZone": {
+                                        "& .MuiDataGrid-row": {
+                                            "&:nth-of-type(2n)": { backgroundColor: "rgba(235, 235, 235, .7)" }
+                                        }
+                                    }
+                                }}
+                                style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    padding: '10px',
+                                    margin: 'auto',
+                                    borderRadius: '6px',
+                                    backgroundColor: 'white',
+                                }}
+                            // disableSelectionOnClick
+                            />
+                        </div>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3}>
-                        <div style={{ backgroundColor: 'lightgray', height: '100vh' }}>
-                            <Typography variant="h6" style={{
-                                padding: '100px',
-                                margin: '0px',
-                            }}
-                            >
-                                Total: Rs.{AsingleUser?.cart?.reduce((acc, curr) => {
-                                    return acc + curr?.price * curr?.quantity
-                                }, 0)}
-                            </Typography>
+                    <Grid item xs={12} sm={4} md={4}>
+                        <div style={{ backgroundColor: '#f5f5f5', padding: '5px 5px', height: '100%' }}>
+                            <Paper style={{
+                                margin: 'auto',
+                                height: '100%',
+                                textAlign: 'center',
+                            }} >
+                                <Typography variant="h6" style={{
+                                    paddingTop: '40px',
+                                    fontWeight: 'bold',
+                                }}
+                                >
+                                    Order Summary
+                                </Typography>
+                                <Typography variant="h6" style={{
+                                    paddingTop: '20px',
+                                }}
+                                >
+                                    Total Items: {AsingleUser?.cart?.length}
+                                </Typography>
+                                <form autoComplete="off"
+                                    style={placeOrder ? {
+                                        display: 'none'
+                                    } : { paddingTop: '20px' }}
+                                >
+                                    <TextField
+                                        id="outlined-basic"
+                                        label="Name"
+                                        variant="outlined"
+                                        style={{
+                                            width: '90%',
+                                            margin: '10px auto',
+                                        }}
+                                        value={AsingleUser?.name}
+                                        disabled
+                                    />
+                                    <TextField
+                                        id="outlined-basic"
+                                        label="Email"
+                                        variant="outlined"
+                                        style={{
+                                            width: '90%',
+                                            margin: '10px auto',
+                                        }}
+                                        value={AsingleUser?.email}
+                                        disabled
+                                    />
+                                    <TextField
+
+                                        id="outlined-basic"
+                                        label="Number"
+                                        variant="outlined"
+                                        style={{
+                                            width: '90%',
+                                            margin: '10px auto',
+                                        }}
+                                        value={AsingleUser?.number}
+                                        disabled
+                                    />
+                                    <TextField
+                                        id="outlined-basic"
+                                        label="Address"
+                                        variant="outlined"
+                                        style={{
+                                            width: '90%',
+                                            margin: '10px auto',
+                                        }}
+                                        value={AsingleUser?.address}
+                                        disabled
+                                    />
+                                    <Button
+                                        style={{
+                                            backgroundColor: '#595775',
+                                            textAlign: 'center',
+                                            color: 'white',
+                                            padding: '2px 20px',
+                                            margin: 'auto 20px',
+                                            display: 'inline-block',
+                                            height: '50px',
+                                            marginTop: '10px',
+                                            fontWeight: 'bold',
+                                        }}
+                                        half='true'
+                                        onClick={() => {
+                                            setplaceOrder(true)
+                                        }}
+                                    >
+                                        Place Order
+                                    </Button>
+                                    <Button
+                                        style={{
+                                            backgroundColor: '#a7414a',
+                                            textAlign: 'center',
+                                            color: 'white',
+                                            padding: '2px 20px',
+                                            margin: 'auto 20px',
+                                            display: 'inline-block',
+                                            height: '50px',
+                                            marginTop: '10px',
+                                            fontWeight: 'bold',
+                                        }}
+                                        half='true'
+                                        onClick={() => {
+                                            navigate('/profile')
+                                        }
+                                        }
+                                    >
+                                        Edit Details
+                                    </Button>
+                                </form>
+                                <Typography variant="h6" style={{
+                                    paddingTop: '20px',
+                                }}
+                                >
+                                    Total: Rs.{AsingleUser?.cart?.reduce((acc, curr) => {
+                                        return acc + curr?.price * curr?.quantity
+                                    }, 0)}
+                                </Typography>
+                                <Button style={{
+                                    backgroundColor: '#595775',
+                                    textAlign: 'center',
+                                    color: 'white',
+                                    margin: 'auto',
+                                    width: '90%',
+                                    height: '50px',
+                                    marginTop: '10px',
+                                    fontWeight: 'bold',
+                                }}
+                                >
+                                    <KhaltiPay cart={AsingleUser.cart} address={AsingleUser.address} />
+                                </Button>
+                            </Paper>
                         </div>
                     </Grid>
                 </Grid>
             </>
             :
-            <div className={classes.emptyCart}>
-                <Typography variant="h5" component="h2">
-                    Your cart is empty
-
-                </Typography>
-                <Typography variant="h5" component="h2">
-                    Please add some food to cart
+            <div style={{
+                padding: '10px',
+                margin: '0px',
+                borderRadius: '0px',
+                backgroundColor: 'lightgray',
+                height: '100vh'
+            }} >
+                <Typography variant="h6" style={{
+                    paddingTop: '50px',
+                    margin: 'auto',
+                    textAlign: 'center',
+                }}
+                >
+                    Your Cart is Empty
                 </Typography>
             </div>
-
-    );
+    )
 }
-
 export default AddToCart;
