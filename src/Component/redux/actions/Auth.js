@@ -48,9 +48,10 @@ export const singleUser = (id) => async (dispatch) => {
 
 export const updateSingleUser = (id, formData) => async (dispatch) => {
     try {
-        const { data: { result, message } } = await api.updateSingleUser(id, formData);
-        dispatch({ type: UPDATE_SINGLE_USER, payload: { updateSingleUser: result } })
-        NotifySuccess(message);
+        const { data } = await api.updateSingleUser(id, formData);
+        dispatch({ type: UPDATE_SINGLE_USER, payload: { updateSingleUser: data } })
+        console.log(data, 'result');
+        NotifySuccess(data.message);
     } catch (error) {
         if (error.response.status >= 400 && error.response.status <= 500) {
             NotifyError(error.response.data.message);

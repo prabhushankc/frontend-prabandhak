@@ -20,7 +20,9 @@ function AddToCart() {
 
     useEffect(() => {
         return () => {
-            dispatch(singleUser(user?.result?._id));
+            if (user) {
+                dispatch(singleUser(user?.result?._id));
+            }
         }
     }, [dispatch]);
     const addToCart = async (cart) => {
@@ -113,7 +115,7 @@ function AddToCart() {
                         }, 3000);
                         increment(params.value)
                     }}
-                    style={{ backgroundColor: '#595775', textAlign: 'center', color: 'white', padding: '2px', margin: 'auto' }}
+                    style={{ backgroundColor: '#595775 ', textAlign: 'center', color: 'white', padding: '2px', margin: 'auto' }}
                     disabled={disable}
                 >
                     <Add />
@@ -187,187 +189,199 @@ function AddToCart() {
     return (
         AsingleUser?.cart?.length > 0 ?
             <>
-                <Grid container justifyContent="space-between" alignItems="stretch" style={{
+                <Grid container style={{
                     padding: '0px',
                     margin: '0px',
                     width: '100%',
                     height: '100%',
-                }} spacing={0}>
-                    <Grid item xs={12} sm={8} md={8}>
-                        <div style={{
-                            padding: '5px 5px',
-                            backgroundColor: '#f5f5f5',
-                            height: '100vh'
-                        }} >
-                            <DataGrid
-                                rows={rows}
-                                columns={columns}
-                                // autoHeight={true}
-                                rowHeight={140}
-                                headerHeight={60}
-                                pageSize={5}
-                                rowsPerPageOptions={[5, 10, 20, 50]}
-                                checkboxSelection
-                                sx={{
-                                    "& .MuiDataGrid-columnHeaderTitle": {
-                                        color: "black",
-                                        fontSize: 16,
-                                        letterSpacing: '1px',
-                                        fontWeight: 'bold',
-                                        padding: "0px 20px",
-                                    },
-                                    "& .MuiDataGrid-virtualScrollerRenderZone": {
-                                        "& .MuiDataGrid-row": {
-                                            "&:nth-of-type(2n)": { backgroundColor: "rgba(235, 235, 235, .7)" }
-                                        }
-                                    }
-                                }}
-                                style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    padding: '10px',
-                                    margin: 'auto',
-                                    borderRadius: '6px',
-                                    backgroundColor: 'white',
-                                }}
-                            // disableSelectionOnClick
-                            />
-                        </div>
-                    </Grid>
-                    <Grid item xs={12} sm={4} md={4}>
-                        <div style={{ backgroundColor: '#f5f5f5', padding: '5px 5px', height: '100%' }}>
-                            <Paper style={{
-                                margin: 'auto',
-                                height: '100%',
-                                textAlign: 'center',
-                            }} >
-                                <Typography variant="h6" style={{
-                                    paddingTop: '40px',
-                                    fontWeight: 'bold',
-                                }}
-                                >
-                                    Order Summary
-                                </Typography>
-                                <Typography variant="h6" style={{
-                                    paddingTop: '20px',
-                                }}
-                                >
-                                    Total Items: {AsingleUser?.cart?.length}
-                                </Typography>
-                                <form autoComplete="off"
-                                    style={placeOrder ? {
-                                        display: 'none'
-                                    } : { paddingTop: '20px' }}
-                                >
-                                    <TextField
-                                        id="outlined-basic"
-                                        label="Name"
-                                        variant="outlined"
-                                        style={{
-                                            width: '90%',
-                                            margin: '10px auto',
+                }}>
+                    <div style={{
+                        backgroundImage: 'url(/prabandhak.png)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                        height: '100%',
+                        width: '100%',
+                    }} >
+                        <Grid container justifyContent="space-between" alignItems="stretch" spacing={0} style={{
+                            marginTop: '70px',
+                        }}>
+                            <Grid item xs={12} sm={8} md={8}>
+                                <div style={{
+                                    padding: '5px 5px',
+                                    height: '100vh'
+                                }} >
+                                    <DataGrid
+                                        rows={rows}
+                                        columns={columns}
+                                        // autoHeight={true}
+                                        rowHeight={140}
+                                        headerHeight={60}
+                                        pageSize={5}
+                                        rowsPerPageOptions={[5, 10, 20, 50]}
+                                        checkboxSelection
+                                        sx={{
+                                            "& .MuiDataGrid-columnHeaderTitle": {
+                                                color: "black",
+                                                fontSize: 16,
+                                                letterSpacing: '1px',
+                                                fontWeight: 'bold',
+                                                padding: "0px 20px",
+                                            },
+                                            "& .MuiDataGrid-virtualScrollerRenderZone": {
+                                                "& .MuiDataGrid-row": {
+                                                    "&:nth-of-type(2n)": { backgroundColor: "rgba(235, 235, 235, .7)" }
+                                                }
+                                            }
                                         }}
-                                        value={AsingleUser?.name}
-                                        disabled
-                                    />
-                                    <TextField
-                                        id="outlined-basic"
-                                        label="Email"
-                                        variant="outlined"
                                         style={{
-                                            width: '90%',
-                                            margin: '10px auto',
+                                            width: '100%',
+                                            height: '100%',
+                                            padding: '10px',
+                                            margin: 'auto',
+                                            borderRadius: '6px',
+                                            backgroundColor: 'white',
                                         }}
-                                        value={AsingleUser?.email}
-                                        disabled
+                                    // disableSelectionOnClick
                                     />
-                                    <TextField
+                                </div>
+                            </Grid>
+                            <Grid item xs={12} sm={4} md={4}>
+                                <div style={{ padding: '5px 5px', height: '100%' }}>
+                                    <Paper style={{
+                                        margin: 'auto',
+                                        height: '100%',
+                                        textAlign: 'center',
+                                    }} >
+                                        <Typography variant="h6" style={{
+                                            paddingTop: '40px',
+                                            fontWeight: 'bold',
+                                        }}
+                                        >
+                                            Order Summary
+                                        </Typography>
+                                        <Typography variant="h6" style={{
+                                            paddingTop: '20px',
+                                        }}
+                                        >
+                                            Total Items: {AsingleUser?.cart?.length}
+                                        </Typography>
+                                        <form autoComplete="off"
+                                            style={placeOrder ? {
+                                                display: 'none'
+                                            } : { paddingTop: '20px' }}
+                                        >
+                                            <TextField
+                                                id="outlined-basic"
+                                                label="Name"
+                                                variant="outlined"
+                                                style={{
+                                                    width: '90%',
+                                                    margin: '10px auto',
+                                                }}
+                                                value={AsingleUser?.name}
+                                                disabled
+                                            />
+                                            <TextField
+                                                id="outlined-basic"
+                                                label="Email"
+                                                variant="outlined"
+                                                style={{
+                                                    width: '90%',
+                                                    margin: '10px auto',
+                                                }}
+                                                value={AsingleUser?.email}
+                                                disabled
+                                            />
+                                            <TextField
 
-                                        id="outlined-basic"
-                                        label="Number"
-                                        variant="outlined"
-                                        style={{
-                                            width: '90%',
-                                            margin: '10px auto',
+                                                id="outlined-basic"
+                                                label="Number"
+                                                variant="outlined"
+                                                style={{
+                                                    width: '90%',
+                                                    margin: '10px auto',
+                                                }}
+                                                value={AsingleUser?.number}
+                                                disabled
+                                            />
+                                            <TextField
+                                                id="outlined-basic"
+                                                label="Address"
+                                                variant="outlined"
+                                                style={{
+                                                    width: '90%',
+                                                    margin: '10px auto',
+                                                }}
+                                                value={AsingleUser?.address}
+                                                disabled
+                                            />
+                                            <Button
+                                                style={{
+                                                    backgroundColor: '#595775 ',
+                                                    textAlign: 'center',
+                                                    color: 'white',
+                                                    padding: '2px 20px',
+                                                    margin: 'auto 20px',
+                                                    display: 'inline-block',
+                                                    height: '50px',
+                                                    marginTop: '10px',
+                                                    fontWeight: 'bold',
+                                                }}
+                                                half='true'
+                                                onClick={() => {
+                                                    setplaceOrder(true)
+                                                }}
+                                            >
+                                                Place Order
+                                            </Button>
+                                            <Button
+                                                style={{
+                                                    backgroundColor: '#a7414a',
+                                                    textAlign: 'center',
+                                                    color: 'white',
+                                                    padding: '2px 20px',
+                                                    margin: 'auto 20px',
+                                                    display: 'inline-block',
+                                                    height: '50px',
+                                                    marginTop: '10px',
+                                                    fontWeight: 'bold',
+                                                }}
+                                                half='true'
+                                                onClick={() => {
+                                                    navigate('/profile')
+                                                }
+                                                }
+                                            >
+                                                Edit Details
+                                            </Button>
+                                        </form>
+                                        <Typography variant="h6" style={{
+                                            paddingTop: '20px',
                                         }}
-                                        value={AsingleUser?.number}
-                                        disabled
-                                    />
-                                    <TextField
-                                        id="outlined-basic"
-                                        label="Address"
-                                        variant="outlined"
-                                        style={{
-                                            width: '90%',
-                                            margin: '10px auto',
-                                        }}
-                                        value={AsingleUser?.address}
-                                        disabled
-                                    />
-                                    <Button
-                                        style={{
-                                            backgroundColor: '#595775',
+                                        >
+                                            Total: Rs.{AsingleUser?.cart?.reduce((acc, curr) => {
+                                                return acc + curr?.price * curr?.quantity
+                                            }, 0)}
+                                        </Typography>
+                                        <Button style={{
+                                            backgroundColor: '#595775 ',
                                             textAlign: 'center',
                                             color: 'white',
-                                            padding: '2px 20px',
-                                            margin: 'auto 20px',
-                                            display: 'inline-block',
+                                            margin: 'auto',
+                                            width: '90%',
                                             height: '50px',
                                             marginTop: '10px',
                                             fontWeight: 'bold',
                                         }}
-                                        half='true'
-                                        onClick={() => {
-                                            setplaceOrder(true)
-                                        }}
-                                    >
-                                        Place Order
-                                    </Button>
-                                    <Button
-                                        style={{
-                                            backgroundColor: '#a7414a',
-                                            textAlign: 'center',
-                                            color: 'white',
-                                            padding: '2px 20px',
-                                            margin: 'auto 20px',
-                                            display: 'inline-block',
-                                            height: '50px',
-                                            marginTop: '10px',
-                                            fontWeight: 'bold',
-                                        }}
-                                        half='true'
-                                        onClick={() => {
-                                            navigate('/profile')
-                                        }
-                                        }
-                                    >
-                                        Edit Details
-                                    </Button>
-                                </form>
-                                <Typography variant="h6" style={{
-                                    paddingTop: '20px',
-                                }}
-                                >
-                                    Total: Rs.{AsingleUser?.cart?.reduce((acc, curr) => {
-                                        return acc + curr?.price * curr?.quantity
-                                    }, 0)}
-                                </Typography>
-                                <Button style={{
-                                    backgroundColor: '#595775',
-                                    textAlign: 'center',
-                                    color: 'white',
-                                    margin: 'auto',
-                                    width: '90%',
-                                    height: '50px',
-                                    marginTop: '10px',
-                                    fontWeight: 'bold',
-                                }}
-                                >
-                                    <KhaltiPay cart={AsingleUser.cart} address={AsingleUser.address} />
-                                </Button>
-                            </Paper>
-                        </div>
-                    </Grid>
+                                        >
+                                            <KhaltiPay cart={AsingleUser.cart} address={AsingleUser.address} />
+                                        </Button>
+                                    </Paper>
+                                </div>
+                            </Grid>
+                        </Grid>
+                    </div>
                 </Grid>
             </>
             :
@@ -375,16 +389,27 @@ function AddToCart() {
                 padding: '10px',
                 margin: '0px',
                 borderRadius: '0px',
-                backgroundColor: 'lightgray',
-                height: '100vh'
+                backgroundImage: 'url(/prabandhak.png)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                width: '100%',
+                height: '100vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
             }} >
+
                 <Typography variant="h6" style={{
                     paddingTop: '50px',
                     margin: 'auto',
                     textAlign: 'center',
+                    color: 'white',
+                    fontWeight: 'bold',
+                    letterSpacing: '2px',
                 }}
                 >
-                    Your Cart is Empty
+                    {user ? 'Your Cart is Empty' : 'Create an Account to Order'}
                 </Typography>
             </div>
     )

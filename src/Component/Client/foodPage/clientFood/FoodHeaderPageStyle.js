@@ -70,5 +70,44 @@ export default makeStyles((theme) => ({
             letterSpacing: '2px',
         }
     },
+    // showing 1-4 of 4 items
+    foodResult: {
+        padding: '15px 20px',
+        color: '#595775 ',
+        fontSize: '20px',
+        fontWeight: 'bold',
+        letterSpacing: '1px',
+        marginTop: '10px',
+        [theme.breakpoints.down('md')]: {
+            fontSize: '16px',
+            padding: '25px 0px 15px 0px',
+            width: '100%',
+            textAlign: 'center',
+        }
+    },
+    search: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        [theme.breakpoints.down('xs')]: {
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+        }
+    },
+    textFieldSearch: {
+        padding: '12px 0 0 0',
+        width: '700px',
+        [theme.breakpoints.down('sm')]: {
+            width: '250px',
+        },
+        [theme.breakpoints.down('xs')]: {
+            width: '290px',
+        }
+    },
+    formControl: {
+        minWidth: 170,
+        margin: '0 20px',
+    }
 }));
 

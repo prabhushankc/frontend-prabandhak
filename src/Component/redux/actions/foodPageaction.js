@@ -1,19 +1,34 @@
 import * as api from '../api';
-import { FETCH_FOODPAGE, CREATE_FOODPAGE, START_FOODPAGE, END_FOODPAGE, DELETE_FOODPAGE, UPDATE_FOODPAGE } from '../constants/actionTypes';
+import { FETCH_FOODPAGE, CREATE_FOODPAGE, START_FOODPAGE, END_FOODPAGE, DELETE_FOODPAGE, UPDATE_FOODPAGE, FETCH_FOOD_BY_SEARCH } from '../constants/actionTypes';
 import { NotifyError, NotifySuccess } from './notify';
 
-export const fetchFoodPage = () => async (dispatch) => {
+export const fetchFoodPage = (foodquery) => async (dispatch) => {
     try {
         dispatch({ type: START_FOODPAGE });
-        const { data } = await api.getFoodPage();
-        dispatch({ type: FETCH_FOODPAGE, payload: { foodPage: data.foodPageData } });
+        const { data: { foodPageData, currentPage, totalFoodPage } } = await api.getFoodPage(foodquery);
+        dispatch({ type: FETCH_FOODPAGE, payload: { foodPage: foodPageData, currentPage, totalFoodPage } });
         dispatch({ type: END_FOODPAGE });
     } catch (error) {
+        console.log(error, 'error');
         if (error.response.status >= 400 && error.response.status <= 500) {
+            console.log(error.response.data.message);
             NotifyError(error.response.data.message);
         } else {
             NotifyError(error.message);
         }
+    }
+}
+export const getFoodBySearch = ({ search, tags }) => async (dispatch) => {
+    try {
+        console.log(search, 'searchFoods');
+        dispatch({ type: START_FOODPAGE });
+        const { data: { foodSearchData, message } } = await api.getFoodBySearch({ search, tags });
+        NotifySuccess(message);
+        dispatch({ type: FETCH_FOOD_BY_SEARCH, payload: { foodPage: foodSearchData } });
+        dispatch({ type: END_FOODPAGE });
+
+    } catch (error) {
+        console.log(error);
     }
 }
 

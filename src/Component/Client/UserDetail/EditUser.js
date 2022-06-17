@@ -3,7 +3,7 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import { makeStyles } from "@material-ui/core/styles";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { updateSingleUser } from '../../redux/actions/Auth';
 import { Button, Typography, TextField } from '@material-ui/core';
 // import Input from '../Admin/Auth/Auth';
@@ -62,8 +62,8 @@ export default function ModalMessage({ openM, setOpenM, aUser }) {
         setFormData(
             {
                 ...formData,
-                firstName: aUser?.name.split(' ')[0],
-                lastName: aUser?.name.split(' ')[1],
+                firstName: aUser?.name?.split(' ')[0],
+                lastName: aUser?.name?.split(' ')[1],
                 email: aUser?.email,
                 address: aUser?.address,
                 number: aUser?.number,
@@ -80,6 +80,7 @@ export default function ModalMessage({ openM, setOpenM, aUser }) {
             (snapshot) => {
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                 setProgress("Upload is " + progress + "% done");
+                // eslint-disable-next-line default-case
                 switch (snapshot.state) {
                     case "paused": // or 'paused'
                         setProgress("Upload is paused");
