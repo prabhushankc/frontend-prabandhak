@@ -12,12 +12,16 @@ import {
 import useStyles from "./clientFoodStyle";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { fetchFoodPage } from "../../../redux/actions/foodPageaction";
 import { addCart, singleUser } from "../../../redux/actions/Auth";
 import { NotifyError } from "../../../redux/actions/notify";
 import FoodHeaderPage from "./FoodHeaderPage";
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import moment from "moment";
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
 const ClientFoodView = () => {
   const dispatch = useDispatch();
@@ -25,9 +29,18 @@ const ClientFoodView = () => {
   const [disable, setdisable] = React.useState(false);
   const { AsingleUser } = useSelector(state => state.Auth);
   const user = JSON.parse(localStorage.getItem("profile"));
+  const query = useQuery();
+  const page = query.get('page');
+  const limit = query.get('limit');
+  const sort = query.get('sort');
+  const foodquery = {
+    page: page ? Number(page) : 1,
+    limit: limit ? Number(limit) : 4,
+    sort: sort ? sort : "createdAt",
+  };
   useEffect(() => {
     return () => {
-      dispatch(fetchFoodPage());
+      dispatch(fetchFoodPage(foodquery));
       if (user) {
         dispatch(singleUser(user?.result._id));
       }
@@ -44,10 +57,9 @@ const ClientFoodView = () => {
         alignItems="stretch"
         spacing={2}
       >
-        {/* reverse foodPage */}
         {foodPageData.slice(0, 4).map((foodData) =>
         (
-          < Grid item xs={12} sm={6} md={4} lg={3} >
+          < Grid item xs={12} sm={6} md={4} lg={3}>
             <Card className={classes.card} key={foodData._id} raised elevation={3}>
               <ButtonBase
                 component="span"
@@ -73,7 +85,7 @@ const ClientFoodView = () => {
                   {foodData.title.split(" ").splice(0, 2).join(" ")}
                 </Typography>
                 <VolumeUpIcon style={{
-                  color: '#595775',
+                  color: '#595775 ',
                   paddingTop: '4px',
                   cursor: 'pointer',
                 }}
@@ -146,9 +158,9 @@ const ClientFoodView = () => {
                     .map((tag) => (
                       <Button
                         style={{
-                          backgroundColor: "#595775",
+                          backgroundColor: "#595775 ",
                           "&:hover": {
-                            backgroundColor: "#595775",
+                            backgroundColor: "#595775 ",
                           },
 
                           borderRadius: "6px",
@@ -176,9 +188,9 @@ const ClientFoodView = () => {
                         setdisable(true);
                         setTimeout(() => {
                           setdisable(false);
-                        }, 2000);
-                        await dispatch(singleUser(user?.result?._id));
+                        }, 4000);
                         await dispatch(addCart(cart, foodData));
+                        await dispatch(singleUser(user?.result?._id));
                       } else {
                         NotifyError("Item Already Added");
                       }
