@@ -5,8 +5,13 @@ import Auth from "./Component/Admin/Auth/Auth";
 import UserDetail from "./Component/Client/UserDetail/userProfile";
 import HomePageForm from "./Component/Admin/Admin.js";
 import AdminRoomScreen from "./Component/Admin/AdminScreens/Rooms/AdminRoomScreen";
-import AdminRoomEdit from "./Component/Admin/AdminScreens/Rooms/AdminRoomEdit";
+import RoomBook from "./Component/Client/ClientScreens/Rooms/RoomBook";
+import RoomBookedList from "./Component/Admin/AdminScreens/Rooms/RoomBookedList";
+import RoomDetails from "./Component/Client/ClientScreens/Rooms/RoomDetails";
 import "./bootstrap.min.css";
+import ContactUs from "./Component/Client/ClientScreens/ContactUs/ContactUs";
+import ContactUsListScreen from "./Component/Admin/AdminScreens/ContactUs/ContactList";
+import BookingListClient from "./Component/Client/ClientScreens/Rooms/BookingListClient";
 
 const App = () => {
   return (
@@ -22,11 +27,18 @@ const App = () => {
         >
           <Routes>
             <Route path="/home" element={<HomePageForm />} />
-            <Route path="/" exact element={<Navigate to="/home" />} />
-            <Route path="/auth" exact element={<Auth />} />
+            <Route path="/" element={<Navigate to="/home" />} />
+            <Route path="/auth" element={<Auth />} />
             <Route path="/profile" element={<UserDetail />} />
             <Route path="/room" element={<AdminRoomScreen />} />
-            <Route path="/room/edit/:id" element={<AdminRoomEdit />} />
+            <Route path="/search/:keyword" element={<AdminRoomScreen />} />
+            <Route path="room?sort" element={<AdminRoomScreen />} />
+            <Route path={`/:id/book/room`} element={<RoomBook />} />
+            <Route path="/list/book/room" element={<RoomBookedList />} />
+            <Route path="/list/myBooking" element={<BookingListClient />} />
+            <Route path="/contact/us" element={<ContactUs />} />
+            <Route path="/list/contact/us" element={<ContactUsListScreen />} />
+            <Route path={`/:id/details/room`} element={<RoomDetails />} />
           </Routes>
         </Container>
       </React.StrictMode>

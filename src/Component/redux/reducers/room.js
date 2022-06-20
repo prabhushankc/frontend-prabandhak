@@ -46,7 +46,7 @@ function roomCreate(state = initialState, action) {
 
   switch (type) {
     case ROOM_CREATE_REQUEST: {
-      return { ...state, loading: true };
+      return { ...state, loading: true, success: false };
     }
     case ROOM_CREATE_SUCCESS: {
       return { ...state, loading: false, success: true, room: payload };
@@ -94,6 +94,8 @@ function roomUpdate(state = initialState, action) {
         rooms: state.rooms.map(roomData =>
           roomData._id === payload._id ? payload : roomData
         ),
+        success: true,
+        loading: false,
       };
     }
     case ROOM_UPDATE_FAIL: {

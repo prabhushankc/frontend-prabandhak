@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { CardMedia } from "@material-ui/core";
 
@@ -17,15 +18,15 @@ const RoomDetail = ({ rooms, setCurrentId }) => {
         />
         <div className="room-details-full">
           <h1 className="room-title">{rooms.title}</h1>
-          <p>{rooms.details}</p>
-          <p className="room-title-beds">
+          <p className="text-black">{rooms.details}</p>
+          <p className="room-title-beds text-black">
             Available {rooms.noofbeds}bed {rooms.capacity}person
           </p>
-          <p className="room-title-category">
+          <p className="room-title-category text-black">
             {rooms.standard} Rs.{rooms.price}/ per night
           </p>
         </div>
-        <div className="room-details-change">
+        <div className="room-details-change text-black">
           {/* <LinkContainer to={`/room/edit/${rooms._id}`} */}
           <Button
             variant="primary"

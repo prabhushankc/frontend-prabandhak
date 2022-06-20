@@ -28,8 +28,17 @@ export const getHomePage = () => API.get(`/homepage`);
 export const createHomePage = formData => API.post(`/homepage`, formData);
 
 // fetch roomPage
-export const getRoomPage = () => API.get(`/api/rooms`);
+// export const getRoomPage = (keyword = "") =>
+//   API.get(`/api/rooms?keyword=${keyword}`);
 export const createRoom = formData => API.post("/api/rooms", formData);
 export const updateSingleRoom = (id, formData) =>
   API.put(`/api/rooms/${id}`, formData);
 export const singleRoomDetails = id => API.get(`/api/rooms/${id}`);
+export const bookRoom = (formData, id) =>
+  API.post(`/api/booked/rooms/${id}`, formData);
+export const allBookedRooms = () => API.get("/api/booked/rooms");
+export const myBookedRooms = () => API.get("/api/booked/rooms/me");
+
+// Contact Us Page
+export const contactUs = formData => API.post("/api/contact/us", formData);
+export const listContactUs = () => API.get("/api/contact/us");

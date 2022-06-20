@@ -2,8 +2,7 @@
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-  color: black;
+  font-family: "Sora", sans-serif;
   font-weight: bold;
 }
 
@@ -23,7 +22,7 @@
 }
 
 .nav-title {
-  color: white;
+  color: #e6e1e1;
   flex: 5;
 }
 
@@ -62,4 +61,8 @@
 
 .fa-anup {
   color: white;
+}
+
+.hawa {
+  background-color: #e7e4e4;
 }
