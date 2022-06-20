@@ -34,13 +34,25 @@ export const deleteFood = (id) => API.delete(`/foodpage/deletefood/${id}`)
 export const updateFoodPage = (id, formData) => API.patch(`/foodpage/${id}`, formData);
 
 // fetch roomPage
-export const getRoomPage = () => API.get(`/api/rooms`);
+// export const getRoomPage = (keyword = "") =>
+//   API.get(`/api/rooms?keyword=${keyword}`);
 export const createRoom = formData => API.post("/api/rooms", formData);
 export const updateSingleRoom = (id, formData) =>
   API.put(`/api/rooms/${id}`, formData);
 export const singleRoomDetails = id => API.get(`/api/rooms/${id}`);
+<<<<<<< HEAD
+export const bookRoom = (formData, id) =>
+  API.post(`/api/booked/rooms/${id}`, formData);
+export const allBookedRooms = () => API.get("/api/booked/rooms");
+export const myBookedRooms = () => API.get("/api/booked/rooms/me");
+
+// Contact Us Page
+export const contactUs = formData => API.post("/api/contact/us", formData);
+export const listContactUs = () => API.get("/api/contact/us");
+=======
 
 // fetch Payment
 export const getPayment = () => API.get(`/payment`);
 export const createPayment = (formData) => API.post(`/payment`, formData);
 
+>>>>>>> 08e8eb8b5309c0e4c25a58672088a12d39ff45b1

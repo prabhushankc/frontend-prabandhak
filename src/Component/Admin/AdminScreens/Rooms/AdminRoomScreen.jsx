@@ -2,19 +2,26 @@ import React, { useState, useEffect } from "react";
 import FormContainer from "./FormContainer";
 import { useSelector, useDispatch } from "react-redux";
 import { Form, Button, Row, Col } from "react-bootstrap";
-import { useNavigate } from "react-router";
-import AdminHeader from "./AdminHeader";
+import { useNavigate, useParams } from "react-router";
+import Header from "../../../Header/Header";
 import RoomDetail from "./RoomDetails";
 import { createRoom, listRooms, updateRoom } from "../../../redux/actions/room";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebase";
 import { TextField, Typography } from "@material-ui/core";
 import Message from "../../../Message/Message";
+<<<<<<< HEAD
+import ClientRoomScreen from "../../../Client/ClientScreens/Rooms/ClientRoomScreen";
+import SearchBox from "../../../Header/SearchBox";
+=======
 import ClientRoomScreen from "../../../Client/ClientScreens/ClientRoomScreen";
+>>>>>>> 08e8eb8b5309c0e4c25a58672088a12d39ff45b1
 
 const AdminRoomScreen = () => {
+  const params = useParams();
+  const keyword = params.keyword;
+
   const [currentId, setCurrentId] = useState(null);
-  console.log(currentId, "haha");
 
   const [formData, setFormData] = useState({
     title: "",
@@ -31,14 +38,20 @@ const AdminRoomScreen = () => {
   });
   const [imageUrl, setimageUrl] = useState();
 
+<<<<<<< HEAD
+  const roomUpdate = useSelector(state => state.roomUpdate);
+  const { success: successUpdate } = roomUpdate;
+
+  const updateFormData = rooms.filter(room => room._id === currentId)[0];
+=======
   const updateFormData = rooms.filter((haha) => haha._id === currentId)[0];
+>>>>>>> 08e8eb8b5309c0e4c25a58672088a12d39ff45b1
   useEffect(() => {
     if (updateFormData) {
       setFormData(updateFormData);
       setimageUrl(updateFormData.image);
     }
   }, [updateFormData]);
-  console.log(formData, "hahaha");
 
   const { title, details, standard, price, capacity, condition, noofbeds } =
     formData;
@@ -48,8 +61,8 @@ const AdminRoomScreen = () => {
 
   const upload = () => {
     if (!imageData.image) return;
-    const sotrageRef = ref(storage, `files/${imageData.image.name}`);
-    const uploadTask = uploadBytesResumable(sotrageRef, imageData.image);
+    const storageRef = ref(storage, `files/${imageData.image.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, imageData.image);
 
     uploadTask.on(
       "state_changed",
@@ -79,15 +92,40 @@ const AdminRoomScreen = () => {
   const roomCreate = useSelector((state) => state.roomCreate);
   const { success: successCreate, error: errorCreate } = roomCreate;
 
+<<<<<<< HEAD
+  const onChange = e => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const submitHandler = e => {
+    e.preventDefault();
+    if (currentId) {
+      dispatch(updateRoom(currentId, { ...formData, image: imageUrl }));
+    } else {
+      dispatch(createRoom({ ...formData, image: imageUrl }));
+    }
+  };
+=======
   const roomList = useSelector((state) => state.roomList);
   const { success, rooms } = roomList;
+>>>>>>> 08e8eb8b5309c0e4c25a58672088a12d39ff45b1
 
   useEffect(() => {
-    if (successCreate) {
-      navigate("/room");
-    }
-    dispatch(listRooms());
-  }, [dispatch, navigate, successCreate]);
+    // if (successCreate) {
+    //   dispatch(listRooms());
+    //   // navigate("/room");
+    // }
+
+    dispatch(listRooms(keyword));
+  }, [dispatch, successCreate, successUpdate, keyword]);
+
+  const userRole = JSON.parse(localStorage.getItem("profile"));
+  if (!userRole.result.role) {
+    return <ClientRoomScreen />;
+  }
 
   const onChange = (e) => {
     setFormData({
@@ -111,7 +149,7 @@ const AdminRoomScreen = () => {
 
   return (
     <>
-      <AdminHeader />
+      <Header />
       {errorCreate && <Message variant="danger">{errorCreate}</Message>}
       <FormContainer>
         <h1 className="py-3 text-center">Room Details</h1>
@@ -126,7 +164,7 @@ const AdminRoomScreen = () => {
           <Row>
             <Col md={6} className="my-3">
               <Form.Group controlId="title" className="py-3">
-                <Form.Label>Title</Form.Label>
+                <Form.Label className="text-black">Title</Form.Label>
                 <Form.Control
                   type="name"
                   name="title"
@@ -136,7 +174,7 @@ const AdminRoomScreen = () => {
                 ></Form.Control>
               </Form.Group>
               <Form.Group controlId="detail" className="py-3">
-                <Form.Label>Details</Form.Label>
+                <Form.Label className="text-black">Details</Form.Label>
                 <Form.Control
                   type="text"
                   name="details"
@@ -171,7 +209,7 @@ const AdminRoomScreen = () => {
                 </div>
               )}
               <Form.Group controlId="standard" className="py-3">
-                <Form.Label>Standard</Form.Label>
+                <Form.Label className="text-black">Standard</Form.Label>
                 <Form.Control
                   type="text"
                   name="standard"
@@ -183,7 +221,7 @@ const AdminRoomScreen = () => {
             </Col>
             <Col md={6} className="py-3">
               <Form.Group controlId="price" className="py-3">
-                <Form.Label>Price</Form.Label>
+                <Form.Label className="text-black">Price</Form.Label>
                 <Form.Control
                   type="number"
                   name="price"
@@ -193,7 +231,7 @@ const AdminRoomScreen = () => {
                 ></Form.Control>
               </Form.Group>
               <Form.Group controlId="capacity" className="py-3">
-                <Form.Label>Capacity</Form.Label>
+                <Form.Label className="text-black">Capacity</Form.Label>
                 <Form.Control
                   type="number"
                   name="capacity"
@@ -203,7 +241,7 @@ const AdminRoomScreen = () => {
                 ></Form.Control>
               </Form.Group>
               <Form.Group controlId="condition" className="py-3">
-                <Form.Label>Condition</Form.Label>
+                <Form.Label className="text-black">Condition</Form.Label>
                 <Form.Control
                   type="text"
                   name="condition"
@@ -213,7 +251,7 @@ const AdminRoomScreen = () => {
                 ></Form.Control>
               </Form.Group>
               <Form.Group controlId="noofbeds" className="py-3">
-                <Form.Label>No of Beds</Form.Label>
+                <Form.Label className="text-black">No of Beds</Form.Label>
                 <Form.Control
                   type="number"
                   name="noofbeds"
@@ -242,7 +280,13 @@ const AdminRoomScreen = () => {
       </FormContainer>
 
       <div className="room-grid py-3 ">
-        <h1>Available Rooms</h1>
+        <div
+          className="room-flex-top"
+          style={{ display: "flex", justifyContent: "space-between" }}
+        >
+          <h1 className="mt-3">Available Rooms</h1>
+          <SearchBox />
+        </div>
         {success && rooms.length > 0 ? (
           rooms.map((room) => (
             <RoomDetail

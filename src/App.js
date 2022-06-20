@@ -5,12 +5,19 @@ import Auth from "./Component/Admin/Auth/Auth";
 import UserDetail from "./Component/Client/UserDetail/userProfile";
 import HomePageForm from "./Component/Admin/Admin.js";
 import AdminRoomScreen from "./Component/Admin/AdminScreens/Rooms/AdminRoomScreen";
-import AdminRoomEdit from "./Component/Admin/AdminScreens/Rooms/AdminRoomEdit";
+import RoomBook from "./Component/Client/ClientScreens/Rooms/RoomBook";
+import RoomBookedList from "./Component/Admin/AdminScreens/Rooms/RoomBookedList";
+import RoomDetails from "./Component/Client/ClientScreens/Rooms/RoomDetails";
 import "./bootstrap.min.css";
-import AddToCart from './Component/Client/UserDetail/addToCart/addToCart';
-import FoodPage from './Component/Admin/foodPageAdmin/foodAdmin';
+import ContactUs from "./Component/Client/ClientScreens/ContactUs/ContactUs";
+import ContactUsListScreen from "./Component/Admin/AdminScreens/ContactUs/ContactList";
+import BookingListClient from "./Component/Client/ClientScreens/Rooms/BookingListClient";
+import AddToCart from "./Component/Client/UserDetail/addToCart/addToCart";
+import FoodPage from "./Component/Admin/foodPageAdmin/foodAdmin";
+import AdminRoomEdit from "./Component/Admin/AdminScreens/Rooms/AdminRoomEdit";
+
 const App = () => {
-  const user = JSON.parse(localStorage.getItem('profile'));
+  const user = JSON.parse(localStorage.getItem("profile"));
   return (
     <BrowserRouter>
       <React.StrictMode>
@@ -24,12 +31,25 @@ const App = () => {
         >
           <Routes>
             <Route path="/home" element={<HomePageForm />} />
+            <Route path="/" element={<Navigate to="/home" />} />
+            <Route path="/auth" element={<Auth />} />
             <Route path="/food" element={<FoodPage />} />
-            <Route path="/" exact element={<Navigate to="/home" />} />
             <Route path="/auth" exact element={<Auth />} />
             <Route path="/profile" element={<UserDetail />} />
-            {!user?.result?.role ? <Route path="/cart" element={<AddToCart />} /> : <Route path="/payment" element={<AddToCart />} />}
+            {!user?.result?.role ? (
+              <Route path="/cart" element={<AddToCart />} />
+            ) : (
+              <Route path="/payment" element={<AddToCart />} />
+            )}
             <Route path="/room" element={<AdminRoomScreen />} />
+            <Route path="/search/:keyword" element={<AdminRoomScreen />} />
+            <Route path="room?sort" element={<AdminRoomScreen />} />
+            <Route path={`/:id/book/room`} element={<RoomBook />} />
+            <Route path="/list/book/room" element={<RoomBookedList />} />
+            <Route path="/list/myBooking" element={<BookingListClient />} />
+            <Route path="/contact/us" element={<ContactUs />} />
+            <Route path="/list/contact/us" element={<ContactUsListScreen />} />
+            <Route path={`/:id/details/room`} element={<RoomDetails />} />
             <Route path="/room/edit/:id" element={<AdminRoomEdit />} />
             <Route path="/cart" element={<AddToCart />} />
           </Routes>

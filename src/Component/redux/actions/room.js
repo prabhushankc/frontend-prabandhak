@@ -11,24 +11,28 @@ import {
   ROOM_DETAILS_REQUEST,
   ROOM_DETAILS_SUCCESS,
 } from "../constants/actionTypes";
-
+import axios from "axios";
 import * as api from "../api";
 
-export const listRooms = () => async dispatch => {
-  try {
-    dispatch({ type: ROOM_LIST_REQUEST });
-    const { data } = await api.getRoomPage();
-    dispatch({ type: ROOM_LIST_SUCCESS, payload: data });
-  } catch (err) {
-    dispatch({
-      type: ROOM_LIST_FAIL,
-      payload:
-        err.response && err.response.data.message
-          ? err.response.data.message
-          : err.message,
-    });
-  }
-};
+export const listRooms =
+  (keyword = "", sort = "") =>
+  async dispatch => {
+    try {
+      dispatch({ type: ROOM_LIST_REQUEST });
+      const { data } = await axios.get(
+        `/api/rooms?keyword=${keyword}&sort=${sort}`
+      );
+      dispatch({ type: ROOM_LIST_SUCCESS, payload: data });
+    } catch (err) {
+      dispatch({
+        type: ROOM_LIST_FAIL,
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
+  };
 
 export const detailRoom = id => async dispatch => {
   try {
@@ -67,7 +71,7 @@ export const updateRoom = (id, formData) => async dispatch => {
     dispatch({ type: ROOM_UPDATE_REQUEST });
 
     const { data } = await api.updateSingleRoom(id, formData);
-    dispatch({ type: ROOM_UPDATE_SUCCESS });
+    dispatch({ type: ROOM_UPDATE_SUCCESS, payload: id });
     dispatch({ type: ROOM_DETAILS_SUCCESS, payload: data });
   } catch (err) {
     dispatch({
