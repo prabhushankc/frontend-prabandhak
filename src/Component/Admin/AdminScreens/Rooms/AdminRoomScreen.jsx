@@ -10,8 +10,12 @@ import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebase";
 import { TextField, Typography } from "@material-ui/core";
 import Message from "../../../Message/Message";
+<<<<<<< HEAD
 import ClientRoomScreen from "../../../Client/ClientScreens/Rooms/ClientRoomScreen";
 import SearchBox from "../../../Header/SearchBox";
+=======
+import ClientRoomScreen from "../../../Client/ClientScreens/ClientRoomScreen";
+>>>>>>> 08e8eb8b5309c0e4c25a58672088a12d39ff45b1
 
 const AdminRoomScreen = () => {
   const params = useParams();
@@ -33,13 +37,15 @@ const AdminRoomScreen = () => {
     image: "",
   });
   const [imageUrl, setimageUrl] = useState();
-  const roomList = useSelector(state => state.roomList);
-  const { success, rooms } = roomList;
 
+<<<<<<< HEAD
   const roomUpdate = useSelector(state => state.roomUpdate);
   const { success: successUpdate } = roomUpdate;
 
   const updateFormData = rooms.filter(room => room._id === currentId)[0];
+=======
+  const updateFormData = rooms.filter((haha) => haha._id === currentId)[0];
+>>>>>>> 08e8eb8b5309c0e4c25a58672088a12d39ff45b1
   useEffect(() => {
     if (updateFormData) {
       setFormData(updateFormData);
@@ -60,7 +66,7 @@ const AdminRoomScreen = () => {
 
     uploadTask.on(
       "state_changed",
-      snapshot => {
+      (snapshot) => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setProgress("Upload is " + progress + "% done");
@@ -75,17 +81,18 @@ const AdminRoomScreen = () => {
             break;
         }
       },
-      error => console.log(error),
+      (error) => console.log(error),
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setimageUrl(downloadURL);
         });
       }
     );
   };
-  const roomCreate = useSelector(state => state.roomCreate);
+  const roomCreate = useSelector((state) => state.roomCreate);
   const { success: successCreate, error: errorCreate } = roomCreate;
 
+<<<<<<< HEAD
   const onChange = e => {
     setFormData({
       ...formData,
@@ -101,6 +108,10 @@ const AdminRoomScreen = () => {
       dispatch(createRoom({ ...formData, image: imageUrl }));
     }
   };
+=======
+  const roomList = useSelector((state) => state.roomList);
+  const { success, rooms } = roomList;
+>>>>>>> 08e8eb8b5309c0e4c25a58672088a12d39ff45b1
 
   useEffect(() => {
     // if (successCreate) {
@@ -113,6 +124,26 @@ const AdminRoomScreen = () => {
 
   const userRole = JSON.parse(localStorage.getItem("profile"));
   if (!userRole.result.role) {
+    return <ClientRoomScreen />;
+  }
+
+  const onChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    if (currentId) {
+      dispatch(updateRoom(currentId, { ...formData, image: imageUrl }));
+    }
+    dispatch(createRoom({ ...formData, image: imageUrl }));
+  };
+
+  const user = JSON.parse(localStorage.getItem("profile"));
+  if (!user?.result.role) {
     return <ClientRoomScreen />;
   }
 
@@ -139,7 +170,7 @@ const AdminRoomScreen = () => {
                   name="title"
                   placeholder="Enter Title"
                   value={title}
-                  onChange={e => onChange(e)}
+                  onChange={(e) => onChange(e)}
                 ></Form.Control>
               </Form.Group>
               <Form.Group controlId="detail" className="py-3">
@@ -149,7 +180,7 @@ const AdminRoomScreen = () => {
                   name="details"
                   placeholder="Enter Details"
                   value={details}
-                  onChange={e => onChange(e)}
+                  onChange={(e) => onChange(e)}
                 ></Form.Control>
               </Form.Group>
               {progress ? (
@@ -159,7 +190,7 @@ const AdminRoomScreen = () => {
                   <TextField
                     type="file"
                     name="image"
-                    onChange={e =>
+                    onChange={(e) =>
                       setImageData({ ...imageData, image: e.target.files[0] })
                     }
                   />
@@ -184,7 +215,7 @@ const AdminRoomScreen = () => {
                   name="standard"
                   placeholder="Enter standard"
                   value={standard}
-                  onChange={e => onChange(e)}
+                  onChange={(e) => onChange(e)}
                 ></Form.Control>
               </Form.Group>
             </Col>
@@ -196,7 +227,7 @@ const AdminRoomScreen = () => {
                   name="price"
                   placeholder="Enter price"
                   value={price}
-                  onChange={e => onChange(e)}
+                  onChange={(e) => onChange(e)}
                 ></Form.Control>
               </Form.Group>
               <Form.Group controlId="capacity" className="py-3">
@@ -206,7 +237,7 @@ const AdminRoomScreen = () => {
                   name="capacity"
                   placeholder="Enter capacity"
                   value={capacity}
-                  onChange={e => onChange(e)}
+                  onChange={(e) => onChange(e)}
                 ></Form.Control>
               </Form.Group>
               <Form.Group controlId="condition" className="py-3">
@@ -216,7 +247,7 @@ const AdminRoomScreen = () => {
                   name="condition"
                   placeholder="Enter condition"
                   value={condition}
-                  onChange={e => onChange(e)}
+                  onChange={(e) => onChange(e)}
                 ></Form.Control>
               </Form.Group>
               <Form.Group controlId="noofbeds" className="py-3">
@@ -226,7 +257,7 @@ const AdminRoomScreen = () => {
                   name="noofbeds"
                   placeholder="Enter no of beds"
                   value={noofbeds}
-                  onChange={e => onChange(e)}
+                  onChange={(e) => onChange(e)}
                 ></Form.Control>
               </Form.Group>
             </Col>
@@ -257,7 +288,7 @@ const AdminRoomScreen = () => {
           <SearchBox />
         </div>
         {success && rooms.length > 0 ? (
-          rooms.map(room => (
+          rooms.map((room) => (
             <RoomDetail
               rooms={room}
               key={room._id}

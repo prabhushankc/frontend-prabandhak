@@ -8,6 +8,7 @@ export default makeStyles((theme) => ({
     media: {
         height: '100vh',
         objectFit: 'cover',
+        // borderRadius: '0% 0% 50% 50% / 0% 0% 2% 2%',
         width: '100%',
         margin: '0px auto',
         backgroundPosition: 'center',

@@ -4,7 +4,7 @@ export default makeStyles((theme) => ({
     design: {
         position: 'relative',
         margin: '0px',
-        paddingTop: '20px',
+        paddingTop: '22px',
     },
     media: {
         height: '50vh',
@@ -33,9 +33,9 @@ export default makeStyles((theme) => ({
             fontSize: '1.5rem',
         },
         [theme.breakpoints.down('sm')]: {
-            top: '60%',
+            top: '50%',
             left: '50%',
-            transform: 'translate(-50%, -60%)',
+            transform: 'translate(-50%, -50%)',
             fontSize: '1.4rem',
             letterSpacing: '4px',
         },
@@ -57,9 +57,9 @@ export default makeStyles((theme) => ({
         textTransform: 'uppercase',
         textShadow: '1px 1px 2px #fff',
         [theme.breakpoints.down('sm')]: {
-            top: '68%',
+            top: '60%',
             left: '50%',
-            transform: 'translate(-50%, -68%)',
+            transform: 'translate(-50%, -60%)',
             fontSize: '1rem',
             letterSpacing: '4px',
         },
@@ -67,6 +67,32 @@ export default makeStyles((theme) => ({
             fontSize: '0.9rem',
             letterSpacing: '2px',
         }
+    },
+    btnFunction2: {
+        position: 'absolute',
+        margin: 'auto',
+        padding: '8px 45px',
+        border: '0px solid white',
+        borderRadius: '12px',
+        color: 'white',
+        top: '95%',
+        left: '60%',
+        transform: 'translate(-60%, -95%)',
+        backgroundBlendMode: 'darken',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    btnFunction1: {
+        position: 'absolute',
+        margin: 'auto',
+        padding: '8px 45px',
+        border: '0px solid white',
+        borderRadius: '12px',
+        color: 'white',
+        top: '95%',
+        left: '40%',
+        transform: 'translate(-40%, -95%)',
+        backgroundBlendMode: 'darken',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
 
 }));

@@ -12,8 +12,12 @@ import "./bootstrap.min.css";
 import ContactUs from "./Component/Client/ClientScreens/ContactUs/ContactUs";
 import ContactUsListScreen from "./Component/Admin/AdminScreens/ContactUs/ContactList";
 import BookingListClient from "./Component/Client/ClientScreens/Rooms/BookingListClient";
+import AddToCart from "./Component/Client/UserDetail/addToCart/addToCart";
+import FoodPage from "./Component/Admin/foodPageAdmin/foodAdmin";
+import AdminRoomEdit from "./Component/Admin/AdminScreens/Rooms/AdminRoomEdit";
 
 const App = () => {
+  const user = JSON.parse(localStorage.getItem("profile"));
   return (
     <BrowserRouter>
       <React.StrictMode>
@@ -29,7 +33,14 @@ const App = () => {
             <Route path="/home" element={<HomePageForm />} />
             <Route path="/" element={<Navigate to="/home" />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/food" element={<FoodPage />} />
+            <Route path="/auth" exact element={<Auth />} />
             <Route path="/profile" element={<UserDetail />} />
+            {!user?.result?.role ? (
+              <Route path="/cart" element={<AddToCart />} />
+            ) : (
+              <Route path="/payment" element={<AddToCart />} />
+            )}
             <Route path="/room" element={<AdminRoomScreen />} />
             <Route path="/search/:keyword" element={<AdminRoomScreen />} />
             <Route path="room?sort" element={<AdminRoomScreen />} />
@@ -39,6 +50,8 @@ const App = () => {
             <Route path="/contact/us" element={<ContactUs />} />
             <Route path="/list/contact/us" element={<ContactUsListScreen />} />
             <Route path={`/:id/details/room`} element={<RoomDetails />} />
+            <Route path="/room/edit/:id" element={<AdminRoomEdit />} />
+            <Route path="/cart" element={<AddToCart />} />
           </Routes>
         </Container>
       </React.StrictMode>

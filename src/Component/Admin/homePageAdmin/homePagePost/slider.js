@@ -4,12 +4,14 @@ import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { fetchHomePage } from '../../../redux/actions/homePage';
+import { fetchHomePage, deleteHome } from '../../../redux/actions/homePage';
 import useStyles from './style';
 import { CircularProgress } from '@mui/material';
-import { Typography, Button, Grid, CardMedia } from '@material-ui/core';
+import { Typography, Grid, CardMedia, Button } from '@material-ui/core';
+import Delete from '@mui/icons-material/Delete';
+import Edit from '@mui/icons-material/Edit';
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
-function Slider() {
+function Slider({ setupdateHomeCurrentId }) {
     const dispatch = useDispatch();
     const { isLoading, homePageData } = useSelector((state) => state.homePage);
     useEffect(() => {
@@ -22,9 +24,6 @@ function Slider() {
     // find width of device screen
     const width = window.innerWidth;
     const height = window.innerHeight;
-    const [mQ, setMQ] = React.useState(
-        width > height ? width : height
-    );
     // find user device
     const [device, setDevice] = React.useState(
         width > height ? 'desktop' : 'mobile'
@@ -53,20 +52,20 @@ function Slider() {
                         enableMouseEvents
                     >
                         {homePageData?.map((step, index) => (
-                            <div key={step.title} className={classes.design} >
+                            <div key={step._id} className={classes.design} >
                                 <Typography
                                     style={
                                         {
-                                            fontSize: '1.5rem',
+                                            fontSize: '1.4rem',
                                             fontWeight: 'bold',
                                             textAlign: 'center',
                                             marginTop: '0.9rem',
                                             marginBottom: '1rem',
-                                            textDecoration: 'dotted',
                                             textTransform: 'Capitalize',
+                                            color: '#424242',
                                         }
                                     }
-                                >Previous Added Detail</Typography>
+                                >Previous Added Details</Typography>
                                 {Math.abs(activeStep - index) <= 2 ? (
                                     (device === 'mobile') ? (<CardMedia
                                         style={{
@@ -83,6 +82,25 @@ function Slider() {
                                 ) : null}
                                 <Typography className={classes.title} variant="h5" component="h2">{step.title}</Typography>
                                 <Typography className={classes.detail} variant="body2" component="p">{step.detail}</Typography>
+                                <Button
+                                    size="small"
+                                    style={{ backgroundColor: "#01bf71" }}
+                                    className={classes.btnFunction1}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setupdateHomeCurrentId(step._id)
+                                    }}
+                                >
+                                    <Edit />
+                                </Button>
+                                <Button
+                                    size="small"
+                                    style={{ backgroundColor: "#ff4d4d" }}
+                                    onClick={() => dispatch(deleteHome(step._id))}
+                                    className={classes.btnFunction2}
+                                >
+                                    <Delete />
+                                </Button>
                             </div>
                         ))}
                     </AutoPlaySwipeableViews>

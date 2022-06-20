@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
 import SwipeableViews from "react-swipeable-views";
@@ -9,6 +10,19 @@ import { LinkContainer } from "react-router-bootstrap";
 import useStyles from "./style";
 import { CircularProgress } from "@mui/material";
 import { Typography, Button, Grid, CardMedia } from "@material-ui/core";
+=======
+import React, { useEffect } from 'react'
+import { useTheme } from '@mui/material/styles';
+import SwipeableViews from 'react-swipeable-views';
+import { autoPlay } from 'react-swipeable-views-utils';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { fetchHomePage } from '../../../redux/actions/homePage';
+import useStyles from './style';
+import { CircularProgress } from '@mui/material';
+import { Typography, Button, Grid, CardMedia } from '@material-ui/core';
+>>>>>>> 08e8eb8b5309c0e4c25a58672088a12d39ff45b1
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 function Slider() {
   const dispatch = useDispatch();
@@ -19,6 +33,7 @@ function Slider() {
     };
   }, [dispatch]);
   const theme = useTheme();
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
   // find width of device screen
   const width = window.innerWidth;
@@ -75,6 +90,7 @@ function Slider() {
                     />
                   )
                 ) : null}
+<<<<<<< HEAD
                 <Typography
                   className={classes.title}
                   variant="h5"
@@ -96,6 +112,22 @@ function Slider() {
                 </LinkContainer>
 
                 <Button variant="contained" className={classes.button2}>
+=======
+                <Typography className={classes.title} variant="h5" component="h2">{step.title}</Typography>
+                <Typography className={classes.detail} variant="body2" component="p">{step.detail}</Typography>
+                <Button variant="contained" className={classes.button} onClick={
+                  () => {
+                    navigate('/food');
+                  }
+                } >
+                  Book Room
+                </Button>
+                <Button variant="contained" className={classes.button2} onClick={
+                  () => {
+                    navigate('/food');
+                  }
+                } >
+>>>>>>> 08e8eb8b5309c0e4c25a58672088a12d39ff45b1
                   Order Food
                 </Button>
               </div>
