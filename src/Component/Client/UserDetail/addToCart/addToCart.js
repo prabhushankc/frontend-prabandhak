@@ -19,10 +19,8 @@ function AddToCart() {
     const user = JSON.parse(localStorage.getItem('profile'));
 
     useEffect(() => {
-        return () => {
-            if (user) {
-                dispatch(singleUser(user?.result?._id));
-            }
+        if (user) {
+            dispatch(singleUser(user?.result?._id));
         }
     }, [dispatch]);
     const addToCart = async (cart) => {
