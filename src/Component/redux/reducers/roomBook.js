@@ -8,6 +8,10 @@ import {
   ROOM_MY_BOOKED_LIST_REQUEST,
   ROOM_MY_BOOKED_LIST_SUCCESS,
   ROOM_MY_BOOKED_LIST_FAIL,
+  ROOM_BOOK_RESET,
+  ROOM_BOOKED_DELETE_REQUEST,
+  ROOM_BOOKED_DELETE_SUCCESS,
+  ROOM_BOOKED_DELETE_FAIL,
 } from "../constants/actionTypes";
 
 const initialState = {
@@ -33,6 +37,8 @@ function roomBook(state = initialState, action) {
       };
     case ROOM_BOOK_FAIL:
       return { ...state, loading: false, error: payload };
+    case ROOM_BOOK_RESET:
+      return {};
     default:
       return state;
   }
@@ -78,4 +84,23 @@ function roomMyBookList(state = initialState, action) {
   }
 }
 
-export { roomBook, roomBookList, roomMyBookList };
+function roomBookDelete(state = initialState, action) {
+  const { type, payload } = action;
+
+  switch (type) {
+    case ROOM_BOOKED_DELETE_REQUEST:
+      return { ...state, loading: true, success: false };
+    case ROOM_BOOKED_DELETE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: true,
+      };
+    case ROOM_BOOKED_DELETE_FAIL:
+      return { ...state, loading: false, error: payload };
+    default:
+      return state;
+  }
+}
+
+export { roomBook, roomBookList, roomMyBookList, roomBookDelete };

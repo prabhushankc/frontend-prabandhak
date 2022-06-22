@@ -1,17 +1,22 @@
 // this file help to get data from mongoodb
-import { AUTH, FETCH_SINGLEUSER, UPDATE_SINGLE_USER } from "../constants/actionTypes";
+import { AUTH, FETCH_SINGLEUSER, UPDATE_SINGLE_USER, IS_LOADING, IS_NOT_LOADING } from "../constants/actionTypes";
 import * as api from '../api'
-import { NotifyError, NotifySuccess } from "./notify";
+import { NotifyError, NotifySuccess, NotifyWarning } from "./notify";
 
 // dispatching is this whole action
 export const signin = (formData, navigate) => async (dispatch) => {
     try {
+        dispatch({ type: IS_LOADING });
         const { data } = await api.signIn(formData);
         dispatch({ type: AUTH, data });
-        navigate('/home');
         NotifySuccess(data.message);
+        dispatch({ type: IS_NOT_LOADING });
+        navigate('/home');
     } catch (error) {
-        if (error.response.status >= 400 && error.response.status <= 500) {
+        if (error.response.status === 355) {
+            NotifyWarning(error.response.data.message);
+        }
+        else if (error.response.status >= 400 && error.response.status <= 500) {
             NotifyError(error.response.data.message);
         } else {
             NotifyError(error.message);
@@ -19,13 +24,19 @@ export const signin = (formData, navigate) => async (dispatch) => {
     }
 }
 
-export const signup = (formData) => async (dispatch) => {
+export const signup = (formData, navigate) => async (dispatch) => {
     try {
+        dispatch({ type: IS_LOADING });
         const { data } = await api.signUp(formData);
         dispatch({ type: AUTH, data });
         NotifySuccess(data.message);
+        dispatch({ type: IS_NOT_LOADING });
+        navigate('/home');
     } catch (error) {
-        if (error.response.status >= 400 && error.response.status <= 500) {
+        if (error.response.status === 355) {
+            NotifyWarning(error.response.data.message);
+        }
+        else if (error.response.status >= 400 && error.response.status <= 500) {
             NotifyError(error.response.data.message);
         } else {
             NotifyError(error.message);

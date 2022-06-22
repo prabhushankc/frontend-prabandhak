@@ -11,11 +11,16 @@ import {
 } from "@material-ui/core/";
 import useStyles from "./ClientRoomStyle";
 import { useSelector } from "react-redux";
+import { LinkContainer } from "react-router-bootstrap";
 import RoomHeaderPage from "./RoomHeaderPage";
+import Message from "../../../Message/Message";
 
 const ClientRoomView = () => {
   const roomList = useSelector(state => state.roomList);
   const { rooms } = roomList;
+
+  const roomBook = useSelector(state => state.roomBook);
+  const { success: successBook } = roomBook;
 
   const classes = useStyles();
 
@@ -30,108 +35,90 @@ const ClientRoomView = () => {
       >
         {rooms.map(roomData => (
           <Grid key={roomData._id} item xs={12} sm={6} md={4} lg={3}>
-            <Card className={classes.cards} raised elevation={3}>
-              <ButtonBase
-                component="span"
-                name="test"
-                className={classes.cardAction}
-              >
-                <CardMedia
-                  className={classes.media}
-                  style={{ backgroundImage: `url(${roomData.image})` }}
-                  title={roomData.title}
-                />
-                <Typography
-                  className={classes.title}
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
+            <Card
+              className={classes.cards}
+              raised
+              elevation={3}
+              style={{ height: "100%" }}
+            >
+              <LinkContainer to={`/${roomData._id}/details/room`}>
+                <ButtonBase
+                  component="span"
+                  name="test"
+                  className={classes.cardAction}
                 >
-                  {roomData.title}
-                </Typography>
-                <CardContent className={classes.cartTitle}>
+                  <CardMedia
+                    className={classes.media}
+                    style={{ backgroundImage: `url(${roomData.image})` }}
+                    title={roomData.title}
+                  />
                   <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
+                    className={classes.title}
+                    gutterBottom
+                    variant="h5"
+                    component="h2"
                   >
-                    {roomData.details}
+                    {roomData.title}
                   </Typography>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      marginTop: "12px",
-                    }}
-                  >
+                  <CardContent className={classes.cartTitle}>
                     <Typography
                       variant="body2"
                       color="textSecondary"
                       component="p"
-                      style={{}}
                     >
-                      Available:{" "}
-                      <span
-                        style={{
-                          color: "gray",
-                          fontWeight: "bold",
-                        }}
+                      {roomData.details}
+                    </Typography>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginTop: "12px",
+                      }}
+                    >
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        component="p"
+                        style={{}}
                       >
-                        {roomData.capacity}
-                      </span>
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                      style={{}}
-                    >
-                      Price:{" "}
-                      <span
-                        style={{
-                          color: "gray",
-                          fontWeight: "bold",
-                        }}
+                        Available:{" "}
+                        <span
+                          style={{
+                            color: "gray",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {roomData.capacity}
+                        </span>
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        component="p"
+                        style={{}}
                       >
-                        Rs.{roomData.price}
-                      </span>
-                    </Typography>
-                  </div>
-                </CardContent>
-                {/* <div className={classes.details}>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="h2"
-                    >
-                      {foodData.tags
-                        .map(tag => (
-                          <Button
-                            style={{
-                              backgroundColor: "#595775",
-                              "&:hover": {
-                                backgroundColor: "#595775",
-                              },
-  
-                              borderRadius: "6px",
-                              color: "white",
-                              padding: "3px 7px",
-                              margin: "2px 3px",
-                              fontSize: "13px",
-                            }}
-                          >
-                            {tag}
-                          </Button>
-                        ))
-                        .splice(-2)}
-                    </Typography>
-                  </div> */}
-              </ButtonBase>
-              <CardActions className={classes.cardActionsI}>
-                <Button size="small" className={classes.btn} type="button">
-                  Learn More
-                </Button>
+                        Price:{" "}
+                        <span
+                          style={{
+                            color: "gray",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Rs.{roomData.price}
+                        </span>
+                      </Typography>
+                    </div>
+                  </CardContent>
+                </ButtonBase>
+              </LinkContainer>
+
+              <CardActions className={classes.cardActionsI} style={{}}>
+                <LinkContainer to={`/${roomData._id}/book/room`}>
+                  <Button size="small" className={classes.btn} type="button">
+                    Book now
+                  </Button>
+                </LinkContainer>
               </CardActions>
             </Card>
           </Grid>

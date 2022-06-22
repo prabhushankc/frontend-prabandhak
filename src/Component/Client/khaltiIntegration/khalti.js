@@ -14,7 +14,7 @@ export default function Khalti({
     let config = {
         publicKey: myKey.publicTestKey,
         productIdentity: "12355321",
-        productName: "Kalij-Food",
+        productName: "Prabandhak",
         productUrl: "http://localhost:3000/cart",
         eventHandler: {
             onSuccess() {
@@ -23,7 +23,7 @@ export default function Khalti({
                 navigate("/food");
             },
             onError(error) {
-                // handle errors
+
                 console.log(error.message);
             },
             onClose() {

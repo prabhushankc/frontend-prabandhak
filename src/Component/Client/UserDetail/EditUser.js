@@ -5,8 +5,8 @@ import Fade from "@material-ui/core/Fade";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from 'react-redux';
 import { updateSingleUser } from '../../redux/actions/Auth';
-import { Button, Typography, TextField } from '@material-ui/core';
-// import Input from '../Admin/Auth/Auth';
+import { Button, Typography } from '@material-ui/core';
+import StyleTextField from '../../Extra/styleTextField';
 import { storage } from '../../Admin/firebase';
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 
@@ -38,17 +38,17 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     paper: {
-        backgroundColor: 'lightGray',
+        backgroundColor: 'rgb(20, 44, 75)',
         borderRadius: "20px",
         boxShadow: theme.shadows[5],
         padding: theme.spacing(4, 4, 4),
-        margin: "10px",
+        margin: "65px auto 0px auto",
     },
-    inner: {
-        margin: theme.spacing(1, 1, 1),
+    textStyle: {
+        margin: '14px auto 7px auto',
     }
 }));
-const initialState = { firstName: '', lastName: '', email: '', address: '', number: '' };
+const initialState = { fullName: '', email: '', address: '', number: '' };
 
 export default function ModalMessage({ openM, setOpenM, aUser }) {
     const [formData, setFormData] = useState(initialState);
@@ -62,8 +62,7 @@ export default function ModalMessage({ openM, setOpenM, aUser }) {
         setFormData(
             {
                 ...formData,
-                firstName: aUser?.name?.split(' ')[0],
-                lastName: aUser?.name?.split(' ')[1],
+                fullName: aUser?.name,
                 email: aUser?.email,
                 address: aUser?.address,
                 number: aUser?.number,
@@ -106,7 +105,10 @@ export default function ModalMessage({ openM, setOpenM, aUser }) {
         if (imageUrl === null) {
             setimageUrl(aUser?.selectedFile);
         };
-        dispatch(updateSingleUser(aUser._id, { ...formData, selectedFile: imageUrl }));
+        dispatch(updateSingleUser(aUser._id, {
+            ...formData, selectedFile: imageUrl, firstName: formData.fullName?.split(' ')[0],
+            lastName: formData.fullName?.split(' ')[1],
+        }));
     };
     const handleClose = () => {
         setOpenM(false);
@@ -115,21 +117,36 @@ export default function ModalMessage({ openM, setOpenM, aUser }) {
         <div className={classes.paper}>
             <form className={classes.formData} onSubmit={handleSubmit}>
                 <div>
-                    <TextField id="transition-modal-title" name="firstName" label="First Name" value={formData.firstName} onChange={(e) => setFormData({ ...formData, firstName: e.target.value })} className={classes.inner} />
-                    <TextField id="transition-modal-description" name="lastName" label="Last Name" value={formData.lastName} onChange={(e) => setFormData({ ...formData, lastName: e.target.value })} className={classes.inner} />
-                    <TextField name="email" label="Email Address" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} type="email" className={classes.inner} />
-                    <TextField name="address" label="Address" value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })} className={classes.inner} />
-                    <TextField name="number" label="Phone Number" value={formData.number} onChange={(e) => setFormData({ ...formData, number: e.target.value })} className={classes.inner} />
+                    <StyleTextField variant="outlined" id="transition-modal-title" name="FullName" label="First Name" value={formData.fullName} onChange={(e) => setFormData({ ...formData, fullName: e.target.value })} inputProps={{
+                        style: {
+                            color: "white"
+                        }
+                    }} className={classes.textStyle} />
+                    <StyleTextField variant="outlined" name="email" label="Email Address" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} type="email" inputProps={{
+                        style: {
+                            color: "white"
+                        }
+                    }} className={classes.textStyle} />
+                    <StyleTextField variant="outlined" name="address" label="Address" value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })} inputProps={{
+                        style: {
+                            color: "white"
+                        }
+                    }} className={classes.textStyle} />
+                    <StyleTextField variant="outlined" name="number" label="Phone Number" value={formData.number} onChange={(e) => setFormData({ ...formData, number: e.target.value })} inputProps={{
+                        style: {
+                            color: "white"
+                        }
+                    }} className={classes.textStyle} />
                 </div>
                 {progress ?
                     <div style={{ padding: '7px 0', width: '98%', margin: '20px auto', textAlign: 'center' }}>
                         <Typography variant="body1">{progress}</Typography>
                     </div> :
-                    <div style={{ textAlign: "center" }} ><input style={{ padding: '20px 0px', marginLeft: "50px" }} type="file" id='selectedFile' name='selectedFile' onChange={(e) => setimage({ ...image, selectedFile: e.target.files[0] })} />
-                        <Button variant="contained" style={{ backgroundImage: 'linear-gradient(to top, #51d6cb, #43ccc0, #34c2b4, #22b8a9, #03ae9e)', margin: '10px 1px', color: 'white' }} size="large" onClick={upload}>Upload Image</Button></div>}
-                {!wait ? <Button type="submit" fullWidth variant="contained" disabled={wait} style={{ backgroundImage: 'linear-gradient(to top, #51d6cb, #43ccc0, #34c2b4, #22b8a9, #03ae9e)', margin: '10px 1px', color: 'white' }} >
+                    <div style={{ textAlign: "center" }} ><input style={{ padding: '20px 0px', marginLeft: "50px", color: 'white' }} type="file" id='selectedFile' name='selectedFile' onChange={(e) => setimage({ ...image, selectedFile: e.target.files[0] })} />
+                        <Button variant="contained" style={{ backgroundColor: 'rgb(25, 45, 85)', margin: '10px 1px', color: 'white' }} size="large" onClick={upload}>Upload Image</Button></div>}
+                {!wait ? <Button type="submit" fullWidth variant="contained" disabled={wait} style={{ backgroundColor: 'rgb(25, 45, 85)', margin: '0px 1px', color: 'white' }} >
                     Update
-                </Button> : <Button fullWidth disabled style={{ backgroundImage: 'linear-gradient(to top, #51d6cb, #43ccc0, #34c2b4, #22b8a9, #03ae9e)', margin: '10px 1px', color: 'white' }}>
+                </Button> : <Button fullWidth disabled style={{ backgroundColor: 'rgb(25, 35, 75)', margin: '0px 1px', color: 'white' }}>
                     updating
                 </Button>}
             </form>

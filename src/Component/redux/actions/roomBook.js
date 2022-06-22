@@ -8,6 +8,9 @@ import {
   ROOM_MY_BOOKED_LIST_REQUEST,
   ROOM_MY_BOOKED_LIST_SUCCESS,
   ROOM_MY_BOOKED_LIST_FAIL,
+  ROOM_BOOKED_DELETE_REQUEST,
+  ROOM_BOOKED_DELETE_SUCCESS,
+  ROOM_BOOKED_DELETE_FAIL,
 } from "../constants/actionTypes";
 
 import * as api from "../api";
@@ -57,5 +60,23 @@ export const myBookedRoomList = () => async dispatch => {
           ? err.response.data.message
           : err.message,
     });
+  }
+};
+
+export const deleteBookedRoom = id => async dispatch => {
+  if (window.confirm("Are you sure you want to delete booked room?")) {
+    try {
+      dispatch({ type: ROOM_BOOKED_DELETE_REQUEST });
+      await api.deleteBookedRooms(id);
+      dispatch({ type: ROOM_BOOKED_DELETE_SUCCESS });
+    } catch (err) {
+      dispatch({
+        type: ROOM_BOOKED_DELETE_FAIL,
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
   }
 };

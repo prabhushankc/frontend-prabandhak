@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-import React, { useEffect } from "react";
-import { useTheme } from "@mui/material/styles";
-import SwipeableViews from "react-swipeable-views";
-import { autoPlay } from "react-swipeable-views-utils";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { fetchHomePage } from "../../../redux/actions/homePage";
-import { LinkContainer } from "react-router-bootstrap";
-import useStyles from "./style";
-import { CircularProgress } from "@mui/material";
-import { Typography, Button, Grid, CardMedia } from "@material-ui/core";
-=======
 import React, { useEffect } from 'react'
 import { useTheme } from '@mui/material/styles';
 import SwipeableViews from 'react-swipeable-views';
@@ -22,15 +9,14 @@ import { fetchHomePage } from '../../../redux/actions/homePage';
 import useStyles from './style';
 import { CircularProgress } from '@mui/material';
 import { Typography, Button, Grid, CardMedia } from '@material-ui/core';
->>>>>>> 08e8eb8b5309c0e4c25a58672088a12d39ff45b1
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 function Slider() {
   const dispatch = useDispatch();
-  const { isLoading, homePageData } = useSelector(state => state.homePage);
+  const { isLoading, homePageData } = useSelector((state) => state.homePage);
   useEffect(() => {
     return () => {
       dispatch(fetchHomePage());
-    };
+    }
   }, [dispatch]);
   const theme = useTheme();
   const navigate = useNavigate();
@@ -40,84 +26,64 @@ function Slider() {
   const height = window.innerHeight;
   // find user device
   const [device, setDevice] = React.useState(
-    width > height ? "desktop" : "mobile"
+    width > height ? 'desktop' : 'mobile'
   );
-  const handleStepChange = step => {
+  const handleStepChange = (step) => {
     setActiveStep(step);
   };
   const classes = useStyles();
   return (
     <Grid container>
       <Grid item xs={12} sm={12} md={12}>
-        {isLoading ? (
-          <CircularProgress
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              zIndex: "999",
-              width: "100px",
-              height: "100px",
-            }}
-          />
-        ) : (
+        {isLoading ? <Grid container style={{
+          padding: '0px',
+          margin: '0px',
+        }}><div style={{
+          backgroundImage: 'url(/prabandhak.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          height: '100%',
+          width: '100%',
+        }} >
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px', height: '100vh' }}><CircularProgress style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              height: '50px',
+              width: '50px',
+              color: 'white',
+              zIndex: '999',
+            }} /></div></div></Grid> :
           <AutoPlaySwipeableViews
-            axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+            axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
             interval={10000}
             index={activeStep}
             onChangeIndex={handleStepChange}
             enableMouseEvents
           >
             {homePageData?.map((step, index) => (
-              <div key={step.title} className={classes.design}>
-                {Math.abs(activeStep - index) <= 2 ? (
-                  device === "mobile" ? (
-                    <CardMedia
-                      style={{
-                        backgroundImage: `url('./backimage.png'), url(${step.selectedFile})`,
-                      }}
-                      className={classes.media}
-                      title={step.title}
-                    />
-                  ) : (
-                    <CardMedia
+              <div key={step.title} className={classes.design} >
+                {Math.abs(activeStep - index) <= 2 && (
+                  (device === 'mobile') ? (<CardMedia
+                    style={{
+                      backgroundImage: `url('./backimage.png'), url(${step.selectedFile})`,
+                    }}
+                    className={classes.media}
+                    title={step.title} />) : (<CardMedia
                       style={{
                         backgroundImage: `url(${step.selectedFile})`,
                       }}
                       className={classes.media}
-                      title={step.title}
-                    />
+                      title={step.title} />
                   )
-                ) : null}
-<<<<<<< HEAD
-                <Typography
-                  className={classes.title}
-                  variant="h5"
-                  component="h2"
-                >
-                  {step.title}
-                </Typography>
-                <Typography
-                  className={classes.detail}
-                  variant="body2"
-                  component="p"
-                >
-                  {step.detail}
-                </Typography>
-                <LinkContainer to="/room">
-                  <Button variant="contained" className={classes.button}>
-                    Book Room
-                  </Button>
-                </LinkContainer>
-
-                <Button variant="contained" className={classes.button2}>
-=======
+                )}
                 <Typography className={classes.title} variant="h5" component="h2">{step.title}</Typography>
                 <Typography className={classes.detail} variant="body2" component="p">{step.detail}</Typography>
                 <Button variant="contained" className={classes.button} onClick={
                   () => {
-                    navigate('/food');
+                    navigate('/room');
                   }
                 } >
                   Book Room
@@ -127,15 +93,14 @@ function Slider() {
                     navigate('/food');
                   }
                 } >
->>>>>>> 08e8eb8b5309c0e4c25a58672088a12d39ff45b1
                   Order Food
                 </Button>
               </div>
             ))}
           </AutoPlaySwipeableViews>
-        )}
+        }
       </Grid>
-    </Grid>
+    </Grid >
   );
 }
 
