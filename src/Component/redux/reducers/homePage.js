@@ -1,5 +1,5 @@
 import { FETCH_HOMEPAGE, CREATE_HOMEPAGE, START_HOMEPAGE, END_HOMEPAGE, DELETE_HOMEPAGE, UPDATE_HOMEPAGE } from "../constants/actionTypes";
-export default (state = { isLoading: true, homePageData: [] }, action) => {
+const HomePage = (state = { isLoading: true, homePageData: [] }, action) => {
     switch (action.type) {
         case START_HOMEPAGE:
             return {
@@ -29,3 +29,4 @@ export default (state = { isLoading: true, homePageData: [] }, action) => {
             return state;
     }
 }
+export default HomePage;

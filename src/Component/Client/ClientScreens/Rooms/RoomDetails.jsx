@@ -1,30 +1,61 @@
-import React, { useEffect } from "react";
-import { Button, Col, Container, Image, Row } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  Image,
+  ListGroup,
+  Row,
+} from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import Header from "../../../Header/Header";
 import Image1 from "../../../images/roomSecond.jpg";
-import { detailRoom } from "../../../redux/actions/room";
+import { createRoomReview, detailRoom } from "../../../redux/actions/room";
+import Rating from "../../../Extra/Rating";
+import Message from "../../../Message/Message";
+import { Link } from "react-router-dom";
+import { ROOM_CREATE_REVIEW_RESET } from "../../../redux/constants/actionTypes";
 
 const RoomDetails = () => {
   const params = useParams();
   const roomId = params.id;
   const dispatch = useDispatch();
 
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+
   const roomDetails = useSelector(state => state.roomDetails);
   const { room, loading: loadingDetails } = roomDetails;
 
+  const Auth = useSelector(state => state.Auth);
+  const { AsingleUser: userInfo } = Auth;
+
+  const roomReviewCreate = useSelector(state => state.roomReviewCreate);
+  const { error: errorRoomReview, success: successRoomReview } =
+    roomReviewCreate;
+
   useEffect(() => {
+    if (successRoomReview) {
+      alert("Review Submitted!");
+      setRating(0);
+      setComment("");
+      dispatch({ type: ROOM_CREATE_REVIEW_RESET });
+    }
     dispatch(detailRoom(roomId));
-  }, [dispatch, roomId]);
+  }, [dispatch, roomId, successRoomReview]);
+
+  const submitHandler = e => {
+    e.preventDefault();
+    dispatch(createRoomReview(params.id, { rating, comment }));
+  };
 
   return (
     !loadingDetails && (
-      <>
-        <Header />
-        <Container className="mt-5">
-          <Row>
+      <div style={{ paddingTop: "6rem" }}>
+        <Container>
+          <Row className="my-3">
             <Col md={6}>
               <Image
                 src={room.image}
@@ -42,7 +73,7 @@ const RoomDetails = () => {
                     className="room-details-rating"
                     style={{
                       marginRight: "8px",
-                      color: "red",
+                      color: "black",
                       display: "flex",
                       background: "#e7e4e4",
                       borderRadius: "10px",
@@ -51,34 +82,11 @@ const RoomDetails = () => {
                       padding: "10px",
                     }}
                   >
-                    <i
-                      className="fa fa-star"
-                      aria-hidden="true"
-                      style={{ marginRight: "10px" }}
-                    ></i>
-                    <i
-                      className="fa fa-star"
-                      aria-hidden="true"
-                      style={{ marginRight: "10px" }}
-                    ></i>
-                    <i
-                      className="fa fa-star"
-                      aria-hidden="true"
-                      style={{ marginRight: "10px" }}
-                    ></i>
-                    <i
-                      className="fa fa-star"
-                      aria-hidden="true"
-                      style={{ marginRight: "10px" }}
-                    ></i>
-                    <i
-                      className="fa fa-star-half-alt"
-                      aria-hidden="true"
-                      style={{ marginRight: "10px" }}
-                    ></i>
-                    <p style={{ margin: "0 0.7rem", color: "black" }}>
-                      4.5 out of 5
-                    </p>
+                    <Rating
+                      value={room.rating ? room.rating : 0}
+                      text={`${room.rating} out of 5`}
+                      color="#523c8d"
+                    />
                   </div>
                   <div className="mt-2">
                     <small
@@ -88,7 +96,7 @@ const RoomDetails = () => {
                         justifyContent: "center",
                       }}
                     >
-                      45 customer ratings
+                      {room.numReviews} customer ratings
                     </small>
                   </div>
                 </div>
@@ -261,8 +269,78 @@ const RoomDetails = () => {
               </div>
             </Col>
           </Row>
+          <Row>
+            <Col md={6}>
+              <h2>Reviews</h2>
+              {room.reviews.length === 0 && <Message>No Reviews</Message>}
+              <ListGroup variant="flush">
+                {room.reviews.map(review => (
+                  <ListGroup.Item key={review._id}>
+                    <div style={{ display: "flex" }}>
+                      <Image
+                        src={userInfo.selectedFile}
+                        style={{
+                          height: "2.5rem",
+                          width: "3rem",
+                          borderRadius: "50%",
+                          marginRight: "1rem",
+                        }}
+                      />
+                      <strong>{review.name}</strong>
+                    </div>
+                    <Rating value={review.rating} />
+                    <p style={{ color: "gray" }}>
+                      Reviewed on {review.createdAt.substring(0, 10)}
+                    </p>
+                    <p>{review.comment}</p>
+                  </ListGroup.Item>
+                ))}
+                <ListGroup.Item>
+                  <h2>Write a Customer Review</h2>
+                  {errorRoomReview && (
+                    <Message variant="danger">{errorRoomReview}</Message>
+                  )}
+                  {userInfo ? (
+                    <Form onSubmit={submitHandler}>
+                      <Form.Group controlId="rating">
+                        <Form.Label>Rating</Form.Label>
+                        <Form.Control
+                          as="select"
+                          value={rating}
+                          onChange={e => setRating(e.target.value)}
+                        >
+                          <option value="">Select...</option>
+                          <option value="1">1 - Poor</option>
+                          <option value="2">2 - Fair</option>
+                          <option value="3">3 - Good</option>
+                          <option value="4">4 - Great</option>
+                          <option value="5">5 - Excellent</option>
+                        </Form.Control>
+                      </Form.Group>
+                      <Form.Group controlId="comment">
+                        <Form.Label>Comment</Form.Label>
+                        <Form.Control
+                          as="textarea"
+                          rows={3}
+                          value={comment}
+                          onChange={e => setComment(e.target.value)}
+                        ></Form.Control>
+                      </Form.Group>
+                      <Button type="submit" variant="primary" className="mt-3">
+                        Submit
+                      </Button>
+                    </Form>
+                  ) : (
+                    <Message>
+                      Please <Link to="/auth"> Sign In</Link> to write a review.
+                    </Message>
+                  )}
+                </ListGroup.Item>
+              </ListGroup>
+            </Col>
+          </Row>
         </Container>
-      </>
+      </div>
     )
   );
 };

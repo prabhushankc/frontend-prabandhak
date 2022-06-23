@@ -3,7 +3,6 @@ import FormContainer from "./FormContainer";
 import { useSelector, useDispatch } from "react-redux";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router";
-import AdminHeader from "./AdminHeader";
 import { detailRoom, updateRoom } from "../../../redux/actions/room";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebase";
@@ -109,7 +108,6 @@ const AdminRoomEdit = () => {
 
   return (
     <>
-      <AdminHeader />
       {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
       <FormContainer>
         <h1 className="py-3 text-center">Update Room</h1>

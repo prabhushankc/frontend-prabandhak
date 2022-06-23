@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { Button, Col, Container, Row, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import Header from "../../../Header/Header";
 import Moment from "react-moment";
 import { listContactUs } from "../../../redux/actions/contactUs";
+import { deleteBookedRoom } from "../../../redux/actions/roomBook";
+import ContactUs from "../../../Client/ClientScreens/ContactUs/ContactUs";
 
 const ContactUsListScreen = () => {
   const dispatch = useDispatch();
@@ -15,11 +16,17 @@ const ContactUsListScreen = () => {
   const contactUsDetail = useSelector(state => state.contactUsList);
   const { contactUsList } = contactUsDetail;
 
+  const user = JSON.parse(localStorage.getItem("profile"));
+  // // useEffect(() => {
+  if (!user?.result?.role) {
+    return <ContactUs />;
+  }
+  // // }, [user.result.role]);
+
   return (
-    <>
-      <Header />
+    <div style={{ height: "100vh", marginBottom: "5rem" }}>
       <Container>
-        <div className="text-center py-3">
+        <div className="text-center" style={{ marginTop: "6rem" }}>
           <h1>Contact List</h1>
         </div>
         <Table striped bordered hover>
@@ -56,7 +63,7 @@ const ContactUsListScreen = () => {
           ))}
         </Table>
       </Container>
-    </>
+    </div>
   );
 };
 

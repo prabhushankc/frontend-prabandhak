@@ -54,7 +54,9 @@ const HomePageForm = ({ setupdateFoodCurrentId, updateFoodCurrentId }) => {
     const upload = () => {
         if (!image.selectedFile) return;
         const sotrageRef = ref(storage, `files/${image.selectedFile.name}`);
+        console.log(sotrageRef, 'check');
         const uploadTask = uploadBytesResumable(sotrageRef, image.selectedFile);
+        console.log(uploadTask, 'check');
 
         uploadTask.on(
             "state_changed",
@@ -68,6 +70,9 @@ const HomePageForm = ({ setupdateFoodCurrentId, updateFoodCurrentId }) => {
                     case "running": // or 'running'
                         setProgress("Upload is " + progress + "% done");
                         break;
+                    default:
+                        setProgress("Upload");
+
                 }
             },
             (error) => console.log(error),
@@ -122,8 +127,11 @@ const HomePageForm = ({ setupdateFoodCurrentId, updateFoodCurrentId }) => {
                         <div style={{ padding: '7px 0', width: '98%', margin: '20px auto', textAlign: 'center' }}>
                             <Typography variant="body1">{progress}</Typography>
                         </div> :
-                        <div style={{ textAlign: "center" }} ><input style={{ padding: '20px 0px', marginLeft: "50px" }} type="file" id='selectedFile' name='selectedFile' onChange={(e) => setimage({ ...image, selectedFile: e.target.files[0] })} />
-                            <Button variant="contained" size="small" className={classes.upload} onClick={upload}><UploadFileIcon /></Button></div>}
+                        <div style={{ textAlign: "center" }} >
+                            <input style={{ padding: '20px 0px', marginLeft: "50px" }} type="file" id='selectedFile' name='selectedFile' onChange={(e) => setimage({ ...image, selectedFile: e.target.files[0] })} />
+                            <Button variant="contained" size="small" className={classes.upload} onClick={upload}><UploadFileIcon /></Button>
+                            {/* <img src={image.selectedFile ? URL.createObjectURL(image.selectedFile) : "https://t3.ftcdn.net/jpg/04/62/93/66/360_F_462936689_BpEEcxfgMuYPfTaIAOC1tCDurmsno7Sp.jpg"} alt="profile" style={{ width: '100px', height: '100px', marginLeft: "50px" }} /> */}
+                        </div>}
                     <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" >Submit</Button>
                     <Button variant="contained" className={classes.buttonSubmit1} size="large" onClick={clear} >Clear</Button>
                 </Grid>

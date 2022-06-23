@@ -22,9 +22,9 @@ export default makeStyles((theme) => ({
         padding: '8px 40px',
         border: '0px solid white',
         borderRadius: '12px',
-        backgroundColor: '#595775',
+        backgroundColor: '#595775 ',
         '&:hover': {
-            backgroundColor: '#595775',
+            backgroundColor: '#595775 ',
         },
         color: 'white',
     },
@@ -51,9 +51,9 @@ export default makeStyles((theme) => ({
         padding: '3px 7px',
         margin: '2px 3px',
         fontSize: '14px',
-        backgroundColor: '#595775',
+        backgroundColor: '#595775 ',
         '&:hover': {
-            backgroundColor: '#595775',
+            backgroundColor: '#595775 ',
         },
         color: 'white',
     },

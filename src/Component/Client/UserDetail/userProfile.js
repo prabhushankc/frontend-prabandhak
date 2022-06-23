@@ -22,10 +22,9 @@ export default function SimpleMenu() {
     const navigate = useNavigate();
     const [aUser, setaUser] = useState();
     const { AsingleUser } = useSelector(state => state.Auth);
-
     useEffect(() => {
         return () => {
-            dispatch(singleUser(user?.result?._id));
+            user?.token && dispatch(singleUser(user?.result?._id));
         }
     }, [dispatch]);
     useEffect(() => {
@@ -61,15 +60,16 @@ export default function SimpleMenu() {
                     height: '100%',
                     width: '100%',
                 }} >
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px', height: '100vh' }}>
-
+                    <div style={{
+                        display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px', marginBottom: '10px', height: '100vh'
+                    }}>
                         {aUser ?
                             <Paper elevation={10} style={{
-                                // backgroundColor: 'transparent',
                                 backgroundColor: 'rgba(0, 0, 0, 0.5)',
                                 backgroundBlendMode: 'darken',
                                 borderRadius: '10px',
                                 padding: '10px',
+                                margin: '10px',
                             }}>
                                 <CardHeader
                                     avatar={
@@ -113,7 +113,7 @@ export default function SimpleMenu() {
                                         <b>Name:</b> {aUser?.name}
                                     </Typography>
                                     <Typography variant="body2" component="p">
-                                        <b>Email:</b> {aUser?.email}
+                                        <b>Email:</b> {aUser?.email?.split('.')[0]}
                                     </Typography>
                                     <Typography variant="body2" component="p">
                                         <b>Number:</b> {aUser?.number}
@@ -147,7 +147,8 @@ export default function SimpleMenu() {
                             }}>Loading...</div>}
                     </div >
                 </div>
-            </Grid > : <Grid container style={{
+            </Grid > :
+            <Grid container style={{
                 padding: '0px',
                 margin: '0px',
             }}>

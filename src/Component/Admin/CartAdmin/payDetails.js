@@ -198,7 +198,7 @@ export default function ScrollDialog({ details }) {
                     }}>Cancel</Button>
                     <Button onClick={handleClose} style={{
                         fontWeight: 'bold',
-                        backgroundColor: '#595775',
+                        backgroundColor: '#595775 ',
                         color: '#fff',
                         padding: '7px 30px',
                         letterSpacing: '2px',
