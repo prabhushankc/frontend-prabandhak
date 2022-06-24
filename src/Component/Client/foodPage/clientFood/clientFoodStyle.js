@@ -30,6 +30,7 @@ export default makeStyles((theme) => ({
         fontSize: '18px',
         fontWeight: 'bold',
         padding: '16px 15px 4px 15px',
+        textTransform: 'capitalize'
     },
     cartTitle: {
         padding: '5px 17px 15px 17px',
