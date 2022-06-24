@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { singleUser, aCart } from '../../../redux/actions/Auth';
+import { singleUser, deleteaCart, incrementaCart } from '../../../redux/actions/Auth';
 import { Typography, CardMedia, Button, TextField, Grid, Paper } from '@material-ui/core';
 import Add from '@mui/icons-material/Add';
 import Remove from '@mui/icons-material/Remove';
@@ -23,34 +23,23 @@ function AddToCart() {
             dispatch(singleUser(user?.result?._id));
         }
     }, [dispatch]);
-    const addToCart = async (cart) => {
-        await dispatch(aCart(cart));
+    const increment = async (id) => {
+        const cart = await AsingleUser.cart.map((items) => items)
+        let increment = true;
+        await dispatch(incrementaCart({ id, cart, increment }));
         await dispatch(singleUser(user?.result?._id));
     }
-    const increment = (id) => {
-        AsingleUser.cart.forEach(item => {
-            if (item._id === id) {
-                item.quantity += 1
-            }
-        })
-        addToCart(AsingleUser.cart)
+    const decrement = async (id) => {
+        const cart = await AsingleUser.cart.map((items) => items)
+        let increment = false;
+        await dispatch(incrementaCart({ id, cart, increment }));
+        await dispatch(singleUser(user?.result?._id));
     }
-    const decrement = (id) => {
-        AsingleUser.cart.forEach(item => {
-            if (item._id === id) {
-                item.quantity === 1 ? item.quantity = 1 : item.quantity -= 1
-            }
-        })
-        addToCart(AsingleUser.cart)
-    }
-    const removeProduct = id => {
+    const removeProduct = async (id) => {
+        const cart = await AsingleUser.cart.map((items) => items)
         if (window.confirm("Do you want to delete this product?")) {
-            AsingleUser.cart.forEach((item, index) => {
-                if (item._id === id) {
-                    AsingleUser.cart.splice(index, 1)
-                }
-            })
-            addToCart(AsingleUser.cart)
+            await dispatch(deleteaCart({ id, cart }));
+            await dispatch(singleUser(user?.result?._id));
         }
     }
     const rows = AsingleUser?.cart?.map((cartData, index) => {
@@ -212,7 +201,6 @@ function AddToCart() {
                                     <DataGrid
                                         rows={rows}
                                         columns={columns}
-                                        // autoHeight={true}
                                         rowHeight={140}
                                         headerHeight={60}
                                         pageSize={5}

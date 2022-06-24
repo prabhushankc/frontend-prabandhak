@@ -1,15 +1,15 @@
 import React from 'react'
-import HomePageForm from './HomePageForm/homePageForm.js'
-import HomePagePost from './homePagePost/slider'
+import FoodPageForm from './foodPageForm/foodPageForm'
+import FoodPagePost from './foodPagePost/foodPagePost';
 import { Grid, Paper } from '@material-ui/core';
-import ClientHomePost from '../../Client/homePage/homePost'
 import Drawer from '../Drawer/drawer.js';
-const AdminPage = () => {
+import ClientFoodPage from '../../Client/foodPage/clientFoodPage';
+const FoodAdminPage = () => {
     const user = JSON.parse(localStorage.getItem('profile'))
-    const [updateHomeCurrentId, setupdateHomeCurrentId] = React.useState(null);
+    const [updateFoodCurrentId, setupdateFoodCurrentId] = React.useState(null);
     if (!user?.result?.role) {
         return (
-            <ClientHomePost />
+            <ClientFoodPage />
         )
     }
     return (
@@ -22,7 +22,7 @@ const AdminPage = () => {
                 backgroundImage: 'url(/prabandhak.png)',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
+                backgroundRepeat: 'repeat',
                 height: '100%',
                 width: '100%',
             }} >
@@ -39,10 +39,10 @@ const AdminPage = () => {
                             padding: '0px',
                         }}>
                             <Grid item xs={12} sm={12} md={12}>
-                                <HomePageForm updateHomeCurrentId={updateHomeCurrentId} setupdateHomeCurrentId={setupdateHomeCurrentId} />
+                                <FoodPageForm setupdateFoodCurrentId={setupdateFoodCurrentId} updateFoodCurrentId={updateFoodCurrentId} />
                             </Grid>
                             <Grid item xs={12} sm={12} md={12}>
-                                <HomePagePost setupdateHomeCurrentId={setupdateHomeCurrentId} />
+                                <FoodPagePost setupdateFoodCurrentId={setupdateFoodCurrentId} />
                             </Grid>
                         </Paper>
                     </Grid>
@@ -53,4 +53,4 @@ const AdminPage = () => {
     )
 }
 
-export default AdminPage;
+export default FoodAdminPage;
