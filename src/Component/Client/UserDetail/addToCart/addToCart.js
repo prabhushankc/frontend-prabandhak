@@ -23,6 +23,15 @@ function AddToCart() {
             dispatch(singleUser(user?.result?._id));
         }
     }, [dispatch]);
+
+     const removeProduct = async (id) => {
+        const cart = await AsingleUser.cart.map((items) => items)
+        if (window.confirm("Do you want to delete this product?")) {
+            await dispatch(deleteaCart({ id, cart }));
+            await dispatch(singleUser(user?.result?._id));
+        }
+    }
+
     const increment = async (id) => {
         const cart = await AsingleUser.cart.map((items) => items)
         let increment = true;
@@ -35,13 +44,13 @@ function AddToCart() {
         await dispatch(incrementaCart({ id, cart, increment }));
         await dispatch(singleUser(user?.result?._id));
     }
-    const removeProduct = async (id) => {
-        const cart = await AsingleUser.cart.map((items) => items)
-        if (window.confirm("Do you want to delete this product?")) {
-            await dispatch(deleteaCart({ id, cart }));
-            await dispatch(singleUser(user?.result?._id));
-        }
-    }
+    // const removeProduct = async (id) => {
+    //     const cart = await AsingleUser.cart.map((items) => items)
+    //     if (window.confirm("Do you want to delete this product?")) {
+    //         await dispatch(deleteaCart({ id, cart }));
+    //         await dispatch(singleUser(user?.result?._id));
+    //     }
+    // }
     const rows = AsingleUser?.cart?.map((cartData, index) => {
         return {
             id: index + 1,
