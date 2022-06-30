@@ -10,6 +10,8 @@ import Google from './Google';
 import Loading from "../../redux/actions/loading/loading";
 import { storage } from '../firebase';
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import ReCAPTCHA from 'react-google-recaptcha';
+import { NotifyError } from '../../redux/actions/notify';
 
 
 
@@ -21,7 +23,7 @@ const SignUp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const classes = useStyles();
-
+  const recaptchaRef = React.useRef();
   const [showPassword, setShowPassword] = useState(false);
   const [showCPassword, setShowCPassword] = useState(false);
   const handleShowPassword = () => { setShowPassword(!showPassword) };
@@ -29,6 +31,8 @@ const SignUp = () => {
   const [image, setimage] = useState({ selectedFile: '' });
   const [imageUrl, setimageUrl] = useState(null);
   const [progress, setProgress] = useState(0);
+  const [recaptchaToken, setrecaptchaToken] = useState(null);
+  console.log(recaptchaToken);
 
   const switchMode = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
@@ -63,6 +67,7 @@ const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isSignup) {
+      if (!recaptchaToken) return NotifyError("Please verify recaptcha");
       dispatch(signup({ ...formData, selectedFile: imageUrl }, navigate));
     } else {
       dispatch(signin(formData, navigate));
@@ -70,7 +75,6 @@ const SignUp = () => {
   };
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
   const { isLoading } = useSelector((state) => state.Auth);
-  console.log(isLoading);
   return (
     <Grid container className={isSignup ? classes.container : classes.container1}>
       {isLoading && <Loading />}
@@ -122,6 +126,13 @@ const SignUp = () => {
                   <div style={{ textAlign: "center", display: 'inline-block' }} ><input style={{ padding: '20px 0px', marginLeft: "50px", width: '50%', color: 'white' }} type="file" id='selectedFile' name='selectedFile' onChange={(e) => setimage({ ...image, selectedFile: e.target.files[0] })} />
                     <Button variant="contained" style={{ backgroundColor: 'rgb(32 51 85) ', margin: '10px 1px', color: 'white', display: 'inline-block' }} size="large" onClick={upload}>Upload Image</Button></div> : null}
               </Grid>
+              {isSignup ? <center style={{ margin: '10px auto' }}><ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey="6LdlA7AgAAAAAJykX1hqnJ6NEfLIe0Tv6kaShg6z"
+                onChange={(value) => {
+                  setrecaptchaToken(value);
+                }}
+              /></center> : null}
               <Button type="submit" fullWidth variant="contained" className={classes.submit} style={isSignup ? { marginBottom: '10px' } : { marginBottom: '1px' }}>
                 {isSignup ? 'Sign Up' : 'Sign In'}
               </Button>
