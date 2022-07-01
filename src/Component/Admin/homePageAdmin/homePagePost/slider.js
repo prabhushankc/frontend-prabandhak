@@ -14,9 +14,7 @@ function Slider({ setupdateHomeCurrentId }) {
     const dispatch = useDispatch();
     const { isLoading, homePageData } = useSelector((state) => state.homePage);
     useEffect(() => {
-        return () => {
-            dispatch(fetchHomePage());
-        }
+        dispatch(fetchHomePage());
     }, [dispatch]);
     const theme = useTheme();
     const [activeStep, setActiveStep] = React.useState(0);

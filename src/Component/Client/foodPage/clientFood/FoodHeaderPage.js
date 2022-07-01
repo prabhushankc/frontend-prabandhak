@@ -3,7 +3,7 @@ import { CardMedia, Typography, TextField, Select, MenuItem, FormControl, InputL
 import useStyle from './FoodHeaderPageStyle'
 import { useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { getFoodBySearch, fetchFoodPage } from '../../../redux/actions/foodPageaction';
+import { fetchFoodPage } from '../../../redux/actions/foodPageaction';
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -13,42 +13,37 @@ const FoodHeaderPage = ({ foodLength }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [search, setSearch] = React.useState('');
+<<<<<<< HEAD
     const [sort, setSort] = React.useState('createdAt');
+=======
+    const [sort, setSort] = React.useState('-sold');
+>>>>>>> d154f38db14880df9c17de89fdc4eed53eefe2fb
     const query = useQuery();
     const searchFood = query.get('title');
-    const [tags, setTags] = React.useState([]);
+    const [tags, setTags] = React.useState('none');
+    const foodquery = {
+        page: 1,
+        limit: 4,
+        sort: sort,
+        title: search ? search : 'none',
+        tags: tags ? tags : 'none'
+    }
 
-    React.useEffect(() => {
-        if (searchFood) {
-            return () => {
-                dispatch(getFoodBySearch({ search: searchFood, tags: tags.join(',') }));
-            }
-        }
-    }, [dispatch, searchFood]);
-
-    const searchPost = () => {
-        if (search.trim() || tags) {
-            dispatch(getFoodBySearch({ search, tags: tags.join(',') }));
-            setSearch('');
-        } else {
-            navigate('/food');
-        }
-    };
-
-    const handleKeyPress = (e) => {
+    const handletitle = async (e) => {
         e.preventDefault();
-        searchPost();
+        setSearch(e.target.value)
+        await dispatch(fetchFoodPage({ ...foodquery, title: e.target.value.toLowerCase() }));
     };
     const handleSort = async (e) => {
         e.preventDefault();
         setSort(e.target.value);
-        const foodquery = {
-            page: 1,
-            limit: 4,
-            sort: e.target.value,
-        };
-        await dispatch(fetchFoodPage(foodquery));
+        await dispatch(fetchFoodPage({ ...foodquery, sort: e.target.value }));
     };
+    const handletags = async (e) => {
+        e.preventDefault();
+        setTags(e.target.value);
+        await dispatch(fetchFoodPage({ ...foodquery, tags: e.target.value }));
+    }
     return (
         <>
             <div className={classes.design}>
@@ -57,28 +52,31 @@ const FoodHeaderPage = ({ foodLength }) => {
                 <Typography className={classes.detail} variant="h5" component="h2">Home - Food</Typography>
             </div>
             <div className={classes.search}>
-                <div className={classes.foodResult}>Showing 1-4 of {foodLength} results</div>
-                <form autoComplete='off' onSubmit={handleKeyPress}>
-                    <TextField
-                        placeholder="Search in Prabandak"
-                        onChange={(e) => setSearch(e.target.value)}
-                        className={classes.textFieldSearch}
-                        focused
-                        variant="standard"
-                        value={search}
-                        name="search"
-                    />
-                </form>
+                <div className={classes.foodResult}>Showing {foodLength} foods</div>
+                <TextField
+                    placeholder="Search in Prabandak"
+                    onChange={handletitle}
+                    className={classes.textFieldSearch}
+                    focused
+                    variant="standard"
+                    value={search}
+                    name="search"
+                />
+                <FormControl className={classes.formControl}>
+                    <InputLabel id="demo-simple-select-label">Sort by</InputLabel>
+                    <Select labelId="demo-simple-select-label" id="demo-simple-select" value={tags} onChange={handletags}>
+                        <MenuItem value={'none'}>All Foods</MenuItem>
+                        <MenuItem value={'dinner'}>dinner</MenuItem>
+                        <MenuItem value={'lunch'}>lunch</MenuItem>
+                        <MenuItem value={'breakfast'}>BreakFast</MenuItem>
+                    </Select>
+                </FormControl>
                 <FormControl className={classes.formControl}>
                     <InputLabel id="demo-simple-select-label">Sort by</InputLabel>
                     <Select labelId="demo-simple-select-label" id="demo-simple-select" value={sort} onChange={handleSort}>
-                        <MenuItem value={'createdAt'}>Newest Product</MenuItem>
-                        <MenuItem value={'-createdAt'}>Oldest Product</MenuItem>
-                        {/* price */}
+                        <MenuItem value={'-sold'}>Best Sales</MenuItem>
                         <MenuItem value={'-price'}>Price: High to Low </MenuItem>
                         <MenuItem value={'price'}>Price: Low to High</MenuItem>
-                        {/* best Sold */}
-                        <MenuItem value={'-sold'}>Best Sales</MenuItem>
                     </Select>
                 </FormControl>
             </div>

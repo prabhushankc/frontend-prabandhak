@@ -10,18 +10,16 @@ import axios from "axios";
 const Verify = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const [checkVerify, setCheckVerify] = React.useState(false);
   const [message, setMessage] = React.useState("");
   console.log(params.id);
   console.log(params.token);
 
-  const verifyUser = () => {
+  const verify = () => {
     axios
       .get(`http://localhost:5000/user/${params.id}/verify/${params.token}`)
       .then(res => {
         setMessage(res.data.message);
         NotifySuccess(res.data.message);
-        setCheckVerify(true);
         setTimeout(() => {
           navigate("/home");
         }, 2000);
@@ -29,7 +27,6 @@ const Verify = () => {
       .catch(err => {
         setMessage(err.response.data.message);
         NotifyError(err.response.data.message);
-        setCheckVerify(true);
         setTimeout(() => {
           navigate("/auth");
         }, 2000);
@@ -74,7 +71,7 @@ const Verify = () => {
               cursor: "pointer",
               marginTop: "10px",
             }}
-            onClick={verifyUser}
+            onClick={verify}
           >
             Verify
           </button>
