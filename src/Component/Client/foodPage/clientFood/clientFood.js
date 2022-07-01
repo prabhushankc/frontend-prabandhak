@@ -59,8 +59,8 @@ const ClientFoodView = () => {
       >
         {foodPageData.slice(0, 4).map((foodData) =>
         (
-          < Grid item xs={12} sm={6} md={4} lg={3}>
-            <Card className={classes.card} key={foodData._id} raised elevation={3}>
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <Card className={classes.card} raised elevation={3}>
               <ButtonBase
                 component="span"
                 name="test"
@@ -70,6 +70,7 @@ const ClientFoodView = () => {
                   className={classes.media}
                   style={{ backgroundImage: `url(${foodData.selectedFile})` }}
                   title={foodData.title.split(" ").splice(0, 1)}
+
                 />
               </ButtonBase>
               <div style={{
@@ -180,22 +181,26 @@ const ClientFoodView = () => {
                 <Button size="small" className={classes.btn} type="button" onClick={
                   async () => {
                     if (user) {
-                      const check = AsingleUser.cart.every(item => {
-                        return item._id !== foodData._id
-                      })
-                      const cart = AsingleUser.cart;
-                      if (check) {
-                        setdisable(true);
-                        setTimeout(() => {
-                          setdisable(false);
-                        }, 4000);
-                        await dispatch(addCart(cart, foodData));
-                        await dispatch(singleUser(user?.result?._id));
+                      if (user?.token?.length < 500) {
+                        const check = AsingleUser.cart.every(item => {
+                          return item._id !== foodData._id
+                        })
+                        const cart = AsingleUser.cart;
+                        if (check) {
+                          setdisable(true);
+                          setTimeout(() => {
+                            setdisable(false);
+                          }, 4000);
+                          await dispatch(addCart(cart, foodData));
+                          await dispatch(singleUser(user?.result?._id));
+                        } else {
+                          NotifyError("Item Already Added");
+                        }
                       } else {
-                        NotifyError("Item Already Added");
+                        NotifyError(" Cart Cannot Added With Google Account");
                       }
                     } else {
-                      NotifyError("Please Login To Add To Cart");
+                      NotifyError("Please Login To Add Item To Cart");
                     }
 
                   }} disabled={disable} >

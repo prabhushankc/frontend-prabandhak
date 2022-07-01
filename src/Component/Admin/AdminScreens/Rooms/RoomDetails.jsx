@@ -4,8 +4,13 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { CardMedia } from "@material-ui/core";
+import { deleteRoom } from "../../../redux/actions/room";
 
 const RoomDetail = ({ rooms, setCurrentId }) => {
+  const dispatch = useDispatch();
+  const deleteHandler = () => {
+    dispatch(deleteRoom(rooms._id));
+  };
   return (
     <>
       <div className="room-details my-4">
@@ -40,7 +45,11 @@ const RoomDetail = ({ rooms, setCurrentId }) => {
           </Button>
           {/* </LinkContainer> */}
 
-          <Button variant="primary" className="py-2 m-2">
+          <Button
+            variant="primary"
+            className="py-2 m-2"
+            onClick={deleteHandler}
+          >
             <i className="fas fa-trash fa-anup"></i>
           </Button>
         </div>

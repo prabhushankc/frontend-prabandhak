@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Col, Container, Form, Image, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import ContactUsListScreen from "../../../Admin/AdminScreens/ContactUs/ContactList";
 import ContactUsImage from "../../../images/ContactUsImage.jpg";
 import Message from "../../../Message/Message";
 import { contactUs } from "../../../redux/actions/contactUs";
 
 const ContactUs = () => {
+  const user = JSON.parse(localStorage.getItem("profile"));
   const dispatch = useDispatch();
 
   const contactUsDetail = useSelector(state => state.contactUs);
@@ -32,8 +34,14 @@ const ContactUs = () => {
     dispatch(contactUs(formData));
   };
 
+  // // useEffect(() => {
+  if (user?.result?.role) {
+    return <ContactUsListScreen />;
+  }
+  // // }, [user.result.role]);
+
   return (
-    <div>
+    <div style={{ height: "100vh" }}>
       <Image
         src={ContactUsImage}
         fluid
@@ -56,10 +64,15 @@ const ContactUs = () => {
               style={{ fontSize: "2rem", color: "black" }}
             />
             <h5 className="mb-2">Talk to Manager</h5>
-            <p className="text-black" style={{ marginBottom: "5rem" }}>
+            <p className="text-black" style={{ marginBottom: "6rem" }}>
               Having problem with the service? Just pick up the phone to have a
               chat with the manager.
             </p>
+            {/* {user.result.role && (
+              <LinkContainer>
+                <Button></Button>
+              </LinkContainer>
+            )} */}
             <p style={{ cursor: "pointer", color: "darkblue" }}>
               +977 9846877737
             </p>

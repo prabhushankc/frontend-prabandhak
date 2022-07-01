@@ -9,7 +9,7 @@ import useStyles from "../Admin/Auth/Styles";
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
-const SearchBox = () => {
+const SortBox = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const query = useQuery();
@@ -69,4 +69,4 @@ const SearchBox = () => {
   );
 };
 
-export default SearchBox;
+export default SortBox;

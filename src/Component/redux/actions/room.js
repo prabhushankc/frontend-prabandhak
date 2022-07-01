@@ -10,6 +10,12 @@ import {
   ROOM_LIST_FAIL,
   ROOM_DETAILS_REQUEST,
   ROOM_DETAILS_SUCCESS,
+  ROOM_DELETE_REQUEST,
+  ROOM_DELETE_SUCCESS,
+  ROOM_DELETE_FAIL,
+  ROOM_CREATE_REVIEW_REQUEST,
+  ROOM_CREATE_REVIEW_SUCCESS,
+  ROOM_CREATE_REVIEW_FAIL,
 } from "../constants/actionTypes";
 import axios from "axios";
 import * as api from "../api";
@@ -66,6 +72,22 @@ export const createRoom = formData => async dispatch => {
   }
 };
 
+export const createRoomReview = (roomId, review) => async dispatch => {
+  try {
+    dispatch({ type: ROOM_CREATE_REVIEW_REQUEST });
+    await api.createRoomReview(roomId, review);
+    dispatch({ type: ROOM_CREATE_REVIEW_SUCCESS });
+  } catch (err) {
+    dispatch({
+      type: ROOM_CREATE_REVIEW_FAIL,
+      payload:
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+    });
+  }
+};
+
 export const updateRoom = (id, formData) => async dispatch => {
   try {
     dispatch({ type: ROOM_UPDATE_REQUEST });
@@ -81,5 +103,23 @@ export const updateRoom = (id, formData) => async dispatch => {
           ? err.response.data.message
           : err.message,
     });
+  }
+};
+
+export const deleteRoom = id => async dispatch => {
+  if (window.confirm("Are you sure you want to delete room?")) {
+    try {
+      dispatch({ type: ROOM_DELETE_REQUEST });
+      await api.deleteRoom(id);
+      dispatch({ type: ROOM_DELETE_SUCCESS });
+    } catch (err) {
+      dispatch({
+        type: ROOM_DELETE_FAIL,
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
   }
 };

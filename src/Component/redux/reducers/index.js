@@ -1,29 +1,43 @@
-<<<<<<< HEAD
 import { combineReducers } from "redux";
 import Auth from "./Auth";
 import homePage from "./homePage";
-import { roomList, roomCreate, roomUpdate, roomDetails } from "./room";
-import { roomBook, roomBookList, roomMyBookList } from "./roomBook";
+import {
+  roomList,
+  roomCreate,
+  roomUpdate,
+  roomDetails,
+  roomDelete,
+  roomReviewCreate,
+} from "./room";
+import {
+  roomBook,
+  roomBookList,
+  roomBookDetails,
+  roomMyBookList,
+  roomBookApprove,
+  roomBookDelete,
+} from "./roomBook";
 import { contactUs, contactUsList } from "./contactUs";
+import foodPage from "./foodPageReducer";
+import payment from "./PaymentReducer";
 
 export const reducers = combineReducers({
   Auth,
   homePage,
+  foodPage,
+  payment,
   roomCreate,
   roomList,
   roomUpdate,
   roomDetails,
+  roomReviewCreate,
+  roomBookApprove,
+  roomDelete,
   roomBook,
   roomBookList,
+  roomBookDetails,
   roomMyBookList,
+  roomBookDelete,
   contactUs,
   contactUsList,
 });
-=======
-import { combineReducers } from 'redux';
-import Auth from './Auth';
-import homePage from './homePage';
-import foodPage from './foodPageReducer';
-import payment from './PaymentReducer';
-export const reducers = combineReducers({ Auth, homePage, foodPage, payment });
->>>>>>> 08e8eb8b5309c0e4c25a58672088a12d39ff45b1

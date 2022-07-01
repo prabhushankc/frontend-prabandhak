@@ -1,9 +1,8 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Box = styled.div`
   padding: 40px 60px;
-  background: #330000;
-
+  background: rgb(32 51 85);
   @media (max-width: 1000px) {
     padding: 70px 30px;
   }
@@ -14,24 +13,25 @@ export const Box = styled.div`
 `;
 
 export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 `;
 
 export const Column = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  text-align: center;
 `;
 
 export const Row = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, 
+                         minmax(300px, 1fr));
   grid-gap: 100px;
-
+   
   @media (max-width: 1000px) {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, 
+                           minmax(200px, 1fr));
   }
 `;
 export const FooterLink = styled.a`
@@ -41,8 +41,8 @@ export const FooterLink = styled.a`
   text-decoration: none;
   font-weight: 300;
   &:hover {
-    color: white;
-    transition: 200ms ease-in;
+      color: white;
+      transition: 200ms ease-in;
   }
 `;
 
@@ -50,9 +50,9 @@ export const Heading = styled.p`
   font-size: 26px;
   color: #fff;
   margin-bottom: 40px;
-  font-weight: 300;
+  font-weight: 300;  
   &:hover {
     color: white;
     transition: 200ms ease-in;
-  }
+}
 `;

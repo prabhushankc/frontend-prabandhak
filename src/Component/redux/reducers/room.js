@@ -13,6 +13,13 @@ import {
   ROOM_DETAILS_REQUEST,
   ROOM_DETAILS_SUCCESS,
   ROOM_DETAILS_FAIL,
+  ROOM_DELETE_REQUEST,
+  ROOM_DELETE_SUCCESS,
+  ROOM_DELETE_FAIL,
+  ROOM_CREATE_REVIEW_REQUEST,
+  ROOM_CREATE_REVIEW_SUCCESS,
+  ROOM_CREATE_REVIEW_FAIL,
+  ROOM_CREATE_REVIEW_RESET,
 } from "../constants/actionTypes";
 
 const initialState = {
@@ -70,7 +77,7 @@ function roomDetails(state = initialState, action) {
       return { ...state, loading: true };
     }
     case ROOM_DETAILS_SUCCESS: {
-      return { ...state, loading: false, room: payload };
+      return { ...state, loading: false, success: true, room: payload };
     }
     case ROOM_DETAILS_FAIL: {
       return { ...state, loading: false, error: payload };
@@ -109,4 +116,50 @@ function roomUpdate(state = initialState, action) {
   }
 }
 
-export { roomList, roomCreate, roomUpdate, roomDetails };
+function roomDelete(state = initialState, action) {
+  const { type, payload } = action;
+
+  switch (type) {
+    case ROOM_DELETE_REQUEST: {
+      return { ...state, loading: true, success: false };
+    }
+    case ROOM_DELETE_SUCCESS: {
+      return { ...state, loading: false, success: true };
+    }
+    case ROOM_DELETE_FAIL: {
+      return { ...state, loading: false, error: payload };
+    }
+    default:
+      return state;
+  }
+}
+
+function roomReviewCreate(state = initialState, action) {
+  const { type, payload } = action;
+
+  switch (type) {
+    case ROOM_CREATE_REVIEW_REQUEST: {
+      return { ...state, loading: true, success: false };
+    }
+    case ROOM_CREATE_REVIEW_SUCCESS: {
+      return { ...state, loading: false, success: true };
+    }
+    case ROOM_CREATE_REVIEW_FAIL: {
+      return { ...state, loading: false, error: payload };
+    }
+    case ROOM_CREATE_REVIEW_RESET: {
+      return {};
+    }
+    default:
+      return state;
+  }
+}
+
+export {
+  roomList,
+  roomCreate,
+  roomUpdate,
+  roomDetails,
+  roomDelete,
+  roomReviewCreate,
+};
