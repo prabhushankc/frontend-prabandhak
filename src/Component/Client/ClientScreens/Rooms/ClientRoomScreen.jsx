@@ -14,7 +14,7 @@ const ClientRoomScreen = () => {
     };
   }, [dispatch]);
 
-  if (user?.result.role) {
+  if (user?.result?.role) {
     return <AdminRoomScreen />;
   }
 

@@ -13,7 +13,11 @@ const FoodHeaderPage = ({ foodLength }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [search, setSearch] = React.useState('');
+<<<<<<< HEAD
+    const [sort, setSort] = React.useState('createdAt');
+=======
     const [sort, setSort] = React.useState('-sold');
+>>>>>>> d154f38db14880df9c17de89fdc4eed53eefe2fb
     const query = useQuery();
     const searchFood = query.get('title');
     const [tags, setTags] = React.useState('none');

@@ -8,6 +8,15 @@ import {
   ROOM_MY_BOOKED_LIST_REQUEST,
   ROOM_MY_BOOKED_LIST_SUCCESS,
   ROOM_MY_BOOKED_LIST_FAIL,
+  ROOM_BOOKED_DELETE_REQUEST,
+  ROOM_BOOKED_DELETE_SUCCESS,
+  ROOM_BOOKED_DELETE_FAIL,
+  ROOM_BOOKED_APPROVE_REQUEST,
+  ROOM_BOOKED_APPROVE_SUCCESS,
+  ROOM_BOOKED_APPROVE_FAIL,
+  ROOM_BOOKED_DETAILS_REQUEST,
+  ROOM_BOOKED_DETAILS_SUCCESS,
+  ROOM_BOOKED_DETAILS_FAIL,
 } from "../constants/actionTypes";
 
 import * as api from "../api";
@@ -20,6 +29,22 @@ export const bookRoom = (formData, id) => async dispatch => {
   } catch (err) {
     dispatch({
       type: ROOM_BOOK_FAIL,
+      payload:
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+    });
+  }
+};
+
+export const bookRoomDetails = id => async dispatch => {
+  try {
+    dispatch({ type: ROOM_BOOKED_DETAILS_REQUEST });
+    const { data } = await api.roomBookedDetails(id);
+    dispatch({ type: ROOM_BOOKED_DETAILS_SUCCESS, payload: data });
+  } catch (err) {
+    dispatch({
+      type: ROOM_BOOKED_DETAILS_FAIL,
       payload:
         err.response && err.response.data.message
           ? err.response.data.message
@@ -57,5 +82,39 @@ export const myBookedRoomList = () => async dispatch => {
           ? err.response.data.message
           : err.message,
     });
+  }
+};
+
+export const approveBookedRoom = id => async dispatch => {
+  try {
+    dispatch({ type: ROOM_BOOKED_APPROVE_REQUEST });
+    const { data } = await api.roomBookedApprove(id);
+    dispatch({ type: ROOM_BOOKED_APPROVE_SUCCESS, payload: data });
+  } catch (err) {
+    dispatch({
+      type: ROOM_BOOKED_APPROVE_FAIL,
+      payload:
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+    });
+  }
+};
+
+export const deleteBookedRoom = id => async dispatch => {
+  if (window.confirm("Are you sure you want to delete booked room?")) {
+    try {
+      dispatch({ type: ROOM_BOOKED_DELETE_REQUEST });
+      await api.deleteBookedRooms(id);
+      dispatch({ type: ROOM_BOOKED_DELETE_SUCCESS });
+    } catch (err) {
+      dispatch({
+        type: ROOM_BOOKED_DELETE_FAIL,
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
   }
 };

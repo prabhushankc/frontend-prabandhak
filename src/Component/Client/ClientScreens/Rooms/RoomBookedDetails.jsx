@@ -1,54 +1,22 @@
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Col,
-  Container,
-  Form,
-  Image,
-  ListGroup,
-  Row,
-} from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
+import React, { useEffect } from "react";
+import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { createRoomReview, detailRoom } from "../../../redux/actions/room";
 import Rating from "../../../Extra/Rating";
-import Message from "../../../Message/Message";
-import { Link } from "react-router-dom";
-import { ROOM_CREATE_REVIEW_RESET } from "../../../redux/constants/actionTypes";
+import { bookRoomDetails } from "../../../redux/actions/roomBook";
 
-const RoomDetails = () => {
+const RoomBookedDetails = () => {
   const params = useParams();
   const roomId = params.id;
   const dispatch = useDispatch();
 
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState("");
-
-  const roomDetails = useSelector(state => state.roomDetails);
-  const { room, loading: loadingDetails } = roomDetails;
-
-  const Auth = useSelector(state => state.Auth);
-  const { AsingleUser: userInfo } = Auth;
-
-  const roomReviewCreate = useSelector(state => state.roomReviewCreate);
-  const { error: errorRoomReview, success: successRoomReview } =
-    roomReviewCreate;
+  const roomBookDetails = useSelector(state => state.roomBookDetails);
+  const { roomBookingData: roomData, loading: loadingDetails } =
+    roomBookDetails;
 
   useEffect(() => {
-    if (successRoomReview) {
-      alert("Review Submitted!");
-      setRating(0);
-      setComment("");
-      dispatch({ type: ROOM_CREATE_REVIEW_RESET });
-    }
-    dispatch(detailRoom(roomId));
-  }, [dispatch, roomId, successRoomReview]);
-
-  const submitHandler = e => {
-    e.preventDefault();
-    dispatch(createRoomReview(params.id, { rating, comment }));
-  };
+    dispatch(bookRoomDetails(roomId));
+  }, [dispatch, roomId]);
 
   return (
     !loadingDetails && (
@@ -57,12 +25,12 @@ const RoomDetails = () => {
           <Row className="my-3">
             <Col md={6}>
               <Image
-                src={room.image}
+                src={roomData.room.image}
                 style={{ height: "28rem", width: "33.5rem" }}
               />
             </Col>
             <Col md={6}>
-              <h3>{room.title}</h3>
+              <h3>{roomData.room.title}</h3>
               <div
                 className="room-details-rating-full my-4"
                 style={{ display: "flex" }}
@@ -82,8 +50,8 @@ const RoomDetails = () => {
                     }}
                   >
                     <Rating
-                      value={room.rating ? room.rating : 0}
-                      text={`${room.rating} out of 5`}
+                      value={roomData.room.rating ? roomData.room.rating : 0}
+                      text={`${roomData.room.rating} out of 5`}
                       color="#523c8d"
                     />
                   </div>
@@ -95,7 +63,8 @@ const RoomDetails = () => {
                         justifyContent: "center",
                       }}
                     >
-                      {room.numReviews} customer ratings
+                      {roomData.room.numReviews} customer{" "}
+                      {roomData.room.numReviews <= 1 ? "rating" : "ratings"}
                     </small>
                   </div>
                 </div>
@@ -116,7 +85,7 @@ const RoomDetails = () => {
                     marginTop: "7px",
                   }}
                 >
-                  Available{" "}
+                  Booked{" "}
                   <i
                     className="fa fa-check"
                     aria-hidden="true"
@@ -148,8 +117,8 @@ const RoomDetails = () => {
                       }}
                     ></i>
                     <p style={{ fontSize: "0.75rem" }}>
-                      It include {room.noofbeds} Queen sized bed, private
-                      kitchen, bathroom and some living spaces.
+                      It include {roomData.room.noofbeds} Queen sized bed,
+                      private kitchen, bathroom and some living spaces.
                     </p>
                   </div>
                   <div
@@ -257,85 +226,51 @@ const RoomDetails = () => {
                 style={{ marginLeft: "1.5rem", display: "flex" }}
               >
                 <h3 style={{ marginRight: "3rem" }}>
-                  Rs. {room.price} / Night
+                  Rs. {roomData.room.price} / Night
                 </h3>
-                <LinkContainer
-                  to={`/${room._id}/book/room`}
-                  style={{ background: "#523c8d", borderRadius: "2rem" }}
-                >
-                  <Button type="primary">Book Now</Button>
-                </LinkContainer>
+
+                {roomData.isApproved ? (
+                  <Button
+                    style={{
+                      fontSize: "1rem",
+                      outline: "auto",
+                      outlineStyle: "round",
+                      backgroundColor: "green",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    <i
+                      className="fas fa-check"
+                      style={{
+                        fontSize: "1.2rem",
+                        marginRight: "0.6rem",
+                        marginTop: "2px",
+                      }}
+                    ></i>
+                    Approved
+                  </Button>
+                ) : (
+                  <Button
+                    style={{
+                      fontSize: "1rem",
+                      outline: "auto",
+                      outlineStyle: "round",
+                      backgroundColor: "blue",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    <i
+                      className="fas fa-ban"
+                      style={{
+                        fontSize: "1.2rem",
+                        marginRight: "0.6rem",
+                        marginTop: "2px",
+                      }}
+                    ></i>
+                    Pending
+                  </Button>
+                )}
               </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={6}>
-              <h2>Reviews</h2>
-              {room.reviews.length === 0 && <Message>No Reviews</Message>}
-              <ListGroup variant="flush">
-                {room.reviews.map(review => (
-                  <ListGroup.Item key={review._id}>
-                    <div style={{ display: "flex" }}>
-                      {/* <Image
-                        src={userInfo.selectedFile}
-                        style={{
-                          height: "2.5rem",
-                          width: "3rem",
-                          borderRadius: "50%",
-                          marginRight: "1rem",
-                        }}
-                      /> */}
-                      <strong>{review.name}</strong>
-                    </div>
-                    <Rating value={review.rating} />
-                    <p style={{ color: "gray" }}>
-                      Reviewed on {review.createdAt.substring(0, 10)}
-                    </p>
-                    <p>{review.comment}</p>
-                  </ListGroup.Item>
-                ))}
-                <ListGroup.Item>
-                  <h2>Write a Customer Review</h2>
-                  {errorRoomReview && (
-                    <Message variant="danger">{errorRoomReview}</Message>
-                  )}
-                  {userInfo ? (
-                    <Form onSubmit={submitHandler}>
-                      <Form.Group controlId="rating">
-                        <Form.Label>Rating</Form.Label>
-                        <Form.Control
-                          as="select"
-                          value={rating}
-                          onChange={e => setRating(e.target.value)}
-                        >
-                          <option value="">Select...</option>
-                          <option value="1">1 - Poor</option>
-                          <option value="2">2 - Fair</option>
-                          <option value="3">3 - Good</option>
-                          <option value="4">4 - Great</option>
-                          <option value="5">5 - Excellent</option>
-                        </Form.Control>
-                      </Form.Group>
-                      <Form.Group controlId="comment">
-                        <Form.Label>Comment</Form.Label>
-                        <Form.Control
-                          as="textarea"
-                          rows={3}
-                          value={comment}
-                          onChange={e => setComment(e.target.value)}
-                        ></Form.Control>
-                      </Form.Group>
-                      <Button type="submit" variant="primary" className="mt-3">
-                        Submit
-                      </Button>
-                    </Form>
-                  ) : (
-                    <Message>
-                      Please <Link to="/auth"> Sign In</Link> to write a review.
-                    </Message>
-                  )}
-                </ListGroup.Item>
-              </ListGroup>
             </Col>
           </Row>
         </Container>
@@ -344,4 +279,4 @@ const RoomDetails = () => {
   );
 };
 
-export default RoomDetails;
+export default RoomBookedDetails;
