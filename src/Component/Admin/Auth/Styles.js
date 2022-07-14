@@ -13,7 +13,7 @@ export default makeStyles((theme) => ({
   },
   Style: {
     marginTop: '25px',
-    height: '102vh',
+    height: '120vh',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',

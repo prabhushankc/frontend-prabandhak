@@ -16,6 +16,9 @@ import {
   ROOM_CREATE_REVIEW_REQUEST,
   ROOM_CREATE_REVIEW_SUCCESS,
   ROOM_CREATE_REVIEW_FAIL,
+  ROOM_REPLY_REVIEW_REQUEST,
+  ROOM_REPLY_REVIEW_SUCCESS,
+  ROOM_REPLY_REVIEW_FAIL,
 } from "../constants/actionTypes";
 import axios from "axios";
 import * as api from "../api";
@@ -80,6 +83,22 @@ export const createRoomReview = (roomId, review) => async dispatch => {
   } catch (err) {
     dispatch({
       type: ROOM_CREATE_REVIEW_FAIL,
+      payload:
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+    });
+  }
+};
+
+export const replyRoomReview = (roomId, reviewId, reply) => async dispatch => {
+  try {
+    dispatch({ type: ROOM_REPLY_REVIEW_REQUEST });
+    const { data } = await api.replyRoomReview(roomId, reviewId, reply);
+    dispatch({ type: ROOM_REPLY_REVIEW_SUCCESS, payload: data });
+  } catch (err) {
+    dispatch({
+      type: ROOM_REPLY_REVIEW_FAIL,
       payload:
         err.response && err.response.data.message
           ? err.response.data.message

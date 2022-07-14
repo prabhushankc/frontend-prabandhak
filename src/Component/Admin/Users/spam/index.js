@@ -1,19 +1,18 @@
-import React from 'react'
-import FoodPageForm from './foodPageForm/foodPageForm'
-import FoodPagePost from './foodPagePost/foodPagePost';
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import Spammer from './spammer';
 import { Grid, Paper } from '@material-ui/core';
-import Drawer from '../Drawer/drawer.js';
-import ClientFoodPage from '../../Client/foodPage/clientFoodPage';
+import Drawer from '../../Drawer/drawer';
+import { getUsers } from '../../../redux/actions/Auth';
+import Loading from '../../../redux/actions/loading/loading';
 const FoodAdminPage = () => {
-    const user = JSON.parse(localStorage.getItem('profile'))
-    const [updateFoodCurrentId, setupdateFoodCurrentId] = React.useState(null);
-    if (!user?.result?.role) {
-        return (
-            <ClientFoodPage />
-        )
-    }
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getUsers());
+    }, [dispatch]);
+    const { isLoading, allUser } = useSelector((state) => state.Auth);
     return (
-        // <Grow in={true}>
         <Grid container style={{
             padding: '0px',
             margin: '0px',
@@ -26,6 +25,7 @@ const FoodAdminPage = () => {
                 height: '100%',
                 width: '100%',
             }} >
+
                 <Grid container justifyContent="space-between" alignItems="stretch" style={{
                     padding: '0px',
                     marginTop: '70px',
@@ -38,11 +38,11 @@ const FoodAdminPage = () => {
                             margin: '0px',
                             padding: '0px',
                         }}>
-                            <Grid item xs={12} sm={12} md={12}>
-                                <FoodPageForm setupdateFoodCurrentId={setupdateFoodCurrentId} updateFoodCurrentId={updateFoodCurrentId} />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={12}>
-                                <FoodPagePost setupdateFoodCurrentId={setupdateFoodCurrentId} />
+                            <Grid item xs={12} sm={12} md={12} style={{
+                                backgroundColor: 'rgb(32, 51, 85)',
+                            }}>
+                                {(isLoading || allUser === undefined) ? <Loading /> :
+                                    <Spammer spammer={allUser} loading={isLoading} />}
                             </Grid>
                         </Paper>
                     </Grid>

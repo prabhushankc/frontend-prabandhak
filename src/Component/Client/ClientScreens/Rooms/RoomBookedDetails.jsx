@@ -75,14 +75,15 @@ const RoomBookedDetails = () => {
                     border: "1px solid black",
                     height: "1.5rem",
                     marginTop: "9px",
+                    marginRight: "1rem",
                   }}
                 ></div>
 
                 <p
                   style={{
-                    marginLeft: "1rem",
                     color: "black",
                     marginTop: "7px",
+                    marginRight: "10px",
                   }}
                 >
                   Booked{" "}
@@ -95,6 +96,49 @@ const RoomBookedDetails = () => {
                       color: "green",
                     }}
                   ></i>
+                </p>
+                <div
+                  className="vl"
+                  style={{
+                    border: "1px solid black",
+                    height: "1.5rem",
+                    marginTop: "9px",
+                    marginRight: "1rem",
+                  }}
+                ></div>
+                <p
+                  style={{
+                    color: "black",
+                    marginTop: "7px",
+                  }}
+                >
+                  {roomData.isPaid ? (
+                    <>
+                      Paid{" "}
+                      <i
+                        className="fa fa-check"
+                        aria-hidden="true"
+                        style={{
+                          marginLeft: "5px",
+                          fontSize: "1.2rem",
+                          color: "green",
+                        }}
+                      ></i>
+                    </>
+                  ) : (
+                    <>
+                      Not Paid{" "}
+                      <i
+                        className="fa fa-close"
+                        aria-hidden="true"
+                        style={{
+                          marginLeft: "5px",
+                          fontSize: "1.2rem",
+                          color: "red",
+                        }}
+                      ></i>
+                    </>
+                  )}
                 </p>
               </div>
 

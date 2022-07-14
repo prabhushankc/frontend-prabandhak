@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
 import Auth from "./Auth";
 import homePage from "./homePage";
+import foodPage from "./foodPageReducer";
+import payment from "./PaymentReducer";
 import {
   roomList,
   roomCreate,
@@ -8,19 +10,18 @@ import {
   roomDetails,
   roomDelete,
   roomReviewCreate,
+  roomReviewReply,
 } from "./room";
 import {
   roomBook,
   roomBookList,
   roomBookDetails,
+  roomBookPayment,
   roomMyBookList,
   roomBookApprove,
   roomBookDelete,
 } from "./roomBook";
-import { contactUs, contactUsList } from "./contactUs";
-import foodPage from "./foodPageReducer";
-import payment from "./PaymentReducer";
-
+import { contactUs, contactUsList, contactUsDelete } from "./contactUs";
 export const reducers = combineReducers({
   Auth,
   homePage,
@@ -31,13 +32,16 @@ export const reducers = combineReducers({
   roomUpdate,
   roomDetails,
   roomReviewCreate,
+  roomReviewReply,
   roomBookApprove,
   roomDelete,
   roomBook,
   roomBookList,
   roomBookDetails,
+  roomBookPayment,
   roomMyBookList,
   roomBookDelete,
   contactUs,
   contactUsList,
+  contactUsDelete,
 });

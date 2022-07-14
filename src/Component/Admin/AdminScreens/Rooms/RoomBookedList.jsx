@@ -44,7 +44,7 @@ const RoomBookedList = () => {
             <thead>
               <tr>
                 <th className="text-black">Name</th>
-                <th className="text-black">Booked Room Id</th>
+                <th className="text-black">Room Name</th>
                 <th className="text-black">No of Guests</th>
                 <th className="text-black">No of Rooms</th>
                 <th className="text-black">Check-In Date</th>
@@ -57,7 +57,7 @@ const RoomBookedList = () => {
               <tbody key={item._id}>
                 <tr>
                   <td className="text-black">{item.name}</td>
-                  <td className="text-black">{item._id}</td>
+                  <td className="text-black">{item.room.title}</td>
                   <td className="text-black">{item.noofguests}</td>
                   <td className="text-black">{item.noofdays}</td>
                   <td>

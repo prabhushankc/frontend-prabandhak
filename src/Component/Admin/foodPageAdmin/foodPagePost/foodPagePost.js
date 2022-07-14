@@ -22,6 +22,8 @@ function FoodPostAdmin({ setupdateFoodCurrentId }) {
         page: page ? Number(page) : 1,
         limit: limit ? Number(limit) : 4,
         sort: sort ? sort : "createdAt",
+        tags: 'none',
+        title: 'none'
     };
     useEffect(() => {
         return () => {

@@ -5,6 +5,9 @@ import {
   CONTACT_US_LIST_REQUEST,
   CONTACT_US_LIST_SUCCESS,
   CONTACT_US_LIST_FAIL,
+  CONTACT_US_DELETE_FAIL,
+  CONTACT_US_DELETE_REQUEST,
+  CONTACT_US_DELETE_SUCCESS,
 } from "../constants/actionTypes";
 
 import * as api from "../api";
@@ -33,6 +36,22 @@ export const listContactUs = formData => async dispatch => {
   } catch (err) {
     dispatch({
       type: CONTACT_US_LIST_FAIL,
+      payload:
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+    });
+  }
+};
+
+export const deleteContactUs = id => async dispatch => {
+  try {
+    dispatch({ type: CONTACT_US_DELETE_REQUEST });
+    await api.deleteContactUs(id);
+    dispatch({ type: CONTACT_US_DELETE_SUCCESS });
+  } catch (err) {
+    dispatch({
+      type: CONTACT_US_DELETE_FAIL,
       payload:
         err.response && err.response.data.message
           ? err.response.data.message

@@ -1,17 +1,20 @@
 import React from "react";
 import KhaltiCheckout from "khalti-checkout-web";
 import { Button } from "@material-ui/core";
+import { useDispatch } from "react-redux";
 import myKey from "../../../khaltiIntegration/khaltiKey";
 import Message from "../../../../Message/Message";
-export default function Khalti() {
+import { payBookedRoom } from "../../../../redux/actions/roomBook";
+export default function Khalti({ paymentId }) {
+  const dispatch = useDispatch();
   let config = {
     publicKey: myKey.publicTestKey,
     productIdentity: "12355321",
     productName: "Prabandhak",
     productUrl: "http://localhost:3000/done",
     eventHandler: {
-      onSuccess(payment) {
-        console.log(payment);
+      onSuccess() {
+        dispatch(payBookedRoom(paymentId));
       },
       onError(error) {
         console.log(error.message);

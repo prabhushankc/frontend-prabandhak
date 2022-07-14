@@ -20,6 +20,10 @@ import {
   ROOM_CREATE_REVIEW_SUCCESS,
   ROOM_CREATE_REVIEW_FAIL,
   ROOM_CREATE_REVIEW_RESET,
+  ROOM_REPLY_REVIEW_REQUEST,
+  ROOM_REPLY_REVIEW_SUCCESS,
+  ROOM_REPLY_REVIEW_FAIL,
+  ROOM_REPLY_REVIEW_RESET,
 } from "../constants/actionTypes";
 
 const initialState = {
@@ -155,6 +159,27 @@ function roomReviewCreate(state = initialState, action) {
   }
 }
 
+function roomReviewReply(state = initialState, action) {
+  const { type, payload } = action;
+
+  switch (type) {
+    case ROOM_REPLY_REVIEW_REQUEST: {
+      return { ...state, loading: true, success: false };
+    }
+    case ROOM_REPLY_REVIEW_SUCCESS: {
+      return { ...state, loading: false, success: true, room: payload };
+    }
+    case ROOM_REPLY_REVIEW_FAIL: {
+      return { ...state, loading: false, error: payload };
+    }
+    case ROOM_REPLY_REVIEW_RESET: {
+      return {};
+    }
+    default:
+      return state;
+  }
+}
+
 export {
   roomList,
   roomCreate,
@@ -162,4 +187,5 @@ export {
   roomDetails,
   roomDelete,
   roomReviewCreate,
+  roomReviewReply,
 };

@@ -12,25 +12,28 @@ API.interceptors.request.use(req => {
 });
 
 // fetch auth
-export const signIn = (formData) => API.post(`/user/signin`, formData);
+export const signIn = formData => API.post(`/user/signin`, formData);
 
-export const signUp = (formData) => API.post(`/user/signup`, formData);
+export const signUp = formData => API.post(`/user/signup`, formData);
 
-export const singleUser = (id) => API.get(`/user/singleuser/${id}`);
+export const singleUser = id => API.get(`/user/singleuser/${id}`);
 
-export const updateSingleUser = (id, formData) => API.patch(`/user/updatesingleuser/${id}`, formData);
+export const updateSingleUser = (id, formData) =>
+  API.patch(`/user/updatesingleuser/${id}`, formData);
 
-export const deleteUser = (id) => API.delete(`/user/deleteuser/${id}`);
+export const deleteUser = id => API.delete(`/user/deleteuser/${id}`);
 
-export const addCart = (formData) => API.patch(`/user/addcart`, formData);
+export const addCart = formData => API.patch(`/user/addcart`, formData);
 
 export const deleteaCart = (id, cart) => API.patch(`/user/dltcart/${id}`, cart);
 
-export const incrementaCart = (id, data) => API.patch(`/user/increment/${id}`, data);
+export const incrementaCart = (id, data) =>
+  API.patch(`/user/increment/${id}`, data);
 
 export const VerifyUser = (id, token) => API.get(`/user/${id}/verify/${token}`);
 
-export const reportData = (userId, reportData) => API.post(`/user/report/${userId}`, reportData);
+export const reportData = (userId, reportData) =>
+  API.post(`/user/report/${userId}`, reportData);
 
 export const getUsers = () => API.get(`/user/users`);
 
@@ -40,16 +43,24 @@ export const createHomePage = formData => API.post(`/homepage`, formData);
 export const deleteHome = id => API.delete(`/homepage/deletehome/${id}`);
 export const updateHomePage = (id, formData) =>
   API.patch(`/homepage/${id}`, formData);
-
 // fetch foodPage
-export const getFoodPage = (foodquery) => API.get(`/foodpage?page=${foodquery.page}&limit=${foodquery.limit}&sort=${foodquery.sort}&tags=${foodquery.tags}&title[regex]=${foodquery.title}`);
-export const getFoodBySearch = ({ search, tags }) => API.get(`/foodpage/search?searchFood=${search || 'none'}&tags=${tags || 'none'}`);
-export const createFoodPage = (formData) => API.post(`/foodpage`, formData);
-export const deleteFood = (id) => API.delete(`/foodpage/deletefood/${id}`)
-export const updateFoodPage = (id, formData) => API.patch(`/foodpage/${id}`, formData);
-export const getFoodById = (id) => API.get(`/foodpage/${id}`);
-export const commentFood = (id, formData, updated) => API.patch(`/foodpage/comment/${id}`, formData, updated);
-export const deleteCommentFood = (id, cmtuserId) => API.delete(`/foodpage/comment/${id}/${cmtuserId}`);
+export const getFoodPage = foodquery =>
+  API.get(
+    `/foodpage?page=${foodquery.page}&limit=${foodquery.limit}&sort=${foodquery.sort}&tags=${foodquery.tags}&title[regex]=${foodquery.title}`
+  );
+export const getFoodBySearch = ({ search, tags }) =>
+  API.get(
+    `/foodpage/search?searchFood=${search || "none"}&tags=${tags || "none"}`
+  );
+export const createFoodPage = formData => API.post(`/foodpage`, formData);
+export const deleteFood = id => API.delete(`/foodpage/deletefood/${id}`);
+export const updateFoodPage = (id, formData) =>
+  API.patch(`/foodpage/${id}`, formData);
+export const getFoodById = id => API.get(`/foodpage/${id}`);
+export const commentFood = (id, formData, updated) =>
+  API.patch(`/foodpage/comment/${id}`, formData, updated);
+export const deleteCommentFood = (id, cmtuserId) =>
+  API.delete(`/foodpage/comment/${id}/${cmtuserId}`);
 
 // fetch roomPage
 export const createRoom = formData => API.post("/api/rooms", formData);
@@ -59,6 +70,8 @@ export const singleRoomDetails = id => API.get(`/api/rooms/${id}`);
 export const deleteRoom = id => API.delete(`/api/rooms/${id}`);
 export const createRoomReview = (roomId, review) =>
   API.post(`/api/rooms/${roomId}/reviews`, review);
+export const replyRoomReview = (roomId, reviewId, reply) =>
+  API.put(`/api/rooms/${roomId}/${reviewId}/reply`, { reply });
 
 // Book room
 export const bookRoom = (formData, id) =>
@@ -68,11 +81,14 @@ export const myBookedRooms = () => API.get("/api/booked/rooms/my/own");
 export const roomBookedDetails = id => API.get(`/api/booked/rooms/${id}`);
 export const roomBookedApprove = id =>
   API.put(`/api/booked/rooms/${id}/approve`);
+export const roomBookedPayment = id =>
+  API.put(`/api/booked/rooms/${id}/payment`);
 export const deleteBookedRooms = id => API.delete(`/api/booked/rooms/${id}`);
 
 // Contact Us Page
 export const contactUs = formData => API.post("/api/contact/us", formData);
 export const listContactUs = () => API.get("/api/contact/us");
+export const deleteContactUs = id => API.delete(`/api/contact/us/${id}`);
 
 // fetch Payment
 export const getPayment = () => API.get(`/payment`);

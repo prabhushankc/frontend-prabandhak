@@ -47,7 +47,7 @@ const CommentSection = ({ food }) => {
     const deleteComment = async () => {
         await dispatch(deleteCommentFood(food._id, AsingleUser?._id));
     }
-    const fakeUser = AsingleUser?.report.length <= 3 ? false : true;
+    const fakeUser = AsingleUser?.report.length >= 2 ? true : false;
     const [userId, setUserId] = useState("");
     const [userName, setUserName] = useState("");
     const [report, setReport] = useState(false);
@@ -83,7 +83,7 @@ const CommentSection = ({ food }) => {
                         variant="outlined"
                         autoFocus={true}
                         inputProps={{ maxLength: 75, style: { fontSize: "1.1rem", color: 'white' } }}
-                        label={fakeUser ? "Comment is restricted" : `Reason for Reporting ${userName}`}
+                        label={fakeUser ? "You're not allowed to comment" : `Reason for Reporting ${userName}`}
                         InputLabelProps={fakeUser ? { style: { fontSize: "1rem", color: '#f50057' } } : { style: { fontSize: "1rem", color: 'white' } }}
                         value={reportReason}
                         onChange={(e) => setReportReason(e.target.value)}

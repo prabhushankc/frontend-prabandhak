@@ -12,7 +12,7 @@ import {
 import useStyles from "./clientFoodStyle";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { fetchFoodPage } from "../../../redux/actions/foodPageaction";
 import { addCart, singleUser } from "../../../redux/actions/Auth";
 import { NotifyError } from "../../../redux/actions/notify";
@@ -25,6 +25,7 @@ function useQuery() {
 
 const ClientFoodView = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { foodPageData } = useSelector((state) => state.foodPage);
   const [disable, setdisable] = React.useState(false);
   const { AsingleUser } = useSelector(state => state.Auth);
@@ -67,6 +68,9 @@ const ClientFoodView = () => {
                 component="span"
                 name="test"
                 className={classes.cardAction}
+                onClick={() => {
+                  navigate(`/food/${foodData._id}`)
+                }}
               >
                 <CardMedia
                   className={classes.media}
@@ -106,7 +110,7 @@ const ClientFoodView = () => {
                   color="textSecondary"
                   component="p"
                 >
-                  {foodData.description.split(" ").splice(0, 13).join(" ")}
+                  {foodData.description.split(" ").splice(0, 11).join(" ")}
                   ...
                 </Typography>
                 <div

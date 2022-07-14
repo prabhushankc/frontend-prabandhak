@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import { Button, Col, Container, Form, Image, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import ContactUsListScreen from "../../../Admin/AdminScreens/ContactUs/ContactList";
+import { LinkContainer } from "react-router-bootstrap";
 import ContactUsImage from "../../../images/ContactUsImage.jpg";
 import Message from "../../../Message/Message";
 import { contactUs } from "../../../redux/actions/contactUs";
+import { CONTACT_US_RESET } from "../../../redux/constants/actionTypes";
 
 const ContactUs = () => {
-  const user = JSON.parse(localStorage.getItem("profile"));
   const dispatch = useDispatch();
 
   const contactUsDetail = useSelector(state => state.contactUs);
   const { success: successContact, error: errorContact } = contactUsDetail;
+
+  const Auth = useSelector(state => state.Auth);
+  const { AsingleUser: user } = Auth;
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -32,12 +35,13 @@ const ContactUs = () => {
   const submitHandler = e => {
     e.preventDefault();
     dispatch(contactUs(formData));
+    dispatch({ type: CONTACT_US_RESET });
   };
 
   // // useEffect(() => {
-  if (user?.result?.role) {
-    return <ContactUsListScreen />;
-  }
+  // if (user?.result?.role) {
+  //   return <ContactUsListScreen />;
+  // }
   // // }, [user.result.role]);
 
   return (
@@ -55,7 +59,7 @@ const ContactUs = () => {
               textAlign: "center",
               position: "absolute",
               top: "11rem",
-              left: "10rem",
+              left: "18rem",
               width: "34%",
             }}
           >
@@ -64,18 +68,30 @@ const ContactUs = () => {
               style={{ fontSize: "2rem", color: "black" }}
             />
             <h5 className="mb-2">Talk to Manager</h5>
-            <p className="text-black" style={{ marginBottom: "6rem" }}>
-              Having problem with the service? Just pick up the phone to have a
-              chat with the manager.
-            </p>
-            {/* {user.result.role && (
-              <LinkContainer>
-                <Button></Button>
-              </LinkContainer>
-            )} */}
-            <p style={{ cursor: "pointer", color: "darkblue" }}>
-              +977 9846877737
-            </p>
+            {user?.role > 0 ? (
+              <>
+                <p className="text-black" style={{ marginBottom: "2rem" }}>
+                  Having problem with the service? Just pick up the phone to
+                  have a chat with the manager.
+                </p>
+                <LinkContainer to="/contact/list" className="mb-5">
+                  <Button variant="info">Contact Us List</Button>
+                </LinkContainer>
+                <p style={{ cursor: "pointer", color: "darkblue" }}>
+                  +977 9846877737
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-black" style={{ marginBottom: "6rem" }}>
+                  Having problem with the service? Just pick up the phone to
+                  have a chat with the manager.
+                </p>
+                <p style={{ cursor: "pointer", color: "darkblue" }}>
+                  +977 9846877737
+                </p>
+              </>
+            )}
           </Col>
           <Col
             style={{
@@ -83,7 +99,7 @@ const ContactUs = () => {
               textAlign: "center",
               position: "absolute",
               top: "11rem",
-              right: "10rem",
+              right: "6rem",
               width: "34%",
             }}
           >
@@ -128,7 +144,6 @@ const ContactUs = () => {
                     }}
                   ></Form.Control>
                 </Form.Group>
-
                 <Form.Group controlId="email" className="mb-2">
                   <Form.Control
                     type="email"

@@ -18,6 +18,9 @@ import {
   ROOM_BOOKED_DETAILS_REQUEST,
   ROOM_BOOKED_DETAILS_SUCCESS,
   ROOM_BOOKED_DETAILS_FAIL,
+  ROOM_BOOKED_PAYMENT_REQUEST,
+  ROOM_BOOKED_PAYMENT_SUCCESS,
+  ROOM_BOOKED_PAYMENT_FAIL,
 } from "../constants/actionTypes";
 
 const initialState = {
@@ -130,6 +133,26 @@ function roomBookApprove(state = initialState, action) {
   }
 }
 
+function roomBookPayment(state = initialState, action) {
+  const { type, payload } = action;
+
+  switch (type) {
+    case ROOM_BOOKED_PAYMENT_REQUEST:
+      return { ...state, loading: true, success: false };
+    case ROOM_BOOKED_PAYMENT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        roomBookingData: payload,
+        success: true,
+      };
+    case ROOM_BOOKED_PAYMENT_FAIL:
+      return { ...state, loading: false, error: payload };
+    default:
+      return state;
+  }
+}
+
 function roomBookDelete(state = initialState, action) {
   const { type, payload } = action;
 
@@ -154,6 +177,7 @@ export {
   roomBookList,
   roomMyBookList,
   roomBookApprove,
+  roomBookPayment,
   roomBookDetails,
   roomBookDelete,
 };

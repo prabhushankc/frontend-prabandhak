@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { Button, Container, Image } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router";
-import Image1 from "../../../images/roomSecond.jpg";
 import {
   deleteBookedRoom,
   myBookedRoomList,
@@ -12,6 +10,7 @@ import moment from "moment";
 import { LinkContainer } from "react-router-bootstrap";
 import Khalti from "./khalti/khalti";
 import Rating from "../../../Extra/Rating";
+import Message from "../../../Message/Message";
 
 const BookingListClient = () => {
   const dispatch = useDispatch();
@@ -19,17 +18,20 @@ const BookingListClient = () => {
   const myRooms = useSelector(state => state.roomMyBookList);
   const { roomBookingItems, loading } = myRooms;
 
+  const roomBookPayment = useSelector(state => state.roomBookPayment);
+  const { success: successPayment } = roomBookPayment;
+
   const roomBookDelete = useSelector(state => state.roomBookDelete);
   const { success: successDelete } = roomBookDelete;
 
   useEffect(() => {
     dispatch(myBookedRoomList());
-  }, [dispatch, successDelete]);
+  }, [dispatch, successDelete, successPayment]);
 
   return (
     !loading && (
       <Container>
-        <div style={{ marginTop: "6rem", height: "100vh" }}>
+        <div style={{ marginTop: "6rem", height: "auto" }}>
           <h1
             className="mt-3"
             style={{
@@ -40,6 +42,7 @@ const BookingListClient = () => {
           >
             Booking History
           </h1>
+          {successPayment && <Message>Payment Successful</Message>}
           {roomBookingItems.length > 0 ? (
             roomBookingItems.map(roomItem => (
               <div key={roomItem._id}>
@@ -55,118 +58,129 @@ const BookingListClient = () => {
                 >
                   <Image
                     src={roomItem.room.image}
-                    style={{ height: "11rem", width: "auto" }}
+                    style={{
+                      width: "18rem",
+                      height: "auto",
+                    }}
                   />
                   <div
-                    className="booking-history-left"
-                    style={{ marginLeft: "2rem" }}
+                    style={{
+                      display: "flex",
+                    }}
                   >
-                    <p>
-                      Room Type:
-                      <span
-                        style={{
-                          fontWeight: 500,
-                          fontSize: "1.1rem",
-                          marginLeft: "0.5rem",
-                        }}
-                      >
-                        {roomItem.room.standard}
-                      </span>
-                    </p>
-                    <p>
-                      Name:
-                      <span
-                        style={{
-                          fontWeight: 500,
-                          fontSize: "1.1rem",
-                          marginLeft: "0.5rem",
-                        }}
-                      >
-                        {roomItem.name}
-                      </span>
-                    </p>
-                    <p>
-                      Check-in Date:
-                      <span>
-                        <Moment
-                          format="MM-DD-YYYY"
+                    <div
+                      className="booking-history-left"
+                      style={{ marginLeft: "2rem" }}
+                    >
+                      <p>
+                        Room Type:
+                        <span
                           style={{
                             fontWeight: 500,
                             fontSize: "1.1rem",
                             marginLeft: "0.5rem",
                           }}
                         >
-                          {roomItem.bookingDate}
-                        </Moment>
-                      </span>
-                    </p>
-                    <p>
-                      Total:
-                      <span
-                        style={{
-                          fontWeight: 500,
-                          fontSize: "1.1rem",
-                          marginLeft: "0.5rem",
-                        }}
-                      >
-                        Rs. {roomItem.room.price}
-                      </span>
-                    </p>
-                  </div>
-                  <div
-                    className="booking-history-right"
-                    style={{ marginLeft: "1rem" }}
-                  >
-                    <p>
-                      No. of Guest:
-                      <span
-                        style={{
-                          fontWeight: 500,
-                          fontSize: "1.1rem",
-                          marginLeft: "0.5rem",
-                        }}
-                      >
-                        {roomItem.noofguests}
-                      </span>
-                    </p>
-                    <p>
-                      Status:
-                      <span
-                        style={{
-                          fontWeight: 500,
-                          fontSize: "1.1rem",
-                          marginLeft: "0.5rem",
-                        }}
-                      >
-                        {roomItem.isApproved ? "Approved" : "Pending"}
-                      </span>
-                    </p>
-                    <p>
-                      Check-out Date:
-                      <span>
-                        <Moment
-                          format="MM-DD-YYYY"
-                          className="text-black"
+                          {roomItem.room.standard}
+                        </span>
+                      </p>
+                      <p>
+                        Name:
+                        <span
                           style={{
                             fontWeight: 500,
                             fontSize: "1.1rem",
                             marginLeft: "0.5rem",
                           }}
                         >
-                          {moment(roomItem.bookingDate).add(
-                            roomItem.noofdays,
-                            "days"
-                          )}
-                        </Moment>
-                      </span>
-                    </p>
-                    <p style={{ display: "flex" }}>
-                      <span style={{ marginRight: "0.5rem" }}>Review:</span>
-                      <Rating
-                        value={roomItem.room.rating ? roomItem.room.rating : 0}
-                        color="#523c8d"
-                      />
-                    </p>
+                          {roomItem.name}
+                        </span>
+                      </p>
+                      <p>
+                        Check-in Date:
+                        <span>
+                          <Moment
+                            format="MM-DD-YYYY"
+                            style={{
+                              fontWeight: 500,
+                              fontSize: "1.1rem",
+                              marginLeft: "0.5rem",
+                            }}
+                          >
+                            {roomItem.bookingDate}
+                          </Moment>
+                        </span>
+                      </p>
+                      <p>
+                        Total:
+                        <span
+                          style={{
+                            fontWeight: 500,
+                            fontSize: "1.1rem",
+                            marginLeft: "0.5rem",
+                          }}
+                        >
+                          Rs. {roomItem.room.price}
+                        </span>
+                      </p>
+                    </div>
+                    <div
+                      className="booking-history-right"
+                      style={{ marginLeft: "1rem" }}
+                    >
+                      <p>
+                        No. of Guest:
+                        <span
+                          style={{
+                            fontWeight: 500,
+                            fontSize: "1.1rem",
+                            marginLeft: "0.5rem",
+                          }}
+                        >
+                          {roomItem.noofguests}
+                        </span>
+                      </p>
+                      <p>
+                        Status:
+                        <span
+                          style={{
+                            fontWeight: 500,
+                            fontSize: "1.1rem",
+                            marginLeft: "0.5rem",
+                          }}
+                        >
+                          {roomItem.isApproved ? "Approved" : "Pending"}
+                        </span>
+                      </p>
+                      <p>
+                        Check-out Date:
+                        <span>
+                          <Moment
+                            format="MM-DD-YYYY"
+                            className="text-black"
+                            style={{
+                              fontWeight: 500,
+                              fontSize: "1.1rem",
+                              marginLeft: "0.5rem",
+                            }}
+                          >
+                            {moment(roomItem.bookingDate).add(
+                              roomItem.noofdays,
+                              "days"
+                            )}
+                          </Moment>
+                        </span>
+                      </p>
+                      <p style={{ display: "flex" }}>
+                        <span style={{ marginRight: "0.5rem" }}>Review:</span>
+                        <Rating
+                          value={
+                            roomItem.room.rating ? roomItem.room.rating : 0
+                          }
+                          color="#523c8d"
+                        />
+                      </p>
+                    </div>
                   </div>
                   <div style={{ display: "flex", flexDirection: "column" }}>
                     <LinkContainer
@@ -180,7 +194,9 @@ const BookingListClient = () => {
                     >
                       <Button>Details</Button>
                     </LinkContainer>
-                    <Khalti />
+                    {roomItem.isApproved && !roomItem.isPaid && (
+                      <Khalti paymentId={roomItem._id} />
+                    )}
                     <Button
                       style={{ width: "80%", marginLeft: "2rem" }}
                       variant="danger"

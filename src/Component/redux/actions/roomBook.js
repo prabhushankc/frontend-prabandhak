@@ -17,6 +17,9 @@ import {
   ROOM_BOOKED_DETAILS_REQUEST,
   ROOM_BOOKED_DETAILS_SUCCESS,
   ROOM_BOOKED_DETAILS_FAIL,
+  ROOM_BOOKED_PAYMENT_REQUEST,
+  ROOM_BOOKED_PAYMENT_SUCCESS,
+  ROOM_BOOKED_PAYMENT_FAIL,
 } from "../constants/actionTypes";
 
 import * as api from "../api";
@@ -93,6 +96,23 @@ export const approveBookedRoom = id => async dispatch => {
   } catch (err) {
     dispatch({
       type: ROOM_BOOKED_APPROVE_FAIL,
+      payload:
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+    });
+  }
+};
+
+export const payBookedRoom = id => async dispatch => {
+  try {
+    dispatch({ type: ROOM_BOOKED_PAYMENT_REQUEST });
+    const { data } = await api.roomBookedPayment(id);
+    dispatch({ type: ROOM_BOOKED_PAYMENT_SUCCESS });
+    dispatch({ type: ROOM_BOOKED_DETAILS_SUCCESS, payload: data });
+  } catch (err) {
+    dispatch({
+      type: ROOM_BOOKED_PAYMENT_FAIL,
       payload:
         err.response && err.response.data.message
           ? err.response.data.message

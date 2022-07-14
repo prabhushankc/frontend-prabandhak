@@ -8,14 +8,34 @@ import {
   ListGroup,
   Row,
 } from "react-bootstrap";
+import { Autocomplete, TextField } from "@mui/material";
+import { reportByUser } from "../../../redux/actions/Auth";
+import { reportMessage } from "./dropdown";
+// function(){
+// reportData = {
+// reporterUserId: AsingleUser?._id,
+// productId: food._id,
+// reason: reportReason,
+// whatWasComment: whatWasComment,
+// date: new Date()
+// }
+// await dispatch(reportByUser(userId, reportData));
+// }
+
 import { LinkContainer } from "react-router-bootstrap";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { createRoomReview, detailRoom } from "../../../redux/actions/room";
+import {
+  createRoomReview,
+  detailRoom,
+  replyRoomReview,
+} from "../../../redux/actions/room";
 import Rating from "../../../Extra/Rating";
 import Message from "../../../Message/Message";
 import { Link } from "react-router-dom";
 import { ROOM_CREATE_REVIEW_RESET } from "../../../redux/constants/actionTypes";
+import ReviewReply from "./ReviewReply";
+import FormContainer from "../../../Admin/AdminScreens/Rooms/FormContainer";
 
 const RoomDetails = () => {
   const params = useParams();
@@ -24,6 +44,7 @@ const RoomDetails = () => {
 
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
+  const [report, setReport] = useState("none");
 
   const roomDetails = useSelector(state => state.roomDetails);
   const { room, loading: loadingDetails } = roomDetails;
@@ -35,6 +56,25 @@ const RoomDetails = () => {
   const { error: errorRoomReview, success: successRoomReview } =
     roomReviewCreate;
 
+  const roomReviewReply = useSelector(state => state.roomReviewReply);
+  const { success: successReplyReview, error: errorReplyReview } =
+    roomReviewReply;
+
+  const reportFunc = async (event, newValue, userId, whatWasComment) => {
+    // console.log(event);
+    const reportData = {
+      reporterUserId: userInfo?._id,
+      productId: room._id,
+      reason: newValue,
+      whatWasComment: whatWasComment,
+      date: new Date(),
+    };
+    await dispatch(reportByUser(userId, reportData));
+    // console.log(reportData, userId);
+  };
+
+  const [reply, setReply] = useState("");
+
   useEffect(() => {
     if (successRoomReview) {
       alert("Review Submitted!");
@@ -43,7 +83,7 @@ const RoomDetails = () => {
       dispatch({ type: ROOM_CREATE_REVIEW_RESET });
     }
     dispatch(detailRoom(roomId));
-  }, [dispatch, roomId, successRoomReview]);
+  }, [dispatch, roomId, successRoomReview, successReplyReview]);
 
   const submitHandler = e => {
     e.preventDefault();
@@ -275,7 +315,12 @@ const RoomDetails = () => {
               <ListGroup variant="flush">
                 {room.reviews.map(review => (
                   <ListGroup.Item key={review._id}>
-                    <div style={{ display: "flex" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
                       {/* <Image
                         src={userInfo.selectedFile}
                         style={{
@@ -286,12 +331,82 @@ const RoomDetails = () => {
                         }}
                       /> */}
                       <strong>{review.name}</strong>
+                      <Autocomplete
+                        freeSolo
+                        options={reportMessage.map(option => option.value)}
+                        onChange={(event, newValue) =>
+                          reportFunc(
+                            event,
+                            newValue,
+                            review.user,
+                            review.comment
+                          )
+                        }
+                        value={report}
+                        fullWidth={false}
+                        style={{
+                          display: "inline",
+                          width: "50%",
+                        }}
+                        renderInput={params => (
+                          <TextField {...params} label="report" />
+                        )}
+                      />
                     </div>
                     <Rating value={review.rating} />
                     <p style={{ color: "gray" }}>
                       Reviewed on {review.createdAt.substring(0, 10)}
                     </p>
-                    <p>{review.comment}</p>
+                    <p style={{ marginRight: "2rem" }}>{review.comment}</p>
+                    {userInfo?.role > 0 && (
+                      // <ReviewReply
+                      //   roomId={room._id}
+                      //   reviewId={review._id}
+                      // ></ReviewReply>
+                      <FormContainer>
+                        {errorReplyReview && (
+                          <Message variant="danger">{errorReplyReview}</Message>
+                        )}
+                        <Form
+                          onSubmit={e => {
+                            e.preventDefault();
+                            dispatch(
+                              replyRoomReview(room._id, review._id, reply)
+                            );
+                          }}
+                        >
+                          <Form.Group controlId="reply">
+                            <Form.Label>Reply</Form.Label>
+                            <Form.Control
+                              as="textarea"
+                              rows={2}
+                              value={reply}
+                              onChange={e => setReply(e.target.value)}
+                              style={{ resize: "none" }}
+                            ></Form.Control>
+                          </Form.Group>
+                          <Button
+                            type="submit"
+                            variant="primary"
+                            className="mt-3 mb-3"
+                          >
+                            Submit
+                          </Button>
+                        </Form>
+                      </FormContainer>
+                    )}
+
+                    {review?.replies.length > 0 &&
+                      review?.replies.map(replyData => (
+                        <div style={{ marginLeft: "2rem" }} key={replyData._id}>
+                          <h6 style={{ color: "#523c8d" }}>
+                            {userInfo?.role > 0
+                              ? userInfo.name
+                              : "Response From Admin"}
+                          </h6>
+                          <p>{replyData.reply}</p>
+                        </div>
+                      ))}
                   </ListGroup.Item>
                 ))}
                 <ListGroup.Item>
