@@ -14,7 +14,7 @@ const RoomHeaderPage = ({ roomData }) => {
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
 
-  const myRooms = useSelector(state => state.roomMyBookList);
+  const myRooms = useSelector((state) => state.roomMyBookList);
   const { roomBookingItems } = myRooms;
 
   useEffect(() => {
@@ -54,6 +54,7 @@ const RoomHeaderPage = ({ roomData }) => {
         </div>
         <LinkContainer
           to="/list/myBooking"
+          id="myBooking"
           style={{
             height: "3rem",
             marginTop: "0.7rem",

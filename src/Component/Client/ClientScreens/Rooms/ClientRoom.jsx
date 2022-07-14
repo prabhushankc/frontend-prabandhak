@@ -16,10 +16,10 @@ import RoomHeaderPage from "./RoomHeaderPage";
 import Message from "../../../Message/Message";
 
 const ClientRoomView = () => {
-  const roomList = useSelector(state => state.roomList);
+  const roomList = useSelector((state) => state.roomList);
   const { rooms } = roomList;
 
-  const roomBook = useSelector(state => state.roomBook);
+  const roomBook = useSelector((state) => state.roomBook);
   const { success: successBook } = roomBook;
 
   const classes = useStyles();
@@ -33,7 +33,7 @@ const ClientRoomView = () => {
         alignItems="stretch"
         spacing={2}
       >
-        {rooms.map(roomData => (
+        {rooms.map((roomData) => (
           <Grid key={roomData._id} item xs={12} sm={6} md={4} lg={3}>
             <Card
               className={classes.cards}
@@ -43,6 +43,7 @@ const ClientRoomView = () => {
             >
               <LinkContainer to={`/${roomData._id}/details/room`}>
                 <ButtonBase
+                  id="roomDetailBtn"
                   component="span"
                   name="test"
                   className={classes.cardAction}
@@ -114,7 +115,10 @@ const ClientRoomView = () => {
               </LinkContainer>
 
               <CardActions className={classes.cardActionsI} style={{}}>
-                <LinkContainer to={`/${roomData._id}/book/room`}>
+                <LinkContainer
+                  id="bookNowBtn"
+                  to={`/${roomData._id}/book/room`}
+                >
                   <Button size="small" className={classes.btn} type="button">
                     Book now
                   </Button>

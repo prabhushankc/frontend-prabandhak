@@ -5,6 +5,7 @@ import Moment from "react-moment";
 import {
   deleteContactUs,
   listContactUs,
+  resolveContactUs,
 } from "../../../redux/actions/contactUs";
 
 const ContactUsListScreen = () => {
@@ -13,12 +14,16 @@ const ContactUsListScreen = () => {
   const contactUsDelete = useSelector(state => state.contactUsDelete);
   const { success: successDelete } = contactUsDelete;
 
-  useEffect(() => {
-    dispatch(listContactUs());
-  }, [dispatch, successDelete]);
+  const contactUsResolve = useSelector(state => state.contactUsResolve);
+  const { success: successResolve } = contactUsResolve;
 
   const contactUsDetail = useSelector(state => state.contactUsList);
   const { contactUsList } = contactUsDetail;
+
+  useEffect(() => {
+    dispatch(listContactUs());
+  }, [dispatch, successResolve, successDelete]);
+
   // // useEffect(() => {
   // if (!user?.result?.role) {
   //   return <ContactUs />;
@@ -28,21 +33,14 @@ const ContactUsListScreen = () => {
   return (
     <div style={{ minHeight: "80vh" }}>
       <Container>
-        <div className="text-center" style={{ marginTop: "6rem" }}>
+        <div className="text-center" style={{ paddingTop: "4rem" }}>
           <h1
             style={{
               paddingTop: "2rem",
             }}
           >
-            Contact List
+            User Queries
           </h1>
-          <small>
-            <i
-              class="fa-solid fa-star"
-              style={{ fontSize: "1.5rem", color: "skyblue" }}
-            ></i>
-          </small>{" "}
-          stands for admin
         </div>
         <Table striped bordered hover>
           <thead>
@@ -58,62 +56,48 @@ const ContactUsListScreen = () => {
           {contactUsList.map(item => (
             <tbody>
               <tr>
-                {item?.user?.role > 0 ? (
-                  <>
-                    <td className="text-black">
-                      {item.firstName}{" "}
-                      <i
-                        class="fa-solid fa-star"
-                        style={{ fontSize: "1.5rem", color: "skyblue" }}
-                      ></i>
-                    </td>
-                    <td className="text-black">{item.lastName}</td>
-                    <td className="text-black">
-                      <a
-                        href={`mailto:${item.email}`}
-                        className="text-decoration-none"
-                      >
-                        {item.email}
-                      </a>
-                    </td>
-                    <td>
-                      <Moment format="YYYY/MM/DD" className="text-black">
-                        {item.date}
-                      </Moment>
-                    </td>
-                    <td className="text-black">{item.comment}</td>
-                  </>
-                ) : (
-                  <>
-                    <td className="text-black">{item.firstName}</td>
-                    <td className="text-black">{item.lastName}</td>
-                    <td className="text-black">
-                      <a
-                        href={`mailto:${item.email}`}
-                        className="text-decoration-none"
-                      >
-                        {item.email}
-                      </a>
-                    </td>
-                    <td>
-                      <Moment format="YYYY/MM/DD" className="text-black">
-                        {item.date}
-                      </Moment>
-                    </td>
-                    <td className="text-black">{item.comment}</td>
-                    <td className="text-black">
-                      <Button
-                        variant="danger"
-                        onClick={() => dispatch(deleteContactUs(item._id))}
-                      >
-                        <i
-                          className="fas fa-close"
-                          style={{ fontSize: "1rem", padding: "0 0.6rem" }}
-                        ></i>
-                      </Button>
-                    </td>
-                  </>
-                )}
+                <td className="text-black">{item.firstName}</td>
+                <td className="text-black">{item.lastName}</td>
+                <td className="text-black">
+                  <a
+                    href={`mailto:${item.email}`}
+                    className="text-decoration-none"
+                  >
+                    {item.email}
+                  </a>
+                </td>
+                <td>
+                  <Moment format="YYYY/MM/DD" className="text-black">
+                    {item.date}
+                  </Moment>
+                </td>
+                <td className="text-black">{item.comment}</td>
+                <td className="text-black">
+                  {item.isResolved ? (
+                    <Button
+                      variant="warning"
+                      onClick={() => dispatch(resolveContactUs(item._id))}
+                    >
+                      Pending
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="success"
+                      onClick={() => dispatch(resolveContactUs(item._id))}
+                    >
+                      Resolved
+                    </Button>
+                  )}
+                  {/* <Button
+                    variant="danger"
+                    onClick={() => dispatch(deleteContactUs(item._id))}
+                  >
+                    <i
+                      className="fas fa-close"
+                      style={{ fontSize: "1rem", padding: "0 0.6rem" }}
+                    ></i>
+                  </Button> */}
+                </td>
               </tr>
             </tbody>
           ))}

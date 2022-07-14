@@ -3,6 +3,7 @@ import { Typography, Grid, Button } from "@material-ui/core";
 import { DataGrid } from "@mui/x-data-grid";
 import SpammersDetail from "./detailSpam";
 function Spammer({ spammer }) {
+  // map spammers start form username z 
   const rows = spammer.map(r => {
     return {
       id: r._id,
@@ -76,6 +77,7 @@ function Spammer({ spammer }) {
       width: 120,
       renderCell: params => (
         <Button
+          id="spammerReportBtn"
           style={{
             backgroundColor: "#595775 ",
             textAlign: "center",
@@ -108,7 +110,7 @@ function Spammer({ spammer }) {
     },
     {
       field: "Block",
-      headerName: "Block",
+      headerName: "Action",
       align: "center",
       width: 120,
       renderCell: params => (
@@ -154,16 +156,16 @@ function Spammer({ spammer }) {
         >
           <div
             style={{
-              textAlign: "center",
-              padding: "10px 0px 15px 0px",
-              fontSize: "20px",
-              fontWeight: "bold",
-              letterSpacing: "2px",
-              color: "#fff",
-              textTransform: "uppercase",
+              textAlign: 'Left',
+              padding: '10px 0px 15px 10px',
+              fontWeight: 'bold',
+              fontSize: "2rem",
+              letterSpacing: '2px',
+              color: '#000',
+              textTransform: 'uppercase',
             }}
           >
-            All Users
+            Spam
           </div>
           <div
             style={{
@@ -178,7 +180,6 @@ function Spammer({ spammer }) {
               headerHeight={60}
               pageSize={6}
               rowsPerPageOptions={[6, 12, 18, 50]}
-              checkboxSelection
               autoPageSize
               sx={{
                 "& .MuiDataGrid-columnHeaderTitle": {

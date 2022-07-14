@@ -5,17 +5,22 @@ import {
   ListItemButton,
   ListItemText,
   ListItemIcon,
-  Divider,
   Paper,
-  Button,
-  Avatar,
 } from "@mui/material";
-import { Mail } from "@material-ui/icons";
-import { DashboardCustomize, Layers, CreditScore } from "@mui/icons-material";
+import {
+  Home,
+  Fastfood,
+  ListAlt,
+  Group,
+  Report,
+  Message,
+} from "@material-ui/icons";
+import {
+  Bed,
+} from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 const Drawered = () => {
-  const user = JSON.parse(localStorage.getItem("profile"));
   const navigate = useNavigate();
   return (
     <div
@@ -31,84 +36,73 @@ const Drawered = () => {
           height: "100vh",
           padding: "0px 8px 0px 8px",
           margin: "auto",
-          backgroundColor: "rgb(32 ,51 ,85)",
+          backgroundColor: "#fafafa",
         }}
       >
         <List>
-          {["Home", "food", "Room"].map((text, index) => (
+          {["Home", "Food", "Room"].map((text, index) => (
             <ListItem key={text}>
-              <ListItemButton onClick={() => navigate(`/${text}`)}>
+              <ListItemButton id={text === "Food" && 'foodPageBtn'} onClick={() => navigate(`/${text}`)}>
                 <ListItemIcon
                   style={{
-                    color: "white",
+                    color: "black",
                   }}
                 >
-                  {index % 4 === 0 ? <DashboardCustomize /> : <Layers />}
+                  {text === "Home" ? (
+                    <Home />
+                  ) : text === "Food" ? (
+                    <Fastfood />
+                  ) : (
+                    text === "Room" && <Bed />
+                  )}
                 </ListItemIcon>
                 <ListItemText
-                  primary={text}
+                  primary={text === "Home" ? text : `Add ${text}`}
                   style={{
-                    color: "white",
+                    color: "black",
                   }}
                 />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
-        <Divider style={{ backgroundColor: "white" }} />
         <List>
-          {["payment", "users", "spam", "contact"].map((text, index) => (
+          {["users", "payment", "Spam", "contact"].map((text, index) => (
             <ListItem key={text}>
-              <ListItemButton onClick={() => navigate(`/${text}`)}>
+              <ListItemButton id={text === "payment" ? 'orderDetails' : text === "Spam" && "spamDetails"} onClick={() => navigate(`/${text}`)}>
                 <ListItemIcon
                   style={{
-                    color: "white",
+                    color: "black",
                   }}
                 >
-                  {index % 3 === 0 ? <CreditScore /> : <Mail />}
+                  {text === "payment" ? (
+                    <ListAlt />
+                  ) : text === "users" ? (
+                    <Group />
+                  ) : text === "Spam" ? (
+                    <Report />
+                  ) : (
+                    text === "contact" && <Message />
+                  )}
                 </ListItemIcon>
                 <ListItemText
-                  primary={text}
+                  primary={
+                    text === "payment"
+                      ? "Order Details"
+                      : text === "users"
+                        ? "User Details"
+                        : text === "contact"
+                          ? "User Queries"
+                          : `${text}`
+                  }
                   style={{
-                    color: "white",
+                    color: "black",
                   }}
                 />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
-        <Divider style={{ backgroundColor: "white" }} />
-        <Paper
-          style={{
-            textAlign: "center",
-            margin: "20px auto 10px auto",
-            backgroundColor: "transparent",
-            padding: "10px 0px",
-          }}
-          elevation={15}
-        >
-          <Avatar
-            alt="Remy Sharp"
-            src={user?.result?.selectedFile}
-            style={{
-              display: "block",
-              margin: "10px auto",
-            }}
-          />
-          <Button
-            variant="outlined"
-            style={{
-              color: "white",
-              backgroundColor: "#3f51b5",
-              borderRadius: "4px",
-              border: "1px solid transparent",
-            }}
-            onClick={() => navigate("/profile")}
-          >
-            {user?.message}
-          </Button>
-        </Paper>
-        <Divider style={{ backgroundColor: "white" }} />
       </Paper>
     </div>
   );

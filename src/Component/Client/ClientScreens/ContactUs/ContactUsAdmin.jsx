@@ -3,6 +3,10 @@ import { Grid, Paper } from "@material-ui/core";
 import AdminContactPage from "./ContactUs";
 import Drawer from "../../../Admin/Drawer/drawer";
 const ContactUsAdmin = () => {
+  const user = JSON.parse(localStorage.getItem("profile"));
+  if (!user?.result?.role) {
+    return <AdminContactPage />;
+  }
   return (
     <Grid
       container

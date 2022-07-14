@@ -4,7 +4,7 @@ import { useLocation } from "react-router";
 import { useDispatch } from "react-redux";
 import { listRooms } from "../redux/actions/room";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import useStyles from "../Admin/Auth/Styles";
+import useStyles from "../Admin/Auth/styleAuth";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -12,8 +12,6 @@ function useQuery() {
 const SortBox = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const query = useQuery();
-  const sortQuery = query.get("sort");
   const [sort, setSort] = useState("-price");
 
   const classes = useStyles();
@@ -25,32 +23,10 @@ const SortBox = () => {
     await dispatch(listRooms("", e.target.value));
   };
   return (
-    // <Form
-    //   onSubmit={submitHandler}
-    //   inline
-    //   style={{ display: "flex", height: "80%" }}
-    //   className="my-2"
-    // >
-    //   <Form.Control
-    //     type="text"
-    //     name="q"
-    //     onChange={e => setSort(e.target.value)}
-    //     placeholder="Search Rooms..."
-    //     className="mr-sm-2 ml-sm-5"
-    //   ></Form.Control>
-    //   <Button type="submit" variant="outline-success" className="p-2">
-    //     Sort
-    //   </Button>
-    // </Form>
-
-    // <Dropdown title="Filter" id="username">
-    //   <LinkContainer to="/profile">
-    //     <Dropdown.Item>Profile</Dropdown.Item>
-    //   </LinkContainer>
-    //   <Dropdown.Item>Logout</Dropdown.Item>
-    // </Dropdown>
     <FormControl className={classes.formControl}>
-      <InputLabel id="demo-simple-select-label">Sort by</InputLabel>
+      <InputLabel id="demo-simple-select-label" style={{ marginTop: "20px" }}>
+        Sort by
+      </InputLabel>
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"

@@ -40,6 +40,7 @@ export default function Khalti({ paymentId }) {
   return (
     <div>
       <Button
+        id="roomBookingKhalti"
         onClick={() => {
           checkout.show({ amount: 1000 });
         }}

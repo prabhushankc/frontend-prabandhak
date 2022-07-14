@@ -13,7 +13,7 @@ const RoomBookedList = () => {
   const dispatch = useDispatch();
 
   const roomBookList = useSelector(state => state.roomBookList);
-  const { roomBookingItems } = roomBookList;
+  const { roomBookingItems, loading: loadingBookingItems } = roomBookList;
 
   const roomBookDelete = useSelector(state => state.roomBookDelete);
   const { success: successDelete } = roomBookDelete;
@@ -25,83 +25,85 @@ const RoomBookedList = () => {
     dispatch(bookRoomList());
   }, [dispatch, successApprove, successDelete]);
   return (
-    <div style={{ height: "100vh" }}>
-      <Container>
-        <div
-          className="booked-room-list text-center"
-          style={{ marginTop: "6rem" }}
-        >
-          <h1>Booked Room List</h1>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th className="text-black">Name</th>
-                <th className="text-black">Room Name</th>
-                <th className="text-black">No of Guests</th>
-                <th className="text-black">No of Rooms</th>
-                <th className="text-black">Check-In Date</th>
-                <th className="text-black">Check-Out Date</th>
-                <th className="text-black">Status</th>
-                <th></th>
-              </tr>
-            </thead>
-            {roomBookingItems.map(item => (
-              <tbody key={item._id}>
+    !loadingBookingItems && (
+      <div style={{ height: "100vh" }}>
+        <Container>
+          <div
+            className="booked-room-list text-center"
+            style={{ marginTop: "6rem" }}
+          >
+            <h1>Booked Room List</h1>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Table striped bordered hover>
+              <thead>
                 <tr>
-                  <td className="text-black">{item.name}</td>
-                  <td className="text-black">{item.room.title}</td>
-                  <td className="text-black">{item.noofguests}</td>
-                  <td className="text-black">{item.noofdays}</td>
-                  <td>
-                    <Moment format="YYYY/MM/DD" className="text-black">
-                      {item.bookingDate}
-                    </Moment>
-                  </td>
-                  <td>
-                    <Moment format="YYYY/MM/DD" className="text-black">
-                      {moment(item.bookingDate).add(item.noofdays, "days")}
-                    </Moment>
-                  </td>
-                  <td className="text-black">
-                    {!item.isApproved ? (
-                      <Button
-                        variant="warning"
-                        onClick={() => dispatch(approveBookedRoom(item._id))}
-                      >
-                        Pending
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="success"
-                        onClick={() => dispatch(approveBookedRoom(item._id))}
-                      >
-                        Approved
-                      </Button>
-                    )}
-                  </td>
-                  <td>
-                    <Button
-                      variant="danger"
-                      onClick={() => dispatch(deleteBookedRoom(item._id))}
-                    >
-                      Delete
-                    </Button>
-                  </td>
+                  <th className="text-black">Name</th>
+                  <th className="text-black">Room Name</th>
+                  <th className="text-black">No of Guests</th>
+                  <th className="text-black">No of Days</th>
+                  <th className="text-black">Check-In Date</th>
+                  <th className="text-black">Check-Out Date</th>
+                  <th className="text-black">Status</th>
+                  <th></th>
                 </tr>
-              </tbody>
-            ))}
-          </Table>
-        </div>
-      </Container>
-    </div>
+              </thead>
+              {roomBookingItems.map(item => (
+                <tbody key={item._id}>
+                  <tr>
+                    <td className="text-black">{item.name}</td>
+                    <td className="text-black">{item?.room?.title}</td>
+                    <td className="text-black">{item.noofguests}</td>
+                    <td className="text-black">{item.noofdays}</td>
+                    <td>
+                      <Moment format="YYYY/MM/DD" className="text-black">
+                        {item.bookingDate}
+                      </Moment>
+                    </td>
+                    <td>
+                      <Moment format="YYYY/MM/DD" className="text-black">
+                        {moment(item.bookingDate).add(item.noofdays, "days")}
+                      </Moment>
+                    </td>
+                    <td className="text-black">
+                      {!item.isApproved ? (
+                        <Button
+                          variant="warning"
+                          onClick={() => dispatch(approveBookedRoom(item._id))}
+                        >
+                          Pending
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="success"
+                          onClick={() => dispatch(approveBookedRoom(item._id))}
+                        >
+                          Approved
+                        </Button>
+                      )}
+                    </td>
+                    <td>
+                      <Button
+                        variant="danger"
+                        onClick={() => dispatch(deleteBookedRoom(item._id))}
+                      >
+                        Delete
+                      </Button>
+                    </td>
+                  </tr>
+                </tbody>
+              ))}
+            </Table>
+          </div>
+        </Container>
+      </div>
+    )
   );
 };
 

@@ -2,9 +2,9 @@ import React from "react";
 import { Button } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Icon from "./Icon";
-import useStyles from "./Styles";
+import useStyles from "./styleAuth";
 import { NotifyError } from "../../redux/actions/notify";
 import { signin, signup } from '../../redux/actions/Auth';
 const GoogleAuth = ({ isSignup }) => {
@@ -53,8 +53,7 @@ const GoogleAuth = ({ isSignup }) => {
                     >
                         Google Sign Up
                     </Button> : <Button
-                        className={classes.googleButton1
-                        }
+                        className={classes.googleButton}
                         onClick={renderProps.onClick}
                         disabled={renderProps.disabled}
                         startIcon={<Icon />}

@@ -8,6 +8,9 @@ import {
   CONTACT_US_DELETE_FAIL,
   CONTACT_US_DELETE_REQUEST,
   CONTACT_US_DELETE_SUCCESS,
+  CONTACT_US_RESOLVE_REQUEST,
+  CONTACT_US_RESOLVE_SUCCESS,
+  CONTACT_US_RESOLVE_FAIL,
 } from "../constants/actionTypes";
 
 import * as api from "../api";
@@ -20,6 +23,22 @@ export const contactUs = formData => async dispatch => {
   } catch (err) {
     dispatch({
       type: CONTACT_US_FAIL,
+      payload:
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+    });
+  }
+};
+
+export const resolveContactUs = id => async dispatch => {
+  try {
+    dispatch({ type: CONTACT_US_RESOLVE_REQUEST });
+    const { data } = await api.contactUsResolve(id);
+    dispatch({ type: CONTACT_US_RESOLVE_SUCCESS, payload: data });
+  } catch (err) {
+    dispatch({
+      type: CONTACT_US_RESOLVE_FAIL,
       payload:
         err.response && err.response.data.message
           ? err.response.data.message

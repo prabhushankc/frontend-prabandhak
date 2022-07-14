@@ -4,9 +4,11 @@ export default makeStyles((theme) => ({
     media: {
         borderRadius: '20px',
         objectFit: 'cover',
-        width: '90%',
-        maxWidth: '630px',
-        maxHeight: '250px',
+        width: '100%',
+        maxWidth: '300px',
+        minWidth: '300px',
+        maxHeight: '150px',
+        minHeight: '150px',
         [theme.breakpoints.down('sm')]: {
             width: '100%',
             margin: 'auto',
@@ -15,7 +17,7 @@ export default makeStyles((theme) => ({
     details: {
         display: 'flex',
         justifyContent: 'space-between',
-        margin: '5px 15px',
+        margin: '5px 5px',
     },
     buy: {
         margin: 'auto',
@@ -34,7 +36,7 @@ export default makeStyles((theme) => ({
         fontWeight: 'bold',
         letterSpacing: '1.3px',
         color: 'black',
-        marginTop: '10px',
+        margin: '5px 10px',
     },
     time: {
         display: 'inline-block',
@@ -42,18 +44,20 @@ export default makeStyles((theme) => ({
         color: 'gray',
     },
     message: {
-        padding: '5px',
-        color: 'gray',
-        margin: '10px',
+        color: 'black',
+        borderRadius: "0px 30px 30px 0px",
+        border: '1px solid rgb(89, 87, 117)',
+        padding: '4px 8px',
+        margin: '2px',
     },
     tagStyle: {
-        borderRadius: '6px',
-        padding: '3px 7px',
+        padding: '3px 10px',
         margin: '2px 3px',
-        fontSize: '14px',
-        backgroundColor: '#595775 ',
+        fontSize: '12px',
+        borderRadius: "0px 30px 30px 0px",
+        backgroundColor: "#FF8C00",
         '&:hover': {
-            backgroundColor: '#595775 ',
+            backgroundColor: "#FF8C00",
         },
         color: 'white',
     },

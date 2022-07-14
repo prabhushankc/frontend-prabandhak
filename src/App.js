@@ -62,12 +62,8 @@ const App = () => {
             <Route path="/profile" element={<UserDetail />} />
             <Route path="/history" element={<UserHistory />} />
             <Route path="/user/:id/verify/:token" exact element={<Verify />} />
-            {!user?.result?.role ? (
-              <Route path="/cart" element={<AddToCart />} />
-            ) : (
-              <Route path="/payment" element={<AddToCart />} />
-            )}
-            <Route path="*" element={<PageNotFound />} />
+            <Route path="/cart" element={<AddToCart />} />
+            <Route path="/payment" element={<AddToCart />} />
             <Route path="/room" element={<AdminRoomScreen />} />
             <Route path="/search/:keyword" element={<AdminRoomScreen />} />
             <Route path="room?sort" element={<AdminRoomScreen />} />
@@ -85,8 +81,9 @@ const App = () => {
               path={`/reply/review/:roomId/:reviewId`}
               element={<ReviewReply />}
             />
+            <Route path="*" element={<PageNotFound />} />
           </Routes>
-          {user?.result?.role === 0 && <Footer />}
+          {(user?.result?.role === 1) ? <></> : !user ? <Footer /> : user?.result?.role === 0 && <Footer />}
         </Container>
       </React.StrictMode>
     </BrowserRouter>

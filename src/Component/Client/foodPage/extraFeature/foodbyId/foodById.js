@@ -4,7 +4,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import {
     Paper,
     Typography,
-    Divider,
     CardActions,
     Button,
     CardMedia,
@@ -14,6 +13,7 @@ import useStyles from "./foodByIdCss";
 import moment from "moment";
 import Loading from "../../../../redux/actions/loading/loading";
 import Comment from './commentFood/commentFood';
+import KhaltiPay from "../../../khaltiIntegration/khalti";
 
 const FoodDetail = () => {
     const navigate = useNavigate();
@@ -22,6 +22,7 @@ const FoodDetail = () => {
     }; const classes = useStyles();
     const dispatch = useDispatch();
     const { foodPageData, foodByData, isLoading } = useSelector((state) => state.foodPage);
+    const { AsingleUser } = useSelector((state) => state.Auth);
     const user = JSON.parse(localStorage.getItem("profile"));
     const { id } = useParams();
     useEffect(() => {
@@ -39,7 +40,7 @@ const FoodDetail = () => {
     if (isLoading) {
         return (
             <div style={{
-                padding: "70px 0px 20px 0px", backgroundImage: 'url(/prabandhak.png)',
+                padding: "60px 0px 0px 0px", backgroundImage: 'url(/prabandhak.png)',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
@@ -49,8 +50,8 @@ const FoodDetail = () => {
                 <Paper
                     elevation={3}
                     style={{
-                        margin: '10px 10px',
-                        backgroundColor: 'rgba(32,52,85, 0.8)',
+                        margin: '0px',
+                        backgroundColor: 'rgba(255,255,255, 1)',
                         borderRadius: "12px",
                         height: "120vh",
                     }}
@@ -63,113 +64,118 @@ const FoodDetail = () => {
     const recommented = foodPageData?.filter(({ _id }) => _id !== foodByData?._id);
     return (
         <div style={{
-            padding: "70px 0px 20px 0px",
-            backgroundImage: 'url(/prabandhak.png)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            height: '100%',
-            width: '100%',
+            padding: "60px 0px 0px 0px",
         }}>
             <Paper elevation={3} style={{
-                borderRadius: "12px", margin: '10px 10px', backgroundColor: 'rgba(32,52,85, 0.8)',
+                borderRadius: "0px", margin: '0px auto', padding: "20px 100px", backgroundColor: 'rgba(255,255,255, 1)',
                 backgroundBlendMode: 'darken',
             }}>
-                <div className={classes.card}>
+                <div className={classes.card} id="foodDetailPage">
                     <div className={classes.section}>
-                        <div className={classes.section1} key={foodByData?._id}>
-                            <div className={classes.imageSection} style={{ flex: 1 }}>
-                                <img
-                                    className={classes.media}
-                                    src={foodByData?.selectedFile}
-                                    title={foodByData?.title}
-                                    alt={foodByData?.title}
-                                />
-                            </div>
-                            <div style={{ margin: "auto", flex: "1" }}>
-                                <Typography className={classes.title}>
-                                    {foodByData?.title}
-                                </Typography>
-                                <Typography className={classes.time}>
-                                    {moment(foodByData?.createdAt).format("MMMM, Do YYYY")}
-                                </Typography>
-                                <div className={classes.details}>
-                                    <Typography
-                                        variant="body2"
-                                        color="textSecondary"
-                                        component="h2"
-                                        style={{
-                                            marginTop: "10px",
-                                            letterSpacing: "1px",
-                                            color: "lightgray",
-                                        }}
-                                    >
-                                        {foodByData?.tags
-                                            .map((tag) => (
-                                                <Button
-                                                    style={{
-                                                        backgroundColor: "rgba(20,38,65, 0.65)",
-                                                        "&:hover": {
-                                                            backgroundColor: "rgb(20,38,65)",
-                                                        },
-                                                        letterSpacing: "2px",
-                                                        borderRadius: "6px",
-                                                        color: "white",
-                                                        padding: "5px 10px",
-                                                        margin: "2px 5px",
-                                                        fontSize: "14px",
-                                                        textTransform: "capitalize",
-                                                    }}
-                                                >
-                                                    {tag}
-                                                </Button>
-                                            ))
-                                            .splice(-3)}
-                                    </Typography>
+                        <Paper
+                            elevation={3}
+                            style={{
+                                padding: "12px 16px",
+                                margin: "2px auto",
+                                cursor: "pointer",
+                                borderRadius: "20px",
+                                backgroundColor: "rgba(20,38,65, 0.005)",
+                            }}
+                        >
+                            <div className={classes.section1} key={foodByData?._id}>
+                                <div className={classes.imageSection} style={{ flex: 1 }}>
+                                    <img
+                                        className={classes.media}
+                                        src={foodByData?.selectedFile}
+                                        title={foodByData?.title}
+                                        alt={foodByData?.title}
+                                    />
                                 </div>
-                                <Typography
-                                    gutterBottom
-                                    variant="body1"
-                                    component="p"
-                                    style={{
-                                        textAlign: "justify",
-                                        letterSpacing: "2px",
-                                        lineHeight: "2",
-                                    }}
-                                    className={classes.message}
-                                >
-                                    {foodByData?.description}
-                                </Typography>
-                                <CardActions>
-                                    <Button
-                                        size="small"
-                                        className={classes.buy}
+                                <div style={{ margin: "auto", flex: "1" }}>
+                                    <Typography className={classes.title}>
+                                        {foodByData?.title}
+                                    </Typography>
+                                    <Typography className={classes.time}>
+                                        {moment(foodByData?.createdAt).format("MMMM, Do YYYY")}
+                                    </Typography>
+                                    <div className={classes.details}>
+                                        <Typography
+                                            variant="body2"
+                                            color="textSecondary"
+                                            component="h2"
+                                            style={{
+                                                marginTop: "10px",
+                                                letterSpacing: "1px",
+                                                color: "lightgray",
+                                            }}
+                                        >
+                                            {foodByData?.tags
+                                                .map((tag) => (
+                                                    <Button
+                                                        style={{
+                                                            borderRadius: "0px 30px 30px 0px",
+                                                            backgroundColor: "#FF8C00",
+                                                            "&:hover": {
+                                                                backgroundColor: "#FF8C00",
+                                                            },
+                                                            letterSpacing: "2px",
+                                                            color: "white",
+                                                            padding: "5px 10px",
+                                                            margin: "0px 5px",
+                                                            fontSize: "14px",
+                                                            textTransform: "capitalize",
+                                                        }}
+                                                    >
+                                                        {tag}
+                                                    </Button>
+                                                ))
+                                                .splice(-3)}
+                                        </Typography>
+                                    </div>
+                                    <Typography
+                                        gutterBottom
+                                        variant="body1"
+                                        component="p"
+                                        style={{
+                                            textAlign: "justify",
+                                            letterSpacing: "2px",
+                                            lineHeight: "2",
+                                            color: "black"
+                                        }}
+                                        className={classes.message}
                                     >
-                                        Price Rs.{foodByData?.price}
-                                    </Button>
-                                    <Button
-                                        size="small"
-                                        className={classes.buy}
-                                    >
-                                        Buy Now
-                                    </Button>
-                                </CardActions>
+                                        {foodByData?.description}
+                                    </Typography>
+                                    <CardActions style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "left",
+                                    }}>
+                                        <Button
+                                            size="small"
+                                            className={classes.price}
+                                        >
+                                            Rs.{foodByData?.price}
+                                        </Button>
+                                        <Button className={classes.buy}
+                                        >
+                                            <KhaltiPay cart={AsingleUser.cart} address={AsingleUser.address} />
+                                        </Button>
+                                    </CardActions>
+                                </div>
                             </div>
-                        </div>
-                        <Divider style={{ margin: "20px 0", backgroundColor: 'rgb(16,28,48)', padding: '5px 10px' }} />
-                        <Comment food={foodByData} />
+                            <Comment food={foodByData} />
+                        </Paper>
                     </div>
                     {!!recommented.length && (
                         <div className={classes.section2}>
-                            <Divider style={{ margin: "20px 0", backgroundColor: 'rgb(16,28,48)', padding: '5px 10px' }} />
-
                             <Typography gutterBottom variant="h5" style={{
                                 fontSize: "22px",
                                 fontWeight: "bold",
-                                color: "white",
+                                color: "black",
                                 textTransform: "capitalize",
                             }}>
-                                You might also like:
+                                Similar Food:
                             </Typography>
                             <div className={classes.recommendedPosts}>
                                 {recommented
@@ -181,11 +187,21 @@ const FoodDetail = () => {
                                                 padding: "12px 16px",
                                                 margin: "20px auto",
                                                 cursor: "pointer",
-                                                backgroundColor: "rgba(20,38,65, 0.8)",
+                                                borderRadius: "12px",
+                                                backgroundColor: "rgba(20,38,65, 0.005)",
                                             }}
                                             onClick={() => openPost(_id)}
                                             key={_id}
                                         >
+                                            <Paper style={{ width: "220px" }} elevation={0}>
+                                                <CardMedia
+                                                    style={{
+                                                        backgroundImage: `url('./backimage.png'), url(${selectedFile})`,
+                                                    }}
+                                                    className={classes.relatedImage}
+                                                    title={title}
+                                                />
+                                            </Paper>
                                             <Typography
                                                 gutterBottom
                                                 variant="h6"
@@ -194,22 +210,10 @@ const FoodDetail = () => {
                                                     marginTop: "10px",
                                                     textTransform: "capitalize",
                                                     fontWeight: "600",
-                                                    color: "white",
+                                                    color: "black",
                                                 }}
                                             >
                                                 {title.split(" ").slice(0, 2).join(" ")}
-                                            </Typography>
-
-                                            <Typography
-                                                gutterBottom
-                                                variant="subtitle2"
-                                                style={{
-                                                    color: "white",
-                                                    letterSpacing: "1.1px",
-                                                    fontWeight: "300",
-                                                }}
-                                            >
-                                                {description?.split(" ").splice(0, 4).join(" ")}..
                                             </Typography>
                                             <Typography
                                                 gutterBottom
@@ -217,19 +221,19 @@ const FoodDetail = () => {
                                                 style={{
                                                     letterSpacing: "2px",
                                                     margin: "10px 0",
-                                                    color: "lightgray",
+                                                    color: "black",
                                                 }}
                                             >
                                                 {tags
                                                     .map(tag =>
                                                         <Button
                                                             style={{
-                                                                backgroundColor: "rgba(32,52,85)",
+                                                                borderRadius: "0px 30px 30px 0px",
+                                                                backgroundColor: "#FF8C00",
                                                                 "&:hover": {
-                                                                    backgroundColor: "rgb(32,52,85)",
+                                                                    backgroundColor: "#FF8C00",
                                                                 },
                                                                 letterSpacing: "2px",
-                                                                borderRadius: "6px",
                                                                 color: "white",
                                                                 padding: "3px 8px",
                                                                 margin: "0px 5px",
@@ -242,15 +246,19 @@ const FoodDetail = () => {
                                                     )
                                                     .splice(-2)}
                                             </Typography>
-                                            <Paper style={{ width: "220px" }} elevation={0}>
-                                                <CardMedia
-                                                    style={{
-                                                        backgroundImage: `url('./backimage.png'), url(${selectedFile})`,
-                                                    }}
-                                                    className={classes.relatedImage}
-                                                    title={title}
-                                                />
-                                            </Paper>
+                                            <Typography
+                                                gutterBottom
+                                                variant="subtitle2"
+                                                style={{
+                                                    color: "black",
+                                                    letterSpacing: "1.1px",
+                                                    fontWeight: "300",
+                                                    margin: "10px 0",
+                                                    textTransform: "capitalize",
+                                                }}
+                                            >
+                                                {description?.split(" ").splice(0, 4).join(" ")}..
+                                            </Typography>
                                         </Paper>
                                     ))}
                             </div>

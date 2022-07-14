@@ -37,10 +37,8 @@ function AddToCart() {
     }
     const removeProduct = async (id) => {
         const cart = await AsingleUser.cart.map((items) => items)
-        if (window.confirm("Do you want to delete this product?")) {
-            await dispatch(deleteaCart({ id, cart }));
-            await dispatch(singleUser(user?.result?._id));
-        }
+        await dispatch(deleteaCart({ id, cart }));
+        await dispatch(singleUser(user?.result?._id));
     }
     const rows = AsingleUser?.cart?.map((cartData, index) => {
         return {
@@ -95,6 +93,7 @@ function AddToCart() {
             width: 110,
             renderCell: (params) =>
                 <Button
+                    id="addItem"
                     onClick={() => {
                         setdisable(true);
                         setTimeout(() => {
@@ -125,6 +124,7 @@ function AddToCart() {
             width: 110,
             renderCell: (params) =>
                 <Button
+                    id="removeItem"
                     onClick={() => {
                         setdisable(true);
                         setTimeout(() => {
@@ -154,6 +154,7 @@ function AddToCart() {
             width: 110,
             renderCell: (params) =>
                 <Button
+                    id="deleteItem"
                     onClick={() => {
                         setdisable(true);
                         setTimeout(() => {
@@ -205,7 +206,6 @@ function AddToCart() {
                                         headerHeight={60}
                                         pageSize={5}
                                         rowsPerPageOptions={[5, 10, 20, 50]}
-                                        checkboxSelection
                                         sx={{
                                             "& .MuiDataGrid-columnHeaderTitle": {
                                                 color: "black",
@@ -228,7 +228,6 @@ function AddToCart() {
                                             borderRadius: '6px',
                                             backgroundColor: 'white',
                                         }}
-                                    // disableSelectionOnClick
                                     />
                                 </div>
                             </Grid>
@@ -303,6 +302,7 @@ function AddToCart() {
                                                 disabled
                                             />
                                             <Button
+                                                id="placeOrder"
                                                 style={{
                                                     backgroundColor: '#595775 ',
                                                     textAlign: 'center',
@@ -350,16 +350,18 @@ function AddToCart() {
                                                 return acc + curr?.price * curr?.quantity
                                             }, 0)}
                                         </Typography>
-                                        <Button style={{
-                                            backgroundColor: '#595775 ',
-                                            textAlign: 'center',
-                                            color: 'white',
-                                            margin: 'auto',
-                                            width: '90%',
-                                            height: '50px',
-                                            marginTop: '10px',
-                                            fontWeight: 'bold',
-                                        }}
+                                        <Button
+                                            id="orderNowKhalti"
+                                            style={{
+                                                backgroundColor: '#595775 ',
+                                                textAlign: 'center',
+                                                color: 'white',
+                                                margin: 'auto',
+                                                width: '90%',
+                                                height: '50px',
+                                                marginTop: '10px',
+                                                fontWeight: 'bold',
+                                            }}
                                         >
                                             <KhaltiPay cart={AsingleUser.cart} address={AsingleUser.address} />
                                         </Button>

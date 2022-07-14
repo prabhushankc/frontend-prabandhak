@@ -8,6 +8,7 @@ import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebase";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import MenuItem from '@mui/material/MenuItem';
+import StyleTextField from '../../../Extra/styleTextField';
 
 const HomePageForm = ({ setupdateFoodCurrentId, updateFoodCurrentId }) => {
     const [postData, setPostData] = useState({ title: '', description: '', tags: [], price: '', quantity: '' });
@@ -103,16 +104,16 @@ const HomePageForm = ({ setupdateFoodCurrentId, updateFoodCurrentId }) => {
             <Typography variant="h6" className={classes.title} >Food Item Details</Typography>
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit} >
                 <Grid container spacing={3} item sm={6} md={6} >
-                    <TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value.toLowerCase() })} className={classes.TextField} />
-                    <TextField name="Description" variant="outlined" label="Description" fullWidth multiline minRows={3} value={postData.description} onChange={(e) => setPostData({ ...postData, description: e.target.value })} className={classes.TextField} />
-                    <TextField name="price" variant="outlined" label="Price" fullWidth value={postData.price} onChange={(e) => setPostData({ ...postData, price: e.target.value })} className={classes.TextField} />
+                    <StyleTextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value.toLowerCase() })} className={classes.TextField} />
+                    <StyleTextField name="Description" variant="outlined" label="Description" fullWidth multiline minRows={3} value={postData.description} onChange={(e) => setPostData({ ...postData, description: e.target.value })} className={classes.TextField} />
+                    <StyleTextField name="price" variant="outlined" label="Price" fullWidth value={postData.price} onChange={(e) => setPostData({ ...postData, price: e.target.value })} className={classes.TextField} />
                 </Grid>
                 <Grid container spacing={3} item sm={6} md={6}>
-                    <TextField id="outlined-select-currency-native" select variant="outlined" label="Quantity" fullWidth value={postData.quantity} onChange={(e) => setPostData({ ...postData, quantity: e.target.value })} className={classes.TextField}>
+                    <StyleTextField id="outlined-select-currency-native" select variant="outlined" label="Quantity" fullWidth value={postData.quantity} onChange={(e) => setPostData({ ...postData, quantity: e.target.value })} className={classes.TextField}>
                         {Quantity.map((item) => (
                             <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
                         ))}
-                    </TextField>
+                    </StyleTextField>
                     <ChipInput
                         className={classes.TextField}
                         name="tags"
@@ -130,9 +131,8 @@ const HomePageForm = ({ setupdateFoodCurrentId, updateFoodCurrentId }) => {
                         <div style={{ textAlign: "center" }} >
                             <input style={{ padding: '20px 0px', marginLeft: "50px" }} type="file" id='selectedFile' name='selectedFile' onChange={(e) => setimage({ ...image, selectedFile: e.target.files[0] })} />
                             <Button variant="contained" size="small" className={classes.upload} onClick={upload}><UploadFileIcon /></Button>
-                            {/* <img src={image.selectedFile ? URL.createObjectURL(image.selectedFile) : "https://t3.ftcdn.net/jpg/04/62/93/66/360_F_462936689_BpEEcxfgMuYPfTaIAOC1tCDurmsno7Sp.jpg"} alt="profile" style={{ width: '100px', height: '100px', marginLeft: "50px" }} /> */}
                         </div>}
-                    <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" >Submit</Button>
+                    <Button className={classes.buttonSubmit} id="foodAddBtn" variant="contained" color="primary" size="large" type="submit" >Submit</Button>
                     <Button variant="contained" className={classes.buttonSubmit1} size="large" onClick={clear} >Clear</Button>
                 </Grid>
             </form>

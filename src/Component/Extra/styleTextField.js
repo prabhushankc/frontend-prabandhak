@@ -3,20 +3,20 @@ import { TextField } from '@material-ui/core';
 
 const CssTextField = styled(TextField)({
     '& label.Mui-focused:after': {
-        borderColor: 'black',
+        borderColor: 'rgb(89, 87, 117)',
     },
     '& .MuiOutlinedInput-root': {
         '& fieldset': {
-            borderColor: 'gray',
+            borderColor: 'rgb(89, 87, 117)',
         },
         '&.Mui-focused fieldset': {
-            borderColor: 'gray',
+            borderColor: 'rgb(89, 87, 117)',
             borderWidth: '1px',
         },
     },
     '& .MuiInputLabel-outlined.MuiInputLabel-shrink': {
-        color: 'white !important',
-        margin: '-8px 0px',
+        color: 'rgb(89, 87, 117) !important',
+        margin: '2px 0px',
     }
 });
 

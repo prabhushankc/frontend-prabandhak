@@ -6,6 +6,7 @@ import { createHomePage, updateHomePage } from '../../../redux/actions/homePage'
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebase";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+import StyleTextField from '../../../Extra/styleTextField';
 
 const HomePageForm = ({ updateHomeCurrentId, setupdateHomeCurrentId }) => {
     const [postData, setPostData] = useState({ title: '', description: '', detail: '' });
@@ -72,11 +73,11 @@ const HomePageForm = ({ updateHomeCurrentId, setupdateHomeCurrentId }) => {
             <Typography variant="h6" className={classes.title} >Home Page Details</Typography>
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
                 <Grid container spacing={3} item sm={6} md={6} >
-                    <TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} className={classes.TextField} />
-                    <TextField name="Description" variant="outlined" label="Description" fullWidth multiline minRows={3} value={postData.description} onChange={(e) => setPostData({ ...postData, description: e.target.value })} className={classes.TextField} />
+                    <StyleTextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} className={classes.TextField} />
+                    <StyleTextField name="Description" variant="outlined" label="Description" fullWidth multiline minRows={3} value={postData.description} onChange={(e) => setPostData({ ...postData, description: e.target.value })} className={classes.TextField} />
                 </Grid>
                 <Grid container spacing={3} item sm={6} md={6}>
-                    <TextField name="Detail" variant="outlined" label="Detail" fullWidth value={postData.detail} onChange={(e) => setPostData({ ...postData, detail: e.target.value })} className={classes.TextField} />
+                    <StyleTextField name="Detail" variant="outlined" label="Detail" fullWidth value={postData.detail} onChange={(e) => setPostData({ ...postData, detail: e.target.value })} className={classes.TextField} />
                     {progress ?
                         <div style={{ padding: '7px 0', width: '98%', margin: '20px auto', textAlign: 'center' }}>
                             <Typography variant="body1">{progress}</Typography>

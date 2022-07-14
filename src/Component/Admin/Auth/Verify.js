@@ -1,9 +1,7 @@
 // react
-import React, { useEffect } from "react";
-import { Paper } from "@material-ui/core";
-import { useDispatch } from "react-redux";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { NotifySuccess, NotifyError } from '../../redux/actions/notify';
 import axios from "axios";
 

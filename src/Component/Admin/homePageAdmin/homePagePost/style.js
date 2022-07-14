@@ -7,9 +7,9 @@ export default makeStyles((theme) => ({
         paddingTop: '22px',
     },
     media: {
-        height: '50vh',
+        height: '34vh',
         objectFit: 'cover',
-        width: '100%',
+        width: '90%',
         margin: '0px auto',
         backgroundPosition: 'center',
         backgroundSize: 'cover',

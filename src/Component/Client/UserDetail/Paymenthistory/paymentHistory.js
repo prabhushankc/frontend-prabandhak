@@ -85,6 +85,7 @@ function PaymentDetail() {
             width: 130,
             renderCell: (params) =>
                 <Button
+                    id="orderDetailBtn"
                     style={{ backgroundColor: '#595775 ', textAlign: 'center', color: 'white', padding: '2px 8px', margin: 'auto' }}
                 >
                     <PayDetails details={params.value} />
@@ -150,7 +151,7 @@ function PaymentDetail() {
                                 fontSize: '20px',
                                 fontWeight: 'bold',
                                 letterSpacing: '2px',
-                                color: '#fff',
+                                color: '#000',
                                 textTransform: 'uppercase',
                             }}>Payment History</div>
 

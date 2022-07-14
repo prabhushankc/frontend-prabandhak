@@ -11,6 +11,7 @@ import { TextField, Typography, Paper } from "@material-ui/core";
 import Message from "../../../Message/Message";
 import ClientRoomScreen from "../../../Client/ClientScreens/Rooms/ClientRoomScreen";
 import SearchBox from "../../../Extra/SearchBox";
+import { bookRoomList } from "../../../redux/actions/roomBook";
 
 const AdminRoomScreen = () => {
   const params = useParams();
@@ -42,6 +43,9 @@ const AdminRoomScreen = () => {
 
   const roomUpdate = useSelector(state => state.roomUpdate);
   const { success: successUpdate } = roomUpdate;
+
+  const roomBookList = useSelector(state => state.roomBookList);
+  const { roomBookingItems } = roomBookList;
 
   const roomDelete = useSelector(state => state.roomDelete);
   const { success: successDelete } = roomDelete;
@@ -96,8 +100,8 @@ const AdminRoomScreen = () => {
     //   dispatch(listRooms());
     //   // navigate("/room");
     // }
-
     dispatch(listRooms(keyword));
+    dispatch(bookRoomList());
   }, [dispatch, successCreate, successUpdate, keyword, successDelete]);
 
   const userRole = JSON.parse(localStorage.getItem("profile"));
@@ -150,7 +154,7 @@ const AdminRoomScreen = () => {
           > */}
           <h1
             className="py-3 text-center"
-            style={{ marginTop: "5rem", color: "white" }}
+            style={{ marginTop: "5rem", color: "black" }}
           >
             Room Details
           </h1>
@@ -158,7 +162,7 @@ const AdminRoomScreen = () => {
             <Row>
               <Col md={6}>
                 <Form.Group controlId="title" className="py-3">
-                  <Form.Label className="text-white">Title</Form.Label>
+                  <Form.Label className="text-black">Title</Form.Label>
                   <Form.Control
                     type="name"
                     name="title"
@@ -168,7 +172,7 @@ const AdminRoomScreen = () => {
                   ></Form.Control>
                 </Form.Group>
                 <Form.Group controlId="detail" className="py-3">
-                  <Form.Label className="text-white">Details</Form.Label>
+                  <Form.Label className="text-black">Details</Form.Label>
                   <Form.Control
                     type="text"
                     name="details"
@@ -197,7 +201,7 @@ const AdminRoomScreen = () => {
                       onClick={upload}
                       style={{
                         background: "gray",
-                        color: "white",
+                        color: "black",
                       }}
                       className="my-2"
                     >
@@ -206,7 +210,7 @@ const AdminRoomScreen = () => {
                   </div>
                 )}
                 <Form.Group controlId="standard" className="py-3">
-                  <Form.Label className="text-white">Standard</Form.Label>
+                  <Form.Label className="text-black">Standard</Form.Label>
                   <Form.Control
                     type="text"
                     name="standard"
@@ -218,7 +222,7 @@ const AdminRoomScreen = () => {
               </Col>
               <Col md={6}>
                 <Form.Group controlId="price" className="py-3">
-                  <Form.Label className="text-white">Price</Form.Label>
+                  <Form.Label className="text-black">Price</Form.Label>
                   <Form.Control
                     type="number"
                     name="price"
@@ -228,7 +232,7 @@ const AdminRoomScreen = () => {
                   ></Form.Control>
                 </Form.Group>
                 <Form.Group controlId="capacity" className="py-3">
-                  <Form.Label className="text-white">Capacity</Form.Label>
+                  <Form.Label className="text-black">Capacity</Form.Label>
                   <Form.Control
                     type="number"
                     name="capacity"
@@ -238,7 +242,7 @@ const AdminRoomScreen = () => {
                   ></Form.Control>
                 </Form.Group>
                 <Form.Group controlId="condition" className="py-3">
-                  <Form.Label className="text-white">Condition</Form.Label>
+                  <Form.Label className="text-black">Condition</Form.Label>
                   <Form.Control
                     type="text"
                     name="condition"
@@ -248,7 +252,7 @@ const AdminRoomScreen = () => {
                   ></Form.Control>
                 </Form.Group>
                 <Form.Group controlId="noofbeds" className="py-3">
-                  <Form.Label className="text-white">No of Beds</Form.Label>
+                  <Form.Label className="text-black">No of Beds</Form.Label>
                   <Form.Control
                     type="number"
                     name="noofbeds"
@@ -265,8 +269,9 @@ const AdminRoomScreen = () => {
                 type="submit"
                 variant="primary"
                 style={{
-                  margin: "2rem auto",
+                  margin: "1rem auto",
                   display: "block",
+                  background: "rgb(89, 87, 117)",
                 }}
                 className="mb-3"
               >
@@ -281,7 +286,7 @@ const AdminRoomScreen = () => {
       <Container>
         <div
           className="room-grid mt-3"
-          style={{ width: "60rem", margin: "auto" }}
+          style={{ width: "60rem", margin: "auto", minHeight: "38rem" }}
         >
           <div
             className="room-flex-top"
@@ -291,7 +296,7 @@ const AdminRoomScreen = () => {
             <SearchBox />
             {/* <LinkContainer to=""> */}
             <Button variant="info" onClick={linkContainer}>
-              Booked Rooms
+              Booked Rooms ({roomBookingItems.length})
             </Button>
             {/* </LinkContainer> */}
           </div>

@@ -122,19 +122,17 @@ export const payBookedRoom = id => async dispatch => {
 };
 
 export const deleteBookedRoom = id => async dispatch => {
-  if (window.confirm("Are you sure you want to delete booked room?")) {
-    try {
-      dispatch({ type: ROOM_BOOKED_DELETE_REQUEST });
-      await api.deleteBookedRooms(id);
-      dispatch({ type: ROOM_BOOKED_DELETE_SUCCESS });
-    } catch (err) {
-      dispatch({
-        type: ROOM_BOOKED_DELETE_FAIL,
-        payload:
-          err.response && err.response.data.message
-            ? err.response.data.message
-            : err.message,
-      });
-    }
+  try {
+    dispatch({ type: ROOM_BOOKED_DELETE_REQUEST });
+    await api.deleteBookedRooms(id);
+    dispatch({ type: ROOM_BOOKED_DELETE_SUCCESS });
+  } catch (err) {
+    dispatch({
+      type: ROOM_BOOKED_DELETE_FAIL,
+      payload:
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+    });
   }
 };

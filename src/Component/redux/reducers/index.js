@@ -21,7 +21,12 @@ import {
   roomBookApprove,
   roomBookDelete,
 } from "./roomBook";
-import { contactUs, contactUsList, contactUsDelete } from "./contactUs";
+import {
+  contactUs,
+  contactUsList,
+  contactUsResolve,
+  contactUsDelete,
+} from "./contactUs";
 export const reducers = combineReducers({
   Auth,
   homePage,
@@ -43,5 +48,6 @@ export const reducers = combineReducers({
   roomBookDelete,
   contactUs,
   contactUsList,
+  contactUsResolve,
   contactUsDelete,
 });

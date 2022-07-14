@@ -86,9 +86,10 @@ export const roomBookedPayment = id =>
 export const deleteBookedRooms = id => API.delete(`/api/booked/rooms/${id}`);
 
 // Contact Us Page
-export const contactUs = formData => API.post("/api/contact/us", formData);
-export const listContactUs = () => API.get("/api/contact/us");
-export const deleteContactUs = id => API.delete(`/api/contact/us/${id}`);
+export const contactUs = formData => API.post("/api/contact", formData);
+export const listContactUs = () => API.get("/api/contact");
+export const contactUsResolve = id => API.put(`/api/contact/${id}/resolve`);
+export const deleteContactUs = id => API.delete(`/api/contact/${id}`);
 
 // fetch Payment
 export const getPayment = () => API.get(`/payment`);

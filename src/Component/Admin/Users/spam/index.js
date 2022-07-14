@@ -39,7 +39,7 @@ const FoodAdminPage = () => {
                             padding: '0px',
                         }}>
                             <Grid item xs={12} sm={12} md={12} style={{
-                                backgroundColor: 'rgb(32, 51, 85)',
+                                backgroundColor: '#fafafa',
                             }}>
                                 {(isLoading || allUser === undefined) ? <Loading /> :
                                     <Spammer spammer={allUser} loading={isLoading} />}
@@ -49,7 +49,6 @@ const FoodAdminPage = () => {
                 </Grid>
             </div>
         </Grid>
-        // </Grow>
     )
 }
 

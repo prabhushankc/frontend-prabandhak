@@ -23,47 +23,6 @@ function AllUser({ allUser }) {
     });
     const columns = [
         {
-            field: 'UserName',
-            headerName: 'User Name',
-            minWidth: 200,
-            align: 'center',
-            sortable: true,
-            filter: true,
-            renderCell: (params) =>
-                <Typography variant="body2" color="textSecondary" component="p" style={{
-                    margin: "auto",
-                    letterSpacing: "1px",
-                }} >
-                    {params.value}
-                </Typography>
-        },
-        {
-            field: 'Role',
-            headerName: 'Role',
-            align: 'center',
-            width: 100,
-            renderCell: (params) =>
-                <Typography variant="body2" color="textSecondary" component="p" style={{
-                    margin: "auto",
-                    letterSpacing: "1px",
-                }}>
-                    {params.value}
-                </Typography>
-        },
-        {
-            field: 'Address',
-            headerName: 'Address',
-            align: 'center',
-            minWidth: 150,
-            maxWidth: 200,
-            sortable: true,
-            filter: true,
-            renderCell: (params) =>
-                <Typography variant="body2" color="textSecondary" component="p">
-                    {params.value}
-                </Typography>
-        },
-        {
             field: 'Image',
             headerName: 'Image',
             width: 120,
@@ -85,32 +44,63 @@ function AllUser({ allUser }) {
                 />
         },
         {
-            field: 'report',
-            headerName: 'Report',
+            field: 'UserName',
+            headerName: 'User Name',
+            minWidth: 200,
             align: 'center',
-            width: 120,
+            sortable: true,
+            filter: true,
             renderCell: (params) =>
                 <Typography variant="body2" color="textSecondary" component="p" style={{
-                    padding: "0px 12px",
-                }}>
-                    {params.value.length}
+                    margin: "auto",
+                    letterSpacing: "1px",
+                }} >
+                    {params.value}
                 </Typography>
         },
         {
-            field: 'VerifiedUser',
-            headerName: 'Verify',
-            align: 'center',
-            width: 120,
+            field: 'Email',
+            headerName: 'Email',
+            align: 'left',
+            width: 240,
             renderCell: (params) =>
                 <Typography variant="body2" color="textSecondary" component="p" style={{
-                    padding: "0px 12px",
+                    margin: "auto",
+                    textAlign: "left !important",
+                    letterSpacing: "1px",
+                }} >
+                    {params.value}
+                </Typography>
+        },
+        {
+            field: 'Role',
+            headerName: 'Role',
+            align: 'center',
+            width: 100,
+            renderCell: (params) =>
+                <Typography variant="body2" color="textSecondary" component="p" style={{
+                    margin: "auto",
+                    letterSpacing: "1px",
                 }}>
-                    {params.value ? "Verified" : "Not Verified"}
+                    {params.value === 1 ? "Admin" : "User"}
+                </Typography>
+        },
+        {
+            field: 'Address',
+            headerName: 'Address',
+            align: 'center',
+            minWidth: 150,
+            maxWidth: 200,
+            sortable: true,
+            filter: true,
+            renderCell: (params) =>
+                <Typography variant="body2" color="textSecondary" component="p">
+                    {params.value}
                 </Typography>
         },
         {
             field: 'deleteUser',
-            headerName: 'Delete',
+            headerName: 'Action',
             align: 'center',
             width: 120,
             renderCell: (params) =>
@@ -133,7 +123,7 @@ function AllUser({ allUser }) {
             <Grid container justifyContent="space-between" alignItems="stretch" style={{
                 padding: '0px',
                 margin: 'auto',
-                width: '90%',
+                width: '86%',
                 height: '100%',
             }} spacing={0}>
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{
@@ -143,12 +133,12 @@ function AllUser({ allUser }) {
                     height: '100%',
                 }}>
                     <div style={{
-                        textAlign: 'center',
-                        padding: '10px 0px 15px 0px',
-                        fontSize: '20px',
+                        textAlign: 'Left',
+                        padding: '10px 0px 15px 10px',
                         fontWeight: 'bold',
+                        fontSize: "2rem",
                         letterSpacing: '2px',
-                        color: '#fff',
+                        color: '#000',
                         textTransform: 'uppercase',
                     }}>All Users</div>
                     <div style={{
@@ -162,7 +152,6 @@ function AllUser({ allUser }) {
                             headerHeight={60}
                             pageSize={6}
                             rowsPerPageOptions={[6, 12, 18, 50]}
-                            checkboxSelection
                             autoPageSize
                             sx={{
                                 "& .MuiDataGrid-columnHeaderTitle": {

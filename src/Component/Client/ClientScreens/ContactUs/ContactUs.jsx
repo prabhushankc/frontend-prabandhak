@@ -1,20 +1,18 @@
 import React, { useState } from "react";
 import { Button, Col, Container, Form, Image, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { LinkContainer } from "react-router-bootstrap";
+import ContactUsListScreen from "../../../Admin/AdminScreens/ContactUs/ContactList";
 import ContactUsImage from "../../../images/ContactUsImage.jpg";
 import Message from "../../../Message/Message";
 import { contactUs } from "../../../redux/actions/contactUs";
 import { CONTACT_US_RESET } from "../../../redux/constants/actionTypes";
 
 const ContactUs = () => {
+  const user = JSON.parse(localStorage.getItem("profile"));
   const dispatch = useDispatch();
 
-  const contactUsDetail = useSelector(state => state.contactUs);
+  const contactUsDetail = useSelector((state) => state.contactUs);
   const { success: successContact, error: errorContact } = contactUsDetail;
-
-  const Auth = useSelector(state => state.Auth);
-  const { AsingleUser: user } = Auth;
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -25,24 +23,22 @@ const ContactUs = () => {
 
   const { firstName, lastName, email, comment } = formData;
 
-  const onChange = e => {
+  const onChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const submitHandler = e => {
+  const submitHandler = (e) => {
     e.preventDefault();
     dispatch(contactUs(formData));
     dispatch({ type: CONTACT_US_RESET });
   };
 
-  // // useEffect(() => {
-  // if (user?.result?.role) {
-  //   return <ContactUsListScreen />;
-  // }
-  // // }, [user.result.role]);
+  if (user?.result?.role) {
+    return <ContactUsListScreen />;
+  }
 
   return (
     <div style={{ height: "100vh" }}>
@@ -59,7 +55,7 @@ const ContactUs = () => {
               textAlign: "center",
               position: "absolute",
               top: "11rem",
-              left: "18rem",
+              left: "11rem",
               width: "34%",
             }}
           >
@@ -68,30 +64,13 @@ const ContactUs = () => {
               style={{ fontSize: "2rem", color: "black" }}
             />
             <h5 className="mb-2">Talk to Manager</h5>
-            {user?.role > 0 ? (
-              <>
-                <p className="text-black" style={{ marginBottom: "2rem" }}>
-                  Having problem with the service? Just pick up the phone to
-                  have a chat with the manager.
-                </p>
-                <LinkContainer to="/contact/list" className="mb-5">
-                  <Button variant="info">Contact Us List</Button>
-                </LinkContainer>
-                <p style={{ cursor: "pointer", color: "darkblue" }}>
-                  +977 9846877737
-                </p>
-              </>
-            ) : (
-              <>
-                <p className="text-black" style={{ marginBottom: "6rem" }}>
-                  Having problem with the service? Just pick up the phone to
-                  have a chat with the manager.
-                </p>
-                <p style={{ cursor: "pointer", color: "darkblue" }}>
-                  +977 9846877737
-                </p>
-              </>
-            )}
+            <p className="text-black" style={{ marginBottom: "6rem" }}>
+              Having problem with the service? Just pick up the phone to have a
+              chat with the manager.
+            </p>
+            <p style={{ cursor: "pointer", color: "darkblue" }}>
+              +977 9846877737
+            </p>
           </Col>
           <Col
             style={{
@@ -99,7 +78,7 @@ const ContactUs = () => {
               textAlign: "center",
               position: "absolute",
               top: "11rem",
-              right: "6rem",
+              right: "11rem",
               width: "34%",
             }}
           >
@@ -121,7 +100,7 @@ const ContactUs = () => {
                     name="firstName"
                     placeholder="First Name"
                     value={firstName}
-                    onChange={e => onChange(e)}
+                    onChange={(e) => onChange(e)}
                     className="bg-white"
                     style={{
                       boxShadow: "0px 1px 1px rgba(1,1,1,0.2)",
@@ -136,7 +115,7 @@ const ContactUs = () => {
                     name="lastName"
                     placeholder="Last Name"
                     value={lastName}
-                    onChange={e => onChange(e)}
+                    onChange={(e) => onChange(e)}
                     className="bg-white"
                     style={{
                       boxShadow: "0px 1px 1px rgba(1,1,1,0.2)",
@@ -150,7 +129,7 @@ const ContactUs = () => {
                     name="email"
                     placeholder="Your Email Address"
                     value={email}
-                    onChange={e => onChange(e)}
+                    onChange={(e) => onChange(e)}
                     className="bg-white"
                     style={{
                       boxShadow: "0px 1px 1px rgba(1,1,1,0.2)",
@@ -163,9 +142,9 @@ const ContactUs = () => {
                   <Form.Control
                     as="textarea"
                     name="comment"
-                    placeholder="Your Questions?"
+                    placeholder="Your Queries?"
                     value={comment}
-                    onChange={e => onChange(e)}
+                    onChange={(e) => onChange(e)}
                     className="bg-white"
                     style={{
                       boxShadow: "0px 1px 1px rgba(1,1,1,0.2)",
@@ -175,8 +154,9 @@ const ContactUs = () => {
                   ></Form.Control>
                 </Form.Group>
                 <Button
+                  id="contactUsBtn"
                   type="submit"
-                  className="mb-3"
+                  className="my-2"
                   style={{ backgroundColor: "#595775" }}
                 >
                   Send Message

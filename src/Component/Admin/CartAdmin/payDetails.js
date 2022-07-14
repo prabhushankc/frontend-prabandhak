@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Info from '@mui/icons-material/Info';
-import { Typography, CardMedia, TextField, Grid, Paper } from '@material-ui/core';
+import { Typography, CardMedia } from '@material-ui/core';
 import { DataGrid } from '@mui/x-data-grid';
 import { useTheme } from '@mui/material/styles';
 import { useMediaQuery } from '@material-ui/core';

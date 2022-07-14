@@ -6,9 +6,9 @@ export default makeStyles((theme) => ({
         margin: 'auto',
     },
     media: {
-        height: '100vh',
+        height: '78vh',
         objectFit: 'cover',
-        // borderRadius: '0% 0% 50% 50% / 0% 0% 2% 2%',
+        borderRadius: '0% 0% 50% 50% / 0% 0% 2% 2%',
         width: '100%',
         margin: '0px auto',
         backgroundPosition: 'center',
@@ -70,53 +70,22 @@ export default makeStyles((theme) => ({
             letterSpacing: '2px',
         }
     },
-    button: {
-        position: 'absolute',
-        top: '89%',
-        left: '40%',
-        transform: 'translate(-40%, -89%)',
-        color: 'white',
-        fontSize: '1rem',
-        backgroundColor: 'rgba(0, 0, 0, 0.6)',
-        border: '0.1px solid white',
-        padding: '7px 14px',
-        letterSpacing: '4px',
-        textTransform: 'uppercase',
-        [theme.breakpoints.down('sm')]: {
-            fontSize: '0.7rem',
-            padding: '5px 10px',
-            letterSpacing: '3px',
-            top: '78%',
-            left: '50%',
-            transform: 'translate(-50%, -78%)',
-        },
-        '&:hover': {
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        }
+    whyChoose: {
+        borderRadius: '20px',
+        margin: '20px 10px',
+        flex: 1,
     },
-    button2: {
-        position: 'absolute',
-        top: '89%',
-        left: '60%',
-        transform: 'translate(-60%, -89%)',
-        color: 'white',
-        fontSize: '1rem',
-        backgroundColor: 'rgba(0, 0, 0, 0.6)',
-        border: '0.1px solid white',
-        padding: '7px 14px',
-        letterSpacing: '4px',
-        textTransform: 'uppercase',
-        [theme.breakpoints.down('sm')]: {
-            fontSize: '0.7rem',
-            padding: '5px 10px',
-            letterSpacing: '3px',
-            top: '88%',
-            left: '50%',
-            transform: 'translate(-50%, -88%)',
-        },
-        '&:hover': {
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        }
+    details: {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 1fr)',
+        gridGap: '1rem',
+    },
+    relatedImage: {
+        width: '300px',
+        height: '300px',
+        objectFit: 'contain',
+        margin: 'auto',
+        borderRadius: "4px"
     },
 }));
 

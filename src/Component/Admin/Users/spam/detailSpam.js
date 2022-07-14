@@ -6,10 +6,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Info from '@mui/icons-material/Info';
-import { Typography, CardMedia, TextField, Grid, Paper } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { DataGrid } from '@mui/x-data-grid';
 import { useTheme } from '@mui/material/styles';
 import { useMediaQuery } from '@material-ui/core';
+import moment from 'moment';
 
 
 export default function ScrollDialog({ spammer }) {
@@ -31,13 +32,27 @@ export default function ScrollDialog({ spammer }) {
             id: index + 1,
             Report: spam?.reason,
             SpammerCmt: spam?.whatWasComment,
+            date: spam?.date,
         }
     });
     const columns = [
         {
+            field: 'date',
+            headerName: 'Date',
+            minWidth: 90,
+            sortable: true,
+            filter: true,
+            renderCell: (params) =>
+                <Typography variant="body2" color="textSecondary" component="p" style={{
+                    margin: "auto",
+                }} >
+                    {moment(params.value).format('YYYY MMMM')}
+                </Typography>
+        },
+        {
             field: 'Report',
             headerName: 'Report',
-            minWidth: 140,
+            minWidth: 120,
             sortable: true,
             filter: true,
             renderCell: (params) =>
@@ -50,7 +65,7 @@ export default function ScrollDialog({ spammer }) {
         {
             field: 'SpammerCmt',
             headerName: 'Spam Cmt',
-            minWidth: 160,
+            minWidth: 140,
             sortable: true,
             filter: true,
             renderCell: (params) =>
@@ -59,7 +74,7 @@ export default function ScrollDialog({ spammer }) {
                 }} >
                     {params.value}
                 </Typography>
-        }
+        },
     ];
 
     const descriptionElementRef = React.useRef(null);
@@ -117,7 +132,6 @@ export default function ScrollDialog({ spammer }) {
                         <DataGrid
                             rows={rows}
                             columns={columns}
-                            // autoHeight={true}
                             rowHeight={95}
                             headerHeight={60}
                             pageSize={3}

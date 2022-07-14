@@ -6,12 +6,13 @@ import { DataGrid } from '@mui/x-data-grid';
 import { fetchPayment, StatusPayment } from '../../redux/actions/paymentaction';
 import moment from 'moment';
 import PayDetails from './payDetails';
+import Loading from '../../redux/actions/loading/loading';
 function PaymentDetail() {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchPayment());
     }, [dispatch]);
-    const { PaymentData } = useSelector((state) => state.payment);
+    const { PaymentData, isLoading } = useSelector((state) => state.payment);
     const statusUpdate = async (id) => {
         await dispatch(StatusPayment(id));
         await dispatch(fetchPayment());
@@ -31,7 +32,7 @@ function PaymentDetail() {
         {
             field: 'UserName',
             headerName: 'User Name',
-            minWidth: 200,
+            minWidth: 180,
             align: 'center',
             sortable: true,
             filter: true,
@@ -58,7 +59,7 @@ function PaymentDetail() {
         },
         {
             field: 'PaymentId',
-            headerName: 'Payment Id',
+            headerName: 'Order Id',
             align: 'center',
             width: 200,
             renderCell: (params) =>
@@ -88,6 +89,7 @@ function PaymentDetail() {
             width: 120,
             renderCell: (params) =>
                 <Button
+                    id='orderDetailsBtn'
                     style={{ backgroundColor: '#595775 ', textAlign: 'center', color: 'white', padding: '2px 8px', margin: 'auto' }}
                 >
                     <PayDetails details={params.value} />
@@ -110,66 +112,67 @@ function PaymentDetail() {
     ];
     return (
         <>
-            <Grid container justifyContent="space-between" alignItems="stretch" style={{
-                padding: '0px',
-                margin: 'auto',
-                width: '90%',
-                height: '100%',
-            }} spacing={0}>
-                <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{
-                    padding: '0px',
-                    margin: '0px',
-                    width: '100%',
-                    height: '100%',
-                }}>
-                    <div style={{
-                        textAlign: 'center',
-                        padding: '25px 0px 15px 0px',
-                        fontSize: '20px',
-                        fontWeight: 'bold',
-                        letterSpacing: '2px',
-                        color: '#fff',
-                        textTransform: 'uppercase',
-                    }}>Payment History</div>
+            {(isLoading) ? <Loading /> :
 
-                    <div style={{
-                        padding: '5px 5px',
-                        height: '90vh'
-                    }} >
-                        <DataGrid
-                            rows={rows}
-                            columns={columns}
-                            rowHeight={90}
-                            headerHeight={60}
-                            pageSize={5}
-                            rowsPerPageOptions={[5, 10, 20, 50]}
-                            checkboxSelection
-                            sx={{
-                                "& .MuiDataGrid-columnHeaderTitle": {
-                                    color: "black",
-                                    fontSize: 16,
-                                    letterSpacing: '1px',
-                                    fontWeight: 'bold',
-                                    padding: "0px 20px",
-                                },
-                                "& .MuiDataGrid-virtualScrollerRenderZone": {
-                                    "& .MuiDataGrid-row": {
-                                        "&:nth-of-type(2n)": { backgroundColor: "rgba(235, 235, 235, .7)" }
+                <Grid container justifyContent="space-between" alignItems="stretch" style={{
+                    padding: '0px',
+                    margin: 'auto',
+                    width: '90%',
+                    height: '100%',
+                }} spacing={0}>
+                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{
+                        padding: '0px',
+                        margin: '0px',
+                        width: '100%',
+                        height: '100%',
+                    }}>
+                        <div style={{
+                            textAlign: 'Left',
+                            padding: '25px 0px 15px 0px',
+                            fontWeight: 'bold',
+                            fontSize: "2rem",
+                            letterSpacing: '2px',
+                            color: '#000',
+                            textTransform: 'uppercase',
+                        }}>Order History</div>
+
+                        <div style={{
+                            padding: '5px 5px',
+                            height: '90vh'
+                        }} >
+                            <DataGrid
+                                rows={rows}
+                                columns={columns}
+                                rowHeight={90}
+                                headerHeight={60}
+                                pageSize={5}
+                                rowsPerPageOptions={[5, 10, 20, 50]}
+                                sx={{
+                                    "& .MuiDataGrid-columnHeaderTitle": {
+                                        color: "black",
+                                        fontSize: 16,
+                                        letterSpacing: '1px',
+                                        fontWeight: 'bold',
+                                        padding: "0px 20px",
+                                    },
+                                    "& .MuiDataGrid-virtualScrollerRenderZone": {
+                                        "& .MuiDataGrid-row": {
+                                            "&:nth-of-type(2n)": { backgroundColor: "rgba(235, 235, 235, .7)" }
+                                        }
                                     }
-                                }
-                            }}
-                            style={{
-                                width: '100%',
-                                height: '100%',
-                                padding: '0px 10px',
-                                margin: 'auto',
-                                borderRadius: '6px',
-                                backgroundColor: 'white',
-                            }}
-                        />
-                    </div>
-                </Grid>
-            </Grid>
+                                }}
+                                style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    padding: '0px 10px',
+                                    margin: 'auto',
+                                    borderRadius: '6px',
+                                    backgroundColor: 'white',
+                                }}
+                            />
+                        </div>
+                    </Grid>
+                </Grid>}
         </>
     )
 }

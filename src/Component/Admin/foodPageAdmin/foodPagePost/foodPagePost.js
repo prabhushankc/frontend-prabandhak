@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { fetchFoodPage, deleteFood } from '../../../redux/actions/foodPageaction';
 import useStyles from './foodPagePostStyle';
-import { Typography, Paper, Divider, CardActions, Button, Grid } from '@material-ui/core';
+import { Typography, Paper, CardActions, Button, Grid } from '@material-ui/core';
 import moment from 'moment';
 import Delete from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
@@ -45,9 +45,9 @@ function FoodPostAdmin({ setupdateFoodCurrentId }) {
                 }}>Loading</div>
             </div>
         </Grid> :
-            (<div style={{ borderRadius: "15px", padding: "80px 15px 20px 15px" }}>
+            (<div style={{ borderRadius: "15px", padding: "50px 15px 20px 15px", width: "90%", margin: "auto" }}>
                 {foodPageData?.map((foodData) => (
-                    <Paper key={foodData?._id} elevation={3} style={{ borderRadius: "12px", margin: '10px auto' }}>
+                    <Paper key={foodData?._id} elevation={3} style={{ borderRadius: "20px", margin: '20px auto' }}>
                         <div className={classes.card}>
                             <div className={classes.section}>
                                 <div className={classes.section1}>
@@ -59,7 +59,7 @@ function FoodPostAdmin({ setupdateFoodCurrentId }) {
                                             title={foodData?.title}
                                         />
                                     </div>
-                                    <div style={{ margin: "auto", flex: 1 }}>
+                                    <div style={{ margin: "auto 0px auto 40px", flex: 1 }}>
                                         <Typography className={classes.title}>
                                             {foodData?.title}
                                         </Typography>
@@ -72,7 +72,6 @@ function FoodPostAdmin({ setupdateFoodCurrentId }) {
                                                 color="textSecondary"
                                                 component="h2"
                                                 style={{
-                                                    marginTop: "10px",
                                                     letterSpacing: "1px",
                                                     color: "lightgray",
                                                 }}
@@ -85,57 +84,78 @@ function FoodPostAdmin({ setupdateFoodCurrentId }) {
                                                 ).splice(-2)}
                                             </Typography>
                                         </div>
+                                    </div>
+                                    <div style={{ margin: "auto 20px auto 0px", flex: 1 }}>
                                         <Typography
                                             gutterBottom
                                             variant="body1"
                                             component="p"
                                             style={{
-                                                textAlign: "justify",
+                                                textAlign: "left",
                                                 letterSpacing: "2px",
+                                                fontSize: "14px",
                                                 lineHeight: "2",
+                                                marginTop: "10px",
                                             }}
-                                            className={classes.message}
                                         >
-                                            {foodData?.description.split(" ").splice(0, 4).join(" ")} and Price is {" "}
-                                            <span
-                                            >
-                                                Rs.{foodData?.price}
-                                            </span>
+                                            {foodData?.description.split(" ").splice(0, 11).join(" ")}
                                         </Typography>
-                                        <Typography gutterBottom
-                                            variant="body1"
-                                            component="p"
-                                            style={{
-                                                textAlign: "justify",
-                                                letterSpacing: "2px",
-                                                lineHeight: "2",
-                                            }}
-                                            className={classes.message} >
-                                            Available {foodData?.quantity}
-                                        </Typography>
-                                        <Divider style={{ margin: "20px 0" }} />
-                                        <CardActions className={classes.cardActionsS}>
-                                            <Button
-                                                size="small"
-                                                className={classes.buy}
-                                                style={{ backgroundColor: "#01bf71" }}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setupdateFoodCurrentId(foodData?._id)
+                                        <div style={{
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            alignItems: "center",
+                                        }}>
+                                            <Typography gutterBottom
+                                                variant="body1"
+                                                component="p" style={{
+                                                    textAlign: "justify",
+                                                    letterSpacing: "2px",
+                                                    fontSize: "12px",
+                                                    fontWeight: "bold",
                                                 }}
-                                            >
-                                                <Edit />
-                                            </Button>
-                                            <Button
-                                                size="small"
-                                                className={classes.buy}
-                                                style={{ backgroundColor: "#ff4d4d" }}
-                                                onClick={() => dispatch(deleteFood(foodData?._id))}
-                                            >
-                                                <Delete />
-                                            </Button>
-                                        </CardActions>
+                                                className={classes.message}>
+                                                Rs.{foodData?.price}
+                                            </Typography>
+                                            <Typography
+                                                variant="body1"
+                                                style={{
+                                                    textAlign: "justify",
+                                                    letterSpacing: "2px",
+                                                    fontSize: "12px",
+                                                    fontWeight: "bold",
+                                                }}
+                                                className={classes.message}>
+                                                <span style={{
+                                                    opacity: "0.8",
+                                                }}>Available</span> {foodData?.quantity}
+                                            </Typography>
+                                        </div>
                                     </div>
+                                    <CardActions style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        margin: "auto 0px",
+                                    }}>
+                                        <Button
+                                            size="small"
+                                            className={classes.buy}
+                                            style={{ backgroundColor: "#01bf71", marginBottom: "10px" }}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setupdateFoodCurrentId(foodData?._id)
+                                            }}
+                                        >
+                                            <Edit />
+                                        </Button>
+                                        <Button
+                                            size="small"
+                                            className={classes.buy}
+                                            style={{ backgroundColor: "#ff4d4d" }}
+                                            onClick={() => dispatch(deleteFood(foodData?._id))}
+                                        >
+                                            <Delete />
+                                        </Button>
+                                    </CardActions>
                                 </div>
                             </div>
                         </div>

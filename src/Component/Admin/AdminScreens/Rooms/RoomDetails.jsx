@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { deleteRoom } from "../../../redux/actions/room";
 import { LinkContainer } from "react-router-bootstrap";
+import { Link } from "react-router-dom";
 
 const RoomDetail = ({ rooms, setCurrentId }) => {
   const dispatch = useDispatch();
@@ -30,44 +31,42 @@ const RoomDetail = ({ rooms, setCurrentId }) => {
           }}
           alt="room-image"
         /> */}
-        <Image
-          src={rooms.image}
-          style={{ width: "35%", height: "auto", marginRight: "2rem" }}
-        />
-        <div className="room-details-full mt-3" style={{ minWidth: "30rem" }}>
-          <p
-            className="room-title"
-            style={{ fontSize: "1.3rem", fontWeight: "bold" }}
+        <Link
+          to={`/${rooms._id}/details/room`}
+          style={{ display: "flex", textDecoration: "none" }}
+        >
+          <Image
+            src={rooms.image}
+            style={{ width: "38%", height: "auto", marginRight: "2rem" }}
+          />
+          <div
+            className="room-details-full mt-3"
+            style={{ minWidth: "30rem", cursor: "pointer" }}
           >
-            {rooms.title}
-          </p>
-          <p className="text-black">{rooms.details}</p>
-          <p className="room-title-beds text-black">
-            Available {rooms.noofbeds}bed {rooms.capacity}person
-          </p>
-          <p className="room-title-category text-black">
-            <span style={{ fontWeight: "bold" }}>{rooms.standard}</span> Rs.
-            {rooms.price}/ per night
-          </p>
-        </div>
+            <p
+              className="room-title"
+              style={{ fontSize: "1.3rem", fontWeight: "bold" }}
+            >
+              {rooms.title}
+            </p>
+            <p className="text-black">{rooms.details}</p>
+            <p className="room-title-beds text-black">
+              Available {rooms.noofbeds}bed {rooms.capacity}person
+            </p>
+            <p className="room-title-category text-black">
+              <span style={{ fontWeight: "bold" }}>{rooms.standard}</span> Rs.
+              {rooms.price}/ per night
+            </p>
+          </div>
+        </Link>
         <div
           className="room-details-change text-black mt-1"
           style={{
             display: "flex",
             flexDirection: "column",
+            marginRight: "1rem",
           }}
         >
-          <LinkContainer
-            to={`/${rooms._id}/details/room`}
-            style={{
-              fontSize: "2.8rem",
-              marginTop: "0.5rem",
-              textAlign: "center",
-              cursor: "pointer",
-            }}
-          >
-            <i className="fas fa-info-circle"></i>
-          </LinkContainer>
           <Button
             variant="success"
             className="py-2 m-2"

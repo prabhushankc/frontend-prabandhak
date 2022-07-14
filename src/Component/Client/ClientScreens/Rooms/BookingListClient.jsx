@@ -15,13 +15,13 @@ import Message from "../../../Message/Message";
 const BookingListClient = () => {
   const dispatch = useDispatch();
 
-  const myRooms = useSelector(state => state.roomMyBookList);
+  const myRooms = useSelector((state) => state.roomMyBookList);
   const { roomBookingItems, loading } = myRooms;
 
-  const roomBookPayment = useSelector(state => state.roomBookPayment);
+  const roomBookPayment = useSelector((state) => state.roomBookPayment);
   const { success: successPayment } = roomBookPayment;
 
-  const roomBookDelete = useSelector(state => state.roomBookDelete);
+  const roomBookDelete = useSelector((state) => state.roomBookDelete);
   const { success: successDelete } = roomBookDelete;
 
   useEffect(() => {
@@ -31,20 +31,28 @@ const BookingListClient = () => {
   return (
     !loading && (
       <Container>
-        <div style={{ marginTop: "6rem", height: "auto" }}>
-          <h1
-            className="mt-3"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginTop: "6rem",
-            }}
-          >
-            Booking History
-          </h1>
+        <div style={{ marginTop: "6rem", minHeight: "88vh" }}>
+          {roomBookingItems.length > 0 && (
+            <>
+              <h1
+                className="mt-3"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "6rem",
+                }}
+              >
+                Booking History
+              </h1>
+              <small style={{ display: "flex", justifyContent: "center" }}>
+                Pay with Khalti after room approval
+              </small>
+            </>
+          )}
+
           {successPayment && <Message>Payment Successful</Message>}
           {roomBookingItems.length > 0 ? (
-            roomBookingItems.map(roomItem => (
+            roomBookingItems.map((roomItem) => (
               <div key={roomItem._id}>
                 <div
                   className="booking-history-full m-4"
@@ -194,11 +202,14 @@ const BookingListClient = () => {
                     >
                       <Button>Details</Button>
                     </LinkContainer>
+                    {/* <LinkContainer id="roomBookingKhalti"> */}
                     {roomItem.isApproved && !roomItem.isPaid && (
                       <Khalti paymentId={roomItem._id} />
                     )}
+                    {/* </LinkContainer> */}
                     <Button
-                      style={{ width: "80%", marginLeft: "2rem" }}
+                      id="roomBookingDelete"
+                      style={{ marginLeft: "2rem" }}
                       variant="danger"
                       onClick={() => {
                         dispatch(deleteBookedRoom(roomItem._id));

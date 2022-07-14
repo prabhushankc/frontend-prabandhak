@@ -92,7 +92,7 @@ const RoomDetails = () => {
 
   return (
     !loadingDetails && (
-      <div style={{ paddingTop: "6rem" }}>
+      <div style={{ paddingTop: "6rem" }} id="roomDetailPage">
         <Container>
           <Row className="my-3">
             <Col md={6}>
@@ -321,15 +321,15 @@ const RoomDetails = () => {
                         justifyContent: "space-between",
                       }}
                     >
-                      {/* <Image
-                        src={userInfo.selectedFile}
+                      <Image
+                        src={review.image}
                         style={{
                           height: "2.5rem",
                           width: "3rem",
                           borderRadius: "50%",
                           marginRight: "1rem",
                         }}
-                      /> */}
+                      />
                       <strong>{review.name}</strong>
                       <Autocomplete
                         freeSolo
@@ -410,7 +410,7 @@ const RoomDetails = () => {
                   </ListGroup.Item>
                 ))}
                 <ListGroup.Item>
-                  <h2>Write a Customer Review</h2>
+                  <h4 className="mb-3">Write a Customer Review</h4>
                   {errorRoomReview && (
                     <Message variant="danger">{errorRoomReview}</Message>
                   )}

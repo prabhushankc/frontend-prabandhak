@@ -71,6 +71,7 @@ const ClientFoodView = () => {
                 onClick={() => {
                   navigate(`/food/${foodData._id}`)
                 }}
+                id='foodDetailBtn'
               >
                 <CardMedia
                   className={classes.media}
@@ -183,7 +184,7 @@ const ClientFoodView = () => {
                     .splice(-2)}
                 </Typography>
               </div>
-              <CardActions className={classes.cardActionsI}>
+              <CardActions className={classes.cardActionsI} id="foodAddToCart">
                 <Button size="small" className={classes.btn} type="button" onClick={
                   async () => {
                     if (user) {

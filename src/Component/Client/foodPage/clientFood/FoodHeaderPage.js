@@ -50,6 +50,7 @@ const FoodHeaderPage = ({ foodLength }) => {
             <div className={classes.search}>
                 <div className={classes.foodResult}>Showing {foodLength} foods</div>
                 <TextField
+                    id="foodSearch"
                     placeholder="Search in Prabandak"
                     onChange={handletitle}
                     className={classes.textFieldSearch}
