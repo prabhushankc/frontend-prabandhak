@@ -1,6 +1,6 @@
 import * as actionType from '../constants/actionTypes';
 import { produce } from 'immer';
-const authReducer = (state = { isLoading: true, authData: null }, action) => {
+const authReducer = (state = { isLoading: false, authData: null }, action) => {
   switch (action.type) {
     case actionType.IS_LOADING:
       return produce(state, (draft) => {
@@ -10,18 +10,20 @@ const authReducer = (state = { isLoading: true, authData: null }, action) => {
       return produce(state, (draft) => {
         draft.isLoading = false;
       });
+    case actionType.FETCH_USERS:
+      return produce(state, (draft) => {
+        draft.allUser = action.payload.users;
+      });
     case actionType.AUTH:
       localStorage.setItem('profile', JSON.stringify({ ...action?.data }));
       return produce(state, (draft) => {
         draft.authData = action?.data;
       }
       );
-    // return { ...state, authData: action.data };
     case actionType.LOGOUT:
       localStorage.removeItem('profile')
       return { ...state, authData: null, AsingleUser: null };
     case actionType.FETCH_SINGLEUSER:
-      // return { ...state, AsingleUser: { ...action.payload.singleUser } };
       return produce(state, (draft) => {
         draft.AsingleUser = { ...action.payload.singleUser };
       });
@@ -30,8 +32,6 @@ const authReducer = (state = { isLoading: true, authData: null }, action) => {
       return produce(state, (draft) => {
         draft.AsingleUser = { ...action.payload.updateSingleUser.result }
       });
-    // return { ...state, AsingleUser: action.payload.updateSingleUser.result };
-
     default:
       return state;
   }
